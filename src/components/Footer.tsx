@@ -1,10 +1,14 @@
-import { ShieldCheck, Globe, Server } from 'lucide-react';
+import { ShieldCheck, Globe, Server, FileText, Shield, Cookie } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+interface FooterProps {
+  onNavigate?: (page: string) => void;
+}
 
 // Layout config
 const _c = { a: btoa('tutodecode.org'), b: btoa('AGPL-3.0') };
 
-export function Footer() {
+export function Footer({ onNavigate }: FooterProps) {
     const currentYear = new Date().getFullYear();
 
     return (
@@ -29,11 +33,11 @@ export function Footer() {
                         <span className="text-slate-500 hidden md:inline">|</span>
                         <div className="flex items-center gap-4">
                             <a
-                                href="#"
+                                href="https://tutodecode.org/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-slate-300 hover:text-blue-500 transition-colors"
-                                aria-label="Official Website"
+                                aria-label="Site officiel TutoDeCode"
                             >
                                 <Globe className="w-5 h-5" />
                             </a>
@@ -46,6 +50,31 @@ export function Footer() {
 
                 {/* Badges */}
                 <div className="flex flex-col md:flex-row items-center gap-3">
+                    {/* Legal Links */}
+                    <div className="flex items-center gap-4 text-xs">
+                        <button
+                            onClick={() => onNavigate?.('mentions-legales')}
+                            className="flex items-center gap-1.5 text-slate-400 hover:text-blue-400 transition-colors"
+                        >
+                            <FileText className="w-3.5 h-3.5" />
+                            Mentions légales
+                        </button>
+                        <button
+                            onClick={() => onNavigate?.('privacy-policy')}
+                            className="flex items-center gap-1.5 text-slate-400 hover:text-blue-400 transition-colors"
+                        >
+                            <Shield className="w-3.5 h-3.5" />
+                            Confidentialité
+                        </button>
+                        <button
+                            onClick={() => onNavigate?.('cookie-policy')}
+                            className="flex items-center gap-1.5 text-slate-400 hover:text-blue-400 transition-colors"
+                        >
+                            <Cookie className="w-3.5 h-3.5" />
+                            Cookies
+                        </button>
+                    </div>
+
                     {/* Privacy Badge */}
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 backdrop-blur-sm cursor-help" title="Zéro tracker, aucune donnée envoyée à un serveur tiers.">
                         <Server className="w-3.5 h-3.5 text-emerald-400" />

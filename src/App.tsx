@@ -51,6 +51,9 @@ const AgentMentor = lazy(() => import('@/components/ai/AgentMentor'));
 const OllamaSetup = lazy(() => import('@/components/ai/OllamaSetup'));
 const CourseCreator = lazy(() => import('@/components/ai/CourseCreator'));
 const AppInstall = lazy(() => import('@/components/dashboard/AppInstall'));
+const MentionsLegales = lazy(() => import('@/components/MentionsLegales').then(m => ({ default: m.MentionsLegales })));
+const PrivacyPolicy = lazy(() => import('@/components/PrivacyPolicy').then(m => ({ default: m.PrivacyPolicy })));
+const CookiePolicy = lazy(() => import('@/components/CookiePolicy').then(m => ({ default: m.CookiePolicy })));
 
 // ============================================
 // IMPORTS DES DONNÉES
@@ -800,7 +803,7 @@ interface HomePageProps {
   chapters: Chapter[];
   completedChapters: string[];
   onSelectChapter: (chapterId: string) => void;
-  onNavigate?: (view: 'ollamaSetup' | 'appInstall') => void;
+  onNavigate?: (view: 'ollamaSetup' | 'appInstall' | 'mentions-legales' | 'privacy-policy' | 'cookie-policy') => void;
   announcement?: string;
   latestNews?: string[];
   privacyNotice?: string;
@@ -1045,10 +1048,41 @@ const HomePage = memo<HomePageProps>(({ chapters, completedChapters, onSelectCha
       {/* Footer */}
       <footer className="max-w-7xl mx-auto px-6 py-6 border-t border-[var(--td-border-subtle)] mt-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-[var(--td-text-secondary)]">
-            © 2026 TutoDeCode. Tous droits réservés.
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <p className="text-sm text-[var(--td-text-secondary)]">
+              © 2026 TutoDeCode. Tous droits réservés.
+            </p>
+            <div className="flex gap-4 text-xs">
+              <button 
+                onClick={() => onNavigate?.('mentions-legales')}
+                className="text-[var(--td-text-tertiary)] hover:text-[var(--td-primary)] transition-colors"
+              >
+                Mentions légales
+              </button>
+              <button 
+                onClick={() => onNavigate?.('privacy-policy')}
+                className="text-[var(--td-text-tertiary)] hover:text-[var(--td-primary)] transition-colors"
+              >
+                Confidentialité
+              </button>
+              <button 
+                onClick={() => onNavigate?.('cookie-policy')}
+                className="text-[var(--td-text-tertiary)] hover:text-[var(--td-primary)] transition-colors"
+              >
+                Cookies
+              </button>
+            </div>
+          </div>
           <div className="flex gap-6">
+            <a 
+              href="https://tutodecode.org/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-sm text-[var(--td-text-secondary)] hover:text-[var(--td-primary)] transition-colors"
+            >
+              Site officiel
+              <ExternalLink className="w-3 h-3 opacity-50" />
+            </a>
             <a 
               href="https://github.com/TUTODECODE-ORG/TUTODECODE_APP" 
               target="_blank" 
@@ -1059,8 +1093,6 @@ const HomePage = memo<HomePageProps>(({ chapters, completedChapters, onSelectCha
               GitHub
               <ExternalLink className="w-3 h-3 opacity-50" />
             </a>
-            <a href="#" className="text-sm text-[var(--td-text-secondary)] hover:text-[var(--td-text-primary)] transition-colors">Discord</a>
-            <a href="#" className="text-sm text-[var(--td-text-secondary)] hover:text-[var(--td-text-primary)] transition-colors">Documentation</a>
           </div>
         </div>
       </footer>
@@ -1331,7 +1363,7 @@ TerminalPanel.displayName = 'TerminalPanel';
 // ============================================
 // COMPOSANT PRINCIPAL: APP
 // ============================================
-type AppView = 'home' | 'course' | 'ollamaSetup' | 'courseCreator' | 'appInstall';
+type AppView = 'home' | 'course' | 'ollamaSetup' | 'courseCreator' | 'appInstall' | 'mentions-legales' | 'privacy-policy' | 'cookie-policy';
 
 const App: React.FC = () => {
   const userId = 'default_user';
@@ -2716,6 +2748,36 @@ const App: React.FC = () => {
             {currentView === 'appInstall' && (
               <AppInstall
                 onContinueWeb={() => {
+                  setShowHomePage(true);
+                  setCurrentView('home');
+                }}
+              />
+            )}
+            
+            {/* Mentions Légales */}
+            {currentView === 'mentions-legales' && (
+              <MentionsLegales
+                onBack={() => {
+                  setShowHomePage(true);
+                  setCurrentView('home');
+                }}
+              />
+            )}
+            
+            {/* Privacy Policy */}
+            {currentView === 'privacy-policy' && (
+              <PrivacyPolicy
+                onBack={() => {
+                  setShowHomePage(true);
+                  setCurrentView('home');
+                }}
+              />
+            )}
+            
+            {/* Cookie Policy */}
+            {currentView === 'cookie-policy' && (
+              <CookiePolicy
+                onBack={() => {
                   setShowHomePage(true);
                   setCurrentView('home');
                 }}
