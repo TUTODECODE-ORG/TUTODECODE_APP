@@ -12,8 +12,6 @@ import {
   ExternalLink,
   WifiOff,
   Sparkles,
-  Eye,
-  Globe,
   FolderOpen,
   Bot,
   RefreshCw
@@ -82,16 +80,21 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
         
         {/* Header */}
         <div className="text-center mb-12">
-          <Badge className="mb-4 bg-[var(--td-primary)]/20 text-[var(--td-primary)]">
-            <Sparkles className="w-3 h-3 mr-1" />
-            Application Desktop
+          <Badge className="mb-4 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-400 border border-blue-500/30 px-4 py-1.5">
+            <Sparkles className="w-3 h-3 mr-1.5 animate-pulse" />
+            Application Desktop Gratuite
           </Badge>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--td-text-primary)] mb-4">
-            Installez TutoDeCode Pro
+          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[var(--td-text-primary)] via-blue-400 to-indigo-400 bg-clip-text text-transparent mb-6">
+            Devenez développeur avec TutoDeCode Pro
           </h2>
-          <p className="text-lg text-[var(--td-text-secondary)] max-w-2xl mx-auto">
-            Version desktop recommandée: parcours complets, tickets IA, génération de fichiers de mission, validation guidée et synchronisation des nouveautés de cours.
+          <p className="text-lg text-[var(--td-text-secondary)] max-w-2xl mx-auto leading-relaxed">
+            L'app desktop qui vous guide pas à pas : <span className="text-[var(--td-primary)] font-medium">parcours structurés</span>, <span className="text-[var(--td-primary)] font-medium">IA mentor</span> pour corriger vos projets, et <span className="text-[var(--td-primary)] font-medium">tickets de missions</span> pour coder comme un pro.
           </p>
+          <div className="flex items-center justify-center gap-6 mt-6 text-sm text-[var(--td-text-tertiary)]">
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" />100% Gratuit</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" />Sans compte requis</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" />Fonctionne hors-ligne</span>
+          </div>
         </div>
 
         {/* Trust Bar */}
@@ -131,13 +134,13 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
 
               <div className="space-y-4">
                 {features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-[var(--td-surface-elevated)] flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="w-5 h-5 text-[var(--td-primary)]" />
+                  <div key={index} className="flex items-start gap-4 p-3 rounded-xl hover:bg-[var(--td-surface-elevated)] transition-colors duration-200 group">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0 group-hover:from-blue-500/20 group-hover:to-indigo-500/20 transition-all duration-200">
+                      <feature.icon className="w-5 h-5 text-blue-400" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-[var(--td-text-primary)]">{feature.title}</h4>
-                      <p className="text-sm text-[var(--td-text-secondary)]">{feature.desc}</p>
+                      <h4 className="font-semibold text-[var(--td-text-primary)]">{feature.title}</h4>
+                      <p className="text-sm text-[var(--td-text-secondary)] leading-relaxed">{feature.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -149,62 +152,47 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
               <div className="space-y-6">
                 
                 {/* Windows Download */}
-                <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Monitor className="w-6 h-6 text-blue-400" />
-                    <span className="font-semibold text-[var(--td-text-primary)]">Windows</span>
-                    <Badge className="bg-emerald-500/20 text-emerald-400">Recommandé</Badge>
+                <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/15 to-indigo-600/15 border-2 border-blue-500/30 shadow-lg shadow-blue-500/10">
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                        <Monitor className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <span className="font-bold text-[var(--td-text-primary)] block">Windows</span>
+                        <span className="text-xs text-[var(--td-text-tertiary)]">10 / 11</span>
+                      </div>
+                    </div>
+                    <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      Recommandé
+                    </Badge>
                   </div>
                   <Button 
                     onClick={downloadMSI}
-                    className="w-full h-12 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+                    className="w-full h-14 text-base font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-[1.02]"
                   >
                     <Download className="w-5 h-5 mr-2" />
-                    Télécharger l'installateur .msi
+                    Installer maintenant — Gratuit
                   </Button>
-                  <p className="text-xs text-[var(--td-text-tertiary)] mt-2 text-center">
-                    Windows 10/11 • ~50 MB
-                  </p>
-                  <p className="text-[11px] text-[var(--td-text-tertiary)] mt-2 text-center">
-                    Si le MSI n'est pas disponible, le script d'installation Windows est téléchargé automatiquement.
+                  <p className="text-xs text-[var(--td-text-secondary)] mt-3 text-center">
+                    Installateur MSI officiel • ~50 MB • Installation en 1 clic
                   </p>
                 </div>
 
                 {/* GitHub Releases */}
-                <div className="p-6 rounded-2xl bg-[var(--td-surface-elevated)] border border-[var(--td-border)]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="font-semibold text-[var(--td-text-primary)]">GitHub (source + builds)</span>
-                  </div>
+                <div className="p-4 rounded-xl bg-[var(--td-surface-elevated)] border border-[var(--td-border)]">
                   <Button 
-                    variant="outline"
+                    variant="ghost"
                     onClick={openGitHub}
-                    className="w-full"
+                    className="w-full justify-start text-[var(--td-text-secondary)] hover:text-[var(--td-text-primary)]"
                   >
                     <ExternalLink className="w-4 h-4 mr-2" />
-                    Voir le code source (Tauri)
+                    Code source sur GitHub — Open Source
                   </Button>
-                  <p className="text-xs text-[var(--td-text-tertiary)] mt-2 text-center">
-                    Dépôt officiel: code source de l'app Tauri + artefacts de release
-                  </p>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-[var(--td-surface-elevated)] border border-[var(--td-border)]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Globe className="w-5 h-5 text-[var(--td-primary)]" />
-                    <span className="font-semibold text-[var(--td-text-primary)]">Zone de test</span>
-                  </div>
-                  <Button
-                    variant="outline"
-                    onClick={openDemo}
-                    className="w-full"
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    Voir la démo web
-                  </Button>
-                  <p className="text-xs text-[var(--td-text-tertiary)] mt-2 text-center">
-                    Aperçu immédiat de l'interface et des parcours avant installation.
-                  </p>
-                </div>
+
 
                 {/* Continue Web */}
                 {allowContinueWeb && (
