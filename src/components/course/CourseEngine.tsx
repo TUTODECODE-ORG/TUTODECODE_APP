@@ -12,8 +12,7 @@ import {
   ChevronDown,
   ChevronUp,
   BookOpen, 
-  CheckCircle2,
-  Lock
+  CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -553,12 +552,6 @@ export const CourseEngine = memo<CourseEngineProps>(({
                 <BookOpen className="w-4 h-4" />
                 {chapter.duration}
               </span>
-              {chapter.isLocked && (
-                <span className="flex items-center gap-1 text-[var(--td-accent-ai)]">
-                  <Lock className="w-4 h-4" />
-                  Verrouillé
-                </span>
-              )}
             </div>
           </div>
 

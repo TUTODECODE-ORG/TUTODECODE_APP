@@ -24,7 +24,6 @@ import {
   ChevronRight,
   ChevronUp,
   CheckCircle2,
-  Lock,
   Sparkles,
   Maximize2,
   Minimize2,
@@ -686,7 +685,7 @@ const buildCurriculumFromCourses = (courses: typeof allCourses): Chapter[] => co
         successMessage: 'Excellent, module validé avec une progression solide.',
       },
     },
-    isLocked: index !== 0,
+    isLocked: false,
     isCompleted: false,
     progress: 0,
   };
@@ -1186,18 +1185,15 @@ const ChapterList = memo<ChapterListProps>(({
       {chapters.map((chapter) => {
         const isCompleted = completedChapters.includes(chapter.id);
         const isCurrent = chapter.id === currentChapterId;
-        const isLocked = chapter.isLocked && !isCompleted && !isCurrent;
         
         return (
           <button
             key={chapter.id}
-            onClick={() => !isLocked && onSelectChapter(chapter.id)}
-            disabled={isLocked}
+            onClick={() => onSelectChapter(chapter.id)}
             className={cn(
               "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all group",
               isCurrent && "bg-[var(--td-primary-muted)] text-[var(--td-primary)]",
-              !isCurrent && !isLocked && "hover:bg-[var(--td-surface-hover)] text-[var(--td-text-secondary)]",
-              isLocked && "opacity-40 cursor-not-allowed text-[var(--td-text-tertiary)]"
+              !isCurrent && "hover:bg-[var(--td-surface-hover)] text-[var(--td-text-secondary)]"
             )}
           >
             <div className={cn(
@@ -1208,8 +1204,6 @@ const ChapterList = memo<ChapterListProps>(({
             )}>
               {isCompleted ? (
                 <CheckCircle2 className="w-4 h-4" />
-              ) : isLocked ? (
-                <Lock className="w-3.5 h-3.5" />
               ) : (
                 chapter.order
               )}
