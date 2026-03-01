@@ -1765,6 +1765,15 @@ const App: React.FC = () => {
     void generateQuizForChapter(currentChapter);
   }, [quizModeEnabled, currentView, showHomePage, currentChapter, generateQuizForChapter]);
 
+  const answeredQuizCount = Object.keys(quizAnswers).length;
+  const totalQuizQuestions = quizPayload?.questions.length ?? 0;
+  const canSubmitQuiz = Boolean(
+    quizPayload &&
+    !isGeneratingQuiz &&
+    !quizResult &&
+    answeredQuizCount === totalQuizQuestions
+  );
+
   const handleTerminalOutput = useCallback((output: TerminalOutput) => {
     setTerminalOutputs(prev => [...prev, output]);
 
@@ -2197,15 +2206,15 @@ const App: React.FC = () => {
 
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <p className="text-xs text-[var(--td-text-tertiary)]">
-                      Répondu: {Object.keys(quizAnswers).length}/{quizPayload.questions.length}
+                      Répondu: {answeredQuizCount}/{quizPayload.questions.length}
                     </p>
                     <Button
                       size="sm"
                       className="bg-[var(--td-primary)] hover:bg-[var(--td-primary-hover)]"
                       onClick={() => void submitQuiz()}
-                      disabled={isGeneratingQuiz || Boolean(quizResult)}
+                      disabled={!canSubmitQuiz}
                     >
-                      Valider mon score
+                      {canSubmitQuiz ? 'Valider mon score' : `Répondez aux ${quizPayload.questions.length} questions`}
                     </Button>
                   </div>
 
