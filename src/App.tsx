@@ -1050,6 +1050,7 @@ const App: React.FC = () => {
       }
 
       setActiveTicket(response.data);
+      setIsTerminalOpen(true);
       toast.warning('🎫 Ticket de mise en situation', {
         description: response.data.alert_message,
         duration: 8000,

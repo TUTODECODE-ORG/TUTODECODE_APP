@@ -476,12 +476,34 @@ fn language_from_course(chapter_id: &str, chapter_title: &str) -> (&'static str,
     } else if lower.contains("sql") || lower.contains("database") {
         ("sql", "sql")
     } else if lower.contains("linux") || lower.contains("docker") || lower.contains("kubernetes") {
-        ("bash", "sh")
+        if cfg!(target_os = "windows") {
+            ("powershell", "ps1")
+        } else {
+            ("bash", "sh")
+        }
     } else if lower.contains("rust") || lower.contains("tauri") {
         ("rust", "rs")
     } else {
         ("javascript", "js")
     }
+}
+
+fn enforce_windows_terminal_content(content: &str) -> String {
+    let mut normalized = content
+        .replace("```bash", "```powershell")
+        .replace("```sh", "```powershell")
+        .replace(" /bin/bash", " powershell.exe")
+        .replace("bash ", "powershell ")
+        .replace(".sh", ".ps1");
+
+    if !normalized.to_lowercase().contains("powershell") {
+        normalized = format!(
+            "⚠️ Environnement Windows: utilisez le terminal intégré de l'app (PowerShell/CMD). N'utilisez pas bash/sh.\n\n{}",
+            normalized
+        );
+    }
+
+    normalized
 }
 
 async fn analyze_ticket_with_ai(
@@ -574,12 +596,17 @@ async fn generate_ticket_scenario_with_ai(
         .map_err(|e| e.to_string())?;
 
     let prompt = format!(
-        "Tu es un générateur de scénario pédagogique sans donner la réponse finale.\n\nCours: {}\nID: {}\nLangage cible: {} (. {})\n\nContexte du cours:\n{}\n\nGénère un JSON strict avec ce schéma:\n{{\"readme\":\"...\",\"mission\":\"...\",\"starter\":\"...\"}}\n\nRègles: mission concrète, starter incomplet mais guidant, pas de solution finale explicite.",
+        "Tu es un générateur de scénario pédagogique sans donner la réponse finale.\n\nCours: {}\nID: {}\nLangage cible: {} (. {})\n\nContexte du cours:\n{}\n\nContraintes terminal: {}\n\nGénère un JSON strict avec ce schéma:\n{{\"readme\":\"...\",\"mission\":\"...\",\"starter\":\"...\"}}\n\nRègles: mission concrète, starter incomplet mais guidant, pas de solution finale explicite.",
         chapter_title,
         chapter_id,
         language,
         extension,
-        context
+        context,
+        if cfg!(target_os = "windows") {
+            "Windows uniquement: utiliser PowerShell/CMD, ne jamais utiliser bash/sh et ne pas proposer de scripts .sh"
+        } else {
+            "Linux/macOS: utiliser shell compatible bash"
+        }
     );
 
     let payload = serde_json::json!({
@@ -622,7 +649,17 @@ async fn generate_ticket_scenario_with_ai(
     }
 
     match serde_json::from_str::<AiScenarioFiles>(json_candidate) {
-        Ok(parsed) => Ok(Some((parsed.readme, parsed.mission, parsed.starter))),
+        Ok(parsed) => {
+            if cfg!(target_os = "windows") {
+                Ok(Some((
+                    enforce_windows_terminal_content(&parsed.readme),
+                    enforce_windows_terminal_content(&parsed.mission),
+                    enforce_windows_terminal_content(&parsed.starter),
+                )))
+            } else {
+                Ok(Some((parsed.readme, parsed.mission, parsed.starter)))
+            }
+        }
         Err(_) => Ok(None),
     }
 }
@@ -989,7 +1026,15 @@ fn create_course_ticket(
         ))?;
 
         let (readme_content, mission_content, starter_content) = if let Some((r, m, s)) = ai_scenario {
-            (r, m, s)
+            if cfg!(target_os = "windows") {
+                (
+                    enforce_windows_terminal_content(&r),
+                    enforce_windows_terminal_content(&m),
+                    enforce_windows_terminal_content(&s),
+                )
+            } else {
+                (r, m, s)
+            }
         } else {
             (
                 format!(
@@ -997,7 +1042,7 @@ fn create_course_ticket(
                     ticket_id, chapter_title, chapter_id
                 ),
                 format!(
-                    "# Mission\n\nUn bug bloque ce module ({chapter_title}).\n\n1. Analysez les fichiers de scénario.\n2. Corrigez le code dans `starter_solution.{ext}`.\n3. Ajoutez un court résumé de votre démarche dans l'app pour validation IA."
+                    "# Mission\n\nUn bug bloque ce module ({chapter_title}).\n\n1. Analysez les fichiers de scénario.\n2. Corrigez le code dans `starter_solution.{ext}`.\n3. Utilisez le terminal intégré de l'app (PowerShell/CMD sur Windows).\n4. Ajoutez un court résumé de votre démarche dans l'app pour validation IA."
                 ),
                 format!(
                     "// Langage cible: {lang}\n// TODO: corrigez ici le problème demandé par le ticket {ticket_id}\n\n// Astuce: démontrez le correctif avec un test, un log, ou une preuve d'exécution.\n"
