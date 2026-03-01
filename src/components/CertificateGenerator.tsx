@@ -118,9 +118,9 @@ export function CertificateCard({ course, userName = "Agent Tactique", date = ne
 
     const printWindow = window.open('', '_blank');
     if (printWindow) {
-      // @ts-ignore - On utilise Trusted Types via la policy par défaut
+      // @ts-expect-error - document.open/write deprecated but needed for print
       printWindow.document.open();
-      // @ts-ignore
+      // @ts-expect-error - document.write usage for certificate printing
       printWindow.document.write(certificateHtml);
       printWindow.document.close();
 

@@ -496,27 +496,6 @@ const buildCourseTheory = (course: any): string => {
     .map((section: any, index) => buildDeepSectionLesson(course, section, index))
     .filter(Boolean);
 
-  const masteryTargets = [
-    `Piloter un module complet de ${course?.title || 'ce cours'} de façon autonome.`,
-    'Identifier, corriger et expliquer les erreurs sans assistance externe immédiate.',
-    'Produire un livrable final clair (commande, script, composant ou config) validable.',
-    'Être prêt à réutiliser les compétences dans un vrai projet personnel ou professionnel.',
-  ];
-
-  const diagnosticPage = [
-    `# ${course?.title || 'Module'} — Diagnostic de départ`,
-    '',
-    '## Auto-évaluation initiale',
-    '- Notez votre niveau actuel sur 10 pour ce domaine.',
-    '- Listez 3 points que vous maîtrisez déjà.',
-    '- Listez 3 points qui vous bloquent aujourd’hui.',
-    '',
-    '## Contrat de progression',
-    '- Engagement: pratiquer chaque bloc avec preuve de résultat.',
-    '- Règle: ne jamais passer au bloc suivant sans validation minimale.',
-    '- Objectif: sortir du cours en autonomie opérationnelle, pas seulement en théorie.',
-  ].join('\n');
-
   const introPage = [
     `# ${course?.title || 'Module'}`,
     '',
@@ -540,94 +519,10 @@ const buildCourseTheory = (course: any): string => {
 
   const sectionPages = sectionDeepDives.length > 0 ? sectionDeepDives : ['## Aperçu\nCe module couvre théorie, mise en pratique et validation finale.'];
 
-  const debuggingPlaybookPage = [
-    `# ${course?.title || 'Module'} — Playbook de debug`,
-    '',
-    '## Méthode universelle (à appliquer systématiquement)',
-    '1. Reproduire le bug dans un contexte minimal.',
-    '2. Capturer les signaux (logs, sorties, code de retour, état système).',
-    '3. Isoler la cause probable et poser une hypothèse unique.',
-    '4. Tester une correction ciblée (un changement à la fois).',
-    '5. Vérifier la correction + non-régression.',
-    '6. Documenter la solution et les garde-fous pour éviter la récidive.',
-    '',
-    '## Anti-patterns à bannir',
-    '- Changer 10 choses en même temps.',
-    '- Corriger sans preuve de validation.',
-    '- Ignorer les logs ou les messages d’erreur précis.',
-  ].join('\n');
-
-  const masterySprintPage = [
-    `# ${course?.title || 'Module'} — Sprint 30 jours`,
-    '',
-    '## Programme de consolidation',
-    '- Semaine 1: compréhension + reproduction des blocs.',
-    '- Semaine 2: variantes personnelles + mini défis.',
-    '- Semaine 3: debug avancé + optimisation.',
-    '- Semaine 4: capstone final + revue qualité.',
-    '',
-    '## Rythme recommandé',
-    '- 45 à 90 min par session, 5 sessions/semaine.',
-    '- Une sortie vérifiable à chaque session.',
-    '- Une révision active toutes les 72h (questions/flashcards/checklist).',
-  ].join('\n');
-
-  const capstonePage = [
-    `# ${course?.title || 'Module'} — Capstone final`,
-    '',
-    '## Mission finale',
-    'Construisez un mini projet complet intégrant les compétences majeures du cours.',
-    '',
-    '## Livrables obligatoires',
-    '- Implémentation fonctionnelle.',
-    '- Script de validation/reproduction.',
-    '- Note d’architecture (choix techniques + compromis).',
-    '- Rapport de debug sur au moins 1 incident résolu.',
-    '',
-    '## Barème expert (100 points)',
-    '- Exactitude technique: 35',
-    '- Robustesse et sécurité: 25',
-    '- Clarté et maintenabilité: 20',
-    '- Documentation et pédagogie: 20',
-  ].join('\n');
-
-  const interviewPrepPage = [
-    `# ${course?.title || 'Module'} — Préparation entretien`,
-    '',
-    '## Questions à savoir traiter',
-    '- Expliquez votre méthode de diagnostic sur un incident réel.',
-    '- Comment garantissez-vous qu’une correction ne casse pas autre chose ?',
-    '- Quelles métriques suivez-vous pour juger une solution ? ',
-    '- Donnez un exemple de compromis performance vs lisibilité.',
-    '',
-    '## Réponse attendue',
-    '- Structure STAR (Situation, Tâche, Action, Résultat).',
-    '- Appui sur des preuves techniques (logs, mesures, tests).',
-    '- Capacité à vulgariser pour un public non expert.',
-  ].join('\n');
-
-  const masteryPage = [
-    `# ${course?.title || 'Module'} — Validation finale`,
-    '',
-    '## Compétences finales visées',
-    ...masteryTargets.map((item) => `- ${item}`),
-    '',
-    '## Définition du niveau “roi du domaine”',
-    '- Vous résolvez un problème inédit sans dépendre d’un copier-coller.',
-    '- Vous justifiez chaque choix avec des critères techniques clairs.',
-    '- Vous transmettez la solution à d’autres développeurs de manière structurée.',
-  ].join('\n');
-
   return [
-    diagnosticPage,
     introPage,
     roadmapPage,
     ...sectionPages,
-    debuggingPlaybookPage,
-    masterySprintPage,
-    capstonePage,
-    interviewPrepPage,
-    masteryPage,
   ].join('\n\n<!--PAGE_BREAK-->\n\n');
 };
 
@@ -1764,7 +1659,7 @@ const App: React.FC = () => {
             setCurrentChapterId(curriculum[0].id);
           }
         }
-      } catch (e) {
+      } catch {
         console.log('Pas de progression sauvegardée');
       } finally {
         setIsLoading(false);
@@ -2144,42 +2039,6 @@ const App: React.FC = () => {
     }
   }, [quizPayload, currentChapter, quizAnswers, handleCompleteChapter]);
 
-  const handleNextChapter = useCallback(async () => {
-    const current = getChapterById(currentChapterId);
-    if (current) {
-      const next = curriculum.find(ch => ch.order === current.order + 1);
-      if (next) {
-        setCurrentChapterId(next.id);
-        setTicketSolution('');
-        setTicketHelpRequest('');
-        setTicketHelpAnswer('');
-        if (canUseTauriInvoke && !quizModeEnabled) {
-          await loadOpenTicketForChapter(next.id);
-        } else {
-          setActiveTicket(null);
-        }
-      }
-    }
-  }, [currentChapterId, canUseTauriInvoke, loadOpenTicketForChapter, quizModeEnabled]);
-
-  const handlePreviousChapter = useCallback(async () => {
-    const current = getChapterById(currentChapterId);
-    if (current && current.order > 1) {
-      const prev = curriculum.find(ch => ch.order === current.order - 1);
-      if (prev) {
-        setCurrentChapterId(prev.id);
-        setTicketSolution('');
-        setTicketHelpRequest('');
-        setTicketHelpAnswer('');
-        if (canUseTauriInvoke && !quizModeEnabled) {
-          await loadOpenTicketForChapter(prev.id);
-        } else {
-          setActiveTicket(null);
-        }
-      }
-    }
-  }, [currentChapterId, canUseTauriInvoke, loadOpenTicketForChapter, quizModeEnabled]);
-
   const currentQuizPayload = currentChapter && quizChapterId === currentChapter.id ? quizPayload : null;
   const answeredQuizCount = currentQuizPayload ? Object.keys(quizAnswers).length : 0;
   const totalQuizQuestions = currentQuizPayload?.questions.length ?? 0;
@@ -2188,6 +2047,9 @@ const App: React.FC = () => {
     !isGeneratingQuiz &&
     !quizResult &&
     answeredQuizCount === totalQuizQuestions
+  );
+  const isRegeneratingCurrentQuiz = Boolean(
+    isGeneratingQuiz && currentChapter && quizChapterId === currentChapter.id
   );
 
   const handleTerminalOutput = useCallback((output: TerminalOutput) => {
@@ -2357,6 +2219,8 @@ const App: React.FC = () => {
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="absolute -right-3 top-16 w-6 h-6 bg-[var(--td-surface)] border border-[var(--td-border)] rounded-full flex items-center justify-center hover:bg-[var(--td-surface-hover)] z-10 transition-colors"
+          aria-label={sidebarOpen ? 'Réduire le menu' : 'Ouvrir le menu'}
+          aria-expanded={sidebarOpen}
         >
           {sidebarOpen ? <X className="w-3 h-3 text-[var(--td-text-secondary)]" /> : <Menu className="w-3 h-3 text-[var(--td-text-secondary)]" />}
         </button>
@@ -2573,12 +2437,24 @@ const App: React.FC = () => {
                   onClick={() => void generateQuizForChapter(currentChapter)}
                   disabled={isGeneratingQuiz}
                 >
-                  {isGeneratingQuiz ? 'Génération IA...' : 'Nouveau QCM aléatoire'}
+                  {isGeneratingQuiz
+                    ? 'Génération IA...'
+                    : quizResult && !quizResult.passed
+                      ? 'Refaire (nouveau QCM)'
+                      : 'Nouveau QCM aléatoire'}
                 </Button>
               </div>
 
               {currentQuizPayload ? (
                 <div className="mt-3 space-y-3 max-h-[42vh] overflow-y-auto pr-1">
+                  {isRegeneratingCurrentQuiz && (
+                    <div className="rounded-lg border border-[var(--td-warning)]/40 bg-[var(--td-accent-ai-muted)] p-3">
+                      <p className="text-xs text-[var(--td-text-primary)]">
+                        Nouveau QCM en génération… L’ancien QCM reste affiché mais les réponses sont temporairement verrouillées.
+                      </p>
+                    </div>
+                  )}
+
                   {currentQuizPayload.questions.map((question, questionIndex) => (
                     <div key={`${questionIndex}-${question.question.slice(0, 20)}`} className="rounded-lg border border-[var(--td-border)] bg-[var(--td-bg-primary)] p-3">
                       <p className="text-sm font-medium text-[var(--td-text-primary)] mb-2">
@@ -2602,9 +2478,14 @@ const App: React.FC = () => {
                             <button
                               key={`${questionIndex}-${optionIndex}`}
                               type="button"
-                              className={cn('rounded-md border px-3 py-2 text-left text-xs transition-colors', toneClass)}
+                              className={cn(
+                                'rounded-md border px-3 py-2 text-left text-xs transition-colors',
+                                toneClass,
+                                isRegeneratingCurrentQuiz && 'opacity-60 cursor-not-allowed'
+                              )}
+                              disabled={isRegeneratingCurrentQuiz}
                               onClick={() => {
-                                if (quizResult) return;
+                                if (quizResult || isRegeneratingCurrentQuiz) return;
                                 setQuizAnswers((prev) => ({ ...prev, [questionIndex]: optionIndex }));
                               }}
                             >
@@ -2628,9 +2509,13 @@ const App: React.FC = () => {
                       size="sm"
                       className="bg-[var(--td-primary)] hover:bg-[var(--td-primary-hover)]"
                       onClick={() => void submitQuiz()}
-                      disabled={!canSubmitQuiz}
+                      disabled={!canSubmitQuiz || isRegeneratingCurrentQuiz}
                     >
-                      {canSubmitQuiz ? 'Valider mon score' : `Répondez aux ${currentQuizPayload.questions.length} questions`}
+                      {isRegeneratingCurrentQuiz
+                        ? 'Génération du nouveau QCM...'
+                        : canSubmitQuiz
+                          ? 'Valider mon score'
+                          : `Répondez aux ${currentQuizPayload.questions.length} questions`}
                     </Button>
                   </div>
 
@@ -2639,7 +2524,7 @@ const App: React.FC = () => {
                       'rounded-lg border p-3',
                       quizResult.passed
                         ? 'border-[var(--td-success)] bg-[var(--td-success-muted)]'
-                        : 'border-amber-500/40 bg-amber-500/10'
+                        : 'border-[var(--td-warning)]/40 bg-[var(--td-accent-ai-muted)]'
                     )}>
                       <p className="text-sm font-medium text-[var(--td-text-primary)]">
                         {quizResult.passed ? '✅ Réussi' : '❌ Échoué'} · Score {quizResult.score}% ({quizResult.total} questions)
@@ -2647,6 +2532,17 @@ const App: React.FC = () => {
                       <p className="text-xs text-[var(--td-text-secondary)] mt-1">
                         Seuil requis: {quizResult.passScore}%. {quizResult.passed ? 'Chapitre validé.' : 'Relancez un nouveau QCM pour retenter.'}
                       </p>
+                      {!quizResult.passed && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="mt-3 border-[var(--td-border)]"
+                          onClick={() => void generateQuizForChapter(currentChapter)}
+                          disabled={isGeneratingQuiz}
+                        >
+                          {isGeneratingQuiz ? 'Génération IA...' : 'Refaire un nouveau QCM'}
+                        </Button>
+                      )}
                     </div>
                   )}
                 </div>
@@ -2820,8 +2716,6 @@ const App: React.FC = () => {
               <CourseEngine
                 chapter={currentChapter}
                 totalChapters={curriculum.length}
-                onNext={handleNextChapter}
-                onPrevious={handlePreviousChapter}
                 onFinishCourse={handleFinishCourse}
                 isCompleted={completedChapters.includes(currentChapter.id)}
                 isFinishLocked={Boolean(finishClickLockedByChapter[currentChapter.id])}

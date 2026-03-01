@@ -27,8 +27,6 @@ import type { Chapter } from '@/data/curriculum';
 interface CourseEngineProps {
   chapter: Chapter;
   totalChapters: number;
-  onNext?: () => void;
-  onPrevious?: () => void;
   onFinishCourse?: (chapterId: string) => void;
   isCompleted?: boolean;
   hasOpenTicket?: boolean;
@@ -399,8 +397,6 @@ QuizPanel.displayName = 'QuizPanel';
 export const CourseEngine = memo<CourseEngineProps>(({
   chapter,
   totalChapters,
-  onNext,
-  onPrevious,
   onFinishCourse,
   isCompleted = false,
   hasOpenTicket = false,
@@ -419,7 +415,30 @@ export const CourseEngine = memo<CourseEngineProps>(({
       .split('<!--PAGE_BREAK-->')
       .map((part) => part.trim())
       .filter(Boolean);
-    return pages.length > 0 ? pages : [raw || 'Contenu indisponible.'];
+
+    const toPlainText = (value: string): string => value
+      .replace(/```[\s\S]*?```/g, ' ')
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/[>*_`~\[\]()\-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    const meaningfulPages = pages.filter((page) => {
+      const plain = toPlainText(page);
+      const words = plain.split(' ').filter(Boolean).length;
+      const hasExplanationSentence = plain.length >= 140 && /[.!?]/.test(plain);
+      return words >= 28 || hasExplanationSentence;
+    });
+
+    if (meaningfulPages.length > 0) {
+      return meaningfulPages;
+    }
+
+    if (pages.length > 0) {
+      return [pages[0]];
+    }
+
+    return [raw || 'Contenu indisponible.'];
   }, [chapter.theory]);
 
   useEffect(() => {
@@ -497,45 +516,22 @@ export const CourseEngine = memo<CourseEngineProps>(({
             </span>
           </div>
 
-          {/* Navigation */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onPrevious}
-              disabled={chapter.order === 1}
-            >
-              <ChevronLeft className="w-4 h-4 mr-1" />
-              Précédent
+          {isCompleted ? (
+            <Button variant="outline" size="sm" className="text-[var(--td-success)]">
+              <CheckCircle2 className="w-4 h-4 mr-1" />
+              Complété
             </Button>
-            
-            {isCompleted ? (
-              <Button variant="outline" size="sm" className="text-[var(--td-success)]">
-                <CheckCircle2 className="w-4 h-4 mr-1" />
-                Complété
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                className="btn-primary"
-                onClick={() => onFinishCourse?.(chapter.id)}
-                disabled={hasOpenTicket || isFinishLocked}
-              >
-                <CheckCircle2 className="w-4 h-4 mr-1" />
-                {hasOpenTicket ? 'Ticket déjà généré' : isFinishLocked ? 'Validation déjà lancée' : 'J’ai fini le cours'}
-              </Button>
-            )}
-            
+          ) : (
             <Button
-              variant="outline"
               size="sm"
-              onClick={onNext}
-              disabled={chapter.order === totalChapters}
+              className="btn-primary"
+              onClick={() => onFinishCourse?.(chapter.id)}
+              disabled={hasOpenTicket || isFinishLocked}
             >
-              Suivant
-              <ChevronRight className="w-4 h-4 ml-1" />
+              <CheckCircle2 className="w-4 h-4 mr-1" />
+              {hasOpenTicket ? 'Ticket déjà généré' : isFinishLocked ? 'Validation déjà lancée' : 'J’ai fini le cours'}
             </Button>
-          </div>
+          )}
         </div>
       </header>
 
@@ -623,28 +619,10 @@ export const CourseEngine = memo<CourseEngineProps>(({
           )}
 
           {/* Footer navigation */}
-          <div className="mt-12 pt-8 border-t border-[var(--td-border)] flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <Button
-              variant="outline"
-              onClick={onPrevious}
-              disabled={chapter.order === 1}
-            >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              Chapitre précédent
-            </Button>
-            
-            <Button
-              variant="outline"
-              onClick={onNext}
-              disabled={chapter.order === totalChapters}
-            >
-              Chapitre suivant
-              <ChevronRight className="w-4 h-4 ml-2" />
-            </Button>
-
+          <div className="mt-12 pt-8 border-t border-[var(--td-border)] flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
             {!isCompleted && (
               <Button
-                className="btn-primary md:ml-auto"
+                className="btn-primary"
                 onClick={() => onFinishCourse?.(chapter.id)}
                 disabled={hasOpenTicket || isFinishLocked}
               >

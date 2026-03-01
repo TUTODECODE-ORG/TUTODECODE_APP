@@ -6,8 +6,6 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { 
-  Bot, 
-  Sparkles, 
   Lightbulb, 
   AlertCircle, 
   CheckCircle2, 
@@ -285,7 +283,7 @@ export const AgentMentor = memo<AgentMentorProps>(({
   className
 }) => {
   const [messages, setMessages] = useState<AgentMessage[]>([]);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [ollamaStatus, setOllamaStatus] = useState<OllamaStatus>({
@@ -598,7 +596,7 @@ export const AgentMentor = memo<AgentMentorProps>(({
           className
         )}
       >
-        <Bot className="w-5 h-5" />
+        <img src="/logo.png" alt="TutoDeCode" className="w-5 h-5 rounded-full" />
         <span className="font-medium">Agent IA</span>
         {messages.length > 0 && (
           <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs">
@@ -619,12 +617,12 @@ export const AgentMentor = memo<AgentMentorProps>(({
       <div className="flex items-center justify-between p-3 border-b border-[var(--td-border)] bg-gradient-to-r from-[var(--td-primary-muted)] to-transparent">
         <div className="flex items-center gap-2">
           <div className="relative">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--td-primary)] to-[var(--td-accent-ai)] flex items-center justify-center">
-              <Bot className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--td-primary)] to-[var(--td-accent-ai)] p-[2px]">
+              <img src="/logo.png" alt="TutoDeCode" className="w-full h-full rounded-full bg-[var(--td-surface)] object-cover" />
             </div>
             <span className={cn(
               "absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[var(--td-surface)]",
-              ollamaStatus.connected ? "bg-[var(--td-success)]" : "bg-amber-500"
+              ollamaStatus.connected ? "bg-[var(--td-success)]" : "bg-[var(--td-warning)]"
             )} />
           </div>
           <div>
@@ -637,8 +635,8 @@ export const AgentMentor = memo<AgentMentorProps>(({
             <div className="mt-1 flex items-center gap-1">
               {ollamaStatus.connected ? (
                 <>
-                  <Wifi className="w-3 h-3 text-emerald-400" />
-                  <span className="text-[10px] px-1.5 py-0.5 rounded border text-emerald-300 border-emerald-500/40 bg-emerald-500/10">
+                  <Wifi className="w-3 h-3 text-[var(--td-success)]" />
+                  <span className="text-[10px] px-1.5 py-0.5 rounded border text-[var(--td-success)] border-[var(--td-success)]/40 bg-[var(--td-success-muted)]">
                     Connecté
                   </span>
                   <span className="text-[10px] text-[var(--td-text-tertiary)]">
@@ -647,8 +645,8 @@ export const AgentMentor = memo<AgentMentorProps>(({
                 </>
               ) : (
                 <>
-                  <WifiOff className="w-3 h-3 text-amber-400" />
-                  <span className="text-[10px] px-1.5 py-0.5 rounded border text-amber-300 border-amber-500/40 bg-amber-500/10">
+                  <WifiOff className="w-3 h-3 text-[var(--td-warning)]" />
+                  <span className="text-[10px] px-1.5 py-0.5 rounded border text-[var(--td-warning)] border-[var(--td-warning)]/40 bg-[var(--td-accent-ai-muted)]">
                     Hors-ligne
                   </span>
                   <Button
@@ -694,8 +692,8 @@ export const AgentMentor = memo<AgentMentorProps>(({
         <div className="space-y-3">
           {messages.length === 0 ? (
             <div className="text-center py-8">
-              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-[var(--td-primary-muted)] flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-[var(--td-primary)]" />
+              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br from-[var(--td-primary)] to-[var(--td-accent-ai)] p-[2px]">
+                <img src="/logo.png" alt="TutoDeCode" className="w-full h-full rounded-full bg-[var(--td-surface)] object-cover" />
               </div>
               <p className="text-sm text-[var(--td-text-secondary)]">
                 Je surveille votre terminal en temps réel.
@@ -755,8 +753,8 @@ export const AgentMentor = memo<AgentMentorProps>(({
           
           {isTyping && (
             <div className="flex gap-2">
-              <div className="w-8 h-8 rounded-full bg-[var(--td-primary-muted)] flex items-center justify-center">
-                <Bot className="w-4 h-4 text-[var(--td-primary)]" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--td-primary)] to-[var(--td-accent-ai)] p-[2px]">
+                <img src="/logo.png" alt="TutoDeCode" className="w-full h-full rounded-full bg-[var(--td-surface)] object-cover" />
               </div>
               <div className="bg-[var(--td-surface-elevated)] border border-[var(--td-border)] rounded-lg p-3">
                 <div className="flex gap-1">
