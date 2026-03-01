@@ -743,51 +743,118 @@ const parseAiQuizPayload = (raw: string): QuizPayload | null => {
   }
 };
 
-const buildFallbackQuiz = (chapterTitle: string): QuizPayload => {
-  const seeds = [
-    {
-      question: `Pour débuter le module "${chapterTitle}", quelle approche est la plus efficace ?`,
-      correct: 'Faire un mini test pratique immédiatement puis ajuster.',
-      wrong: ['Lire uniquement de la théorie pendant 3h.', 'Copier-coller sans comprendre.', 'Attendre la fin du module pour pratiquer.'],
-      explanation: 'La pratique rapide permet d’ancrer les notions et d’identifier les zones floues.',
-    },
-    {
-      question: 'Que faire en premier quand une commande échoue ?',
-      correct: 'Lire le message d’erreur complet et identifier le mot-clé principal.',
-      wrong: ['Relancer la même commande 10 fois.', 'Ignorer stderr et continuer.', 'Supprimer des fichiers au hasard.'],
-      explanation: 'Le message d’erreur contient souvent la cause exacte.',
-    },
-    {
-      question: 'Quelle habitude aide le plus à progresser vite ?',
-      correct: 'Faire des itérations courtes: test, correction, re-test.',
-      wrong: ['Écrire tout le code d’un coup sans tester.', 'Changer 20 choses à la fois.', 'Ne jamais vérifier le résultat.'],
-      explanation: 'Les boucles courtes réduisent les erreurs et accélèrent l’apprentissage.',
-    },
-    {
-      question: 'Face à un bug, quelle stratégie est la plus solide ?',
-      correct: 'Isoler le problème avec un exemple minimal reproductible.',
-      wrong: ['Réécrire tout le projet directement.', 'Modifier uniquement le CSS.', 'Désactiver les logs pour aller plus vite.'],
-      explanation: 'Un cas minimal permet de trouver la cause racine.',
-    },
-    {
-      question: 'Comment valider qu’une correction est fiable ?',
-      correct: 'Comparer avant/après et vérifier le résultat attendu.',
-      wrong: ['Se fier uniquement à l’intuition.', 'Éviter de re-tester par peur de casser.', 'Considérer que “ça doit marcher”.'],
-      explanation: 'La validation explicite évite les faux positifs.',
-    },
-    {
-      question: 'Quel comportement améliore le plus la compréhension ?',
-      correct: 'Expliquer à voix haute ce que fait chaque étape.',
-      wrong: ['Aller le plus vite possible sans réfléchir.', 'Ignorer les détails de syntaxe.', 'Faire confiance au hasard.'],
-      explanation: 'L’explication active révèle les zones non comprises.',
-    },
-    {
-      question: 'Que faire si une piste ne marche pas ?',
-      correct: 'Revenir au dernier état stable et tester une nouvelle hypothèse.',
-      wrong: ['Empiler des changements non liés.', 'Supprimer des dossiers système.', 'Arrêter le module directement.'],
-      explanation: 'Revenir à un état stable permet de garder un diagnostic propre.',
-    },
+const buildFallbackQuiz = (chapter: Chapter): QuizPayload => {
+  const chapterTitle = chapter.title;
+  const fingerprint = `${chapter.id} ${chapter.title} ${chapter.subtitle} ${chapter.theory}`.toLowerCase();
+
+  const seed = (
+    question: string,
+    correct: string,
+    wrong: string[],
+    explanation: string
+  ) => ({ question, correct, wrong, explanation });
+
+  const isLinux = /linux|bash|shell|unix|kernel/.test(fingerprint);
+  const isDocker = /docker|container|kubernetes|kubectl/.test(fingerprint);
+  const isSql = /sql|database|mysql|postgres|query|join/.test(fingerprint);
+  const isSecurity = /sécurité|security|xss|csrf|injection|owasp|auth/.test(fingerprint);
+  const isReact = /react|jsx|hooks|component|useeffect|usestate/.test(fingerprint);
+  const isJs = /javascript|es6|async|promise|node/.test(fingerprint);
+
+  let seeds = [
+    seed(
+      `Pour réussir le module "${chapterTitle}", quelle méthode est la plus efficace ?`,
+      'Faire une boucle courte: comprendre, pratiquer, valider.',
+      ['Lire passivement sans pratique.', 'Copier-coller sans vérifier.', 'Attendre la fin du module pour tester.'],
+      'La progression durable vient de l’alternance théorie + pratique + validation.'
+    ),
+    seed(
+      'Face à une erreur technique, quelle est la première action saine ?',
+      'Lire précisément le message et isoler la cause probable.',
+      ['Modifier 10 fichiers en même temps.', 'Relancer au hasard.', 'Ignorer les logs.'],
+      'L’isolation de cause évite les corrections aveugles.'
+    ),
+    seed(
+      'Quand une correction semble fonctionner, que faut-il faire ?',
+      'Re-tester avec un cas nominal et un cas limite.',
+      ['Passer au chapitre suivant immédiatement.', 'Supposer que tout est réglé.', 'Désactiver les validations.'],
+      'Une correction fiable prouve aussi la non-régression.'
+    ),
+    seed(
+      'Quel comportement améliore le plus la maîtrise ?',
+      'Expliquer votre démarche à l’écrit ou à voix haute.',
+      ['Aller vite sans documenter.', 'Éviter les retours d’erreur.', 'Changer la cible du problème.'],
+      'La reformulation structure votre compréhension technique.'
+    ),
+    seed(
+      'Comment progresser vite sans se perdre ?',
+      'Découper en micro-objectifs validables.',
+      ['Faire tout d’un coup.', 'Ne garder aucune trace.', 'Tester une seule fois en fin de module.'],
+      'Les micro-objectifs réduisent la charge cognitive et accélèrent le diagnostic.'
+    ),
+    seed(
+      'Quel est le signe d’une vraie compétence ?',
+      'Pouvoir reproduire, expliquer et adapter la solution.',
+      ['Connaître juste une commande.', 'Avoir mémorisé une seule réponse.', 'Obtenir un résultat une fois par chance.'],
+      'La compétence implique robustesse, transfert et explicabilité.'
+    ),
   ];
+
+  if (isLinux) {
+    seeds = [
+      seed('Quelle commande affiche le répertoire courant ?', 'pwd', ['cd', 'ls', 'whoami'], 'pwd indique où vous êtes avant toute action.'),
+      seed('Quelle commande liste les fichiers cachés aussi ?', 'ls -la', ['ls -x', 'dir /a', 'cat .'], 'ls -la est la base pour auditer rapidement un dossier.'),
+      seed('Quel principe est central sous Linux ?', 'Tout est fichier', ['Tout est service', 'Tout est variable', 'Tout est processus root'], 'Ce principe explique beaucoup de comportements système.'),
+      seed('Comment modifier les permissions d’un script exécutable ?', 'chmod 755 script.sh', ['chown 755 script.sh', 'perm +x script.sh', 'mode 755 script.sh'], 'chmod contrôle les droits Unix.'),
+      seed('Quel réflexe évite des suppressions dangereuses ?', 'Vérifier le chemin courant avec pwd avant rm', ['Toujours utiliser sudo rm', 'Supprimer d’abord, vérifier ensuite', 'Désactiver le shell'], 'La vérification de contexte prévient les erreurs fatales.'),
+      seed('Quelle commande aide à lire un fichier de config rapidement ?', 'cat fichier.conf', ['open fichier.conf', 'exec fichier.conf', 'run fichier.conf'], 'cat est utile pour un aperçu immédiat.'),
+    ];
+  } else if (isDocker) {
+    seeds = [
+      seed('Différence clé image vs conteneur ?', 'Image = modèle, conteneur = instance en exécution', ['Image = VM complète', 'Conteneur = fichier zip', 'Aucune différence'], 'Comprendre cette différence évite les confusions de build/run.'),
+      seed('Commande pour voir les conteneurs actifs ?', 'docker ps', ['docker ls active', 'docker status', 'docker list --running'], 'docker ps donne l’état runtime.'),
+      seed('Instruction Dockerfile qui définit l’image de base ?', 'FROM', ['BASE', 'IMAGE', 'START'], 'FROM initialise la couche fondatrice.'),
+      seed('Pourquoi séparer COPY package.json et COPY . ?', 'Optimiser le cache de build', ['Réduire le réseau', 'Activer sudo', 'Créer plusieurs conteneurs'], 'Le cache accélère fortement les rebuilds.'),
+      seed('Quel est un bon pattern sécurité conteneur ?', 'Éviter de lancer en root', ['Toujours privilégier root', 'Ouvrir tous les ports', 'Désactiver les logs'], 'Le principe de moindre privilège réduit les risques.'),
+      seed('Commande pour voir les logs d’un conteneur ?', 'docker logs <id>', ['docker watch <id>', 'docker output <id>', 'docker cat <id>'], 'Les logs sont la base du diagnostic.'),
+    ];
+  } else if (isSql) {
+    seeds = [
+      seed('Rôle principal de SELECT ?', 'Lire des données selon des critères', ['Supprimer la table', 'Créer des index uniquement', 'Changer les droits OS'], 'SELECT sert à interroger les données.'),
+      seed('Pourquoi utiliser des requêtes paramétrées ?', 'Prévenir l’injection SQL', ['Accélérer le CPU', 'Augmenter la RAM', 'Remplacer les index'], 'La séparation requête/valeur neutralise les entrées malveillantes.'),
+      seed('INNER JOIN retourne quoi ?', 'Les enregistrements présents dans les deux tables', ['Toute la table de gauche', 'Toute la table de droite', 'Seulement les NULL'], 'INNER JOIN garde les correspondances communes.'),
+      seed('Quel mot-clé regroupe des résultats agrégés ?', 'GROUP BY', ['ORDER BY', 'LIMIT', 'DISTINCT ONLY'], 'GROUP BY structure les agrégations par clé.'),
+      seed('Quand créer un index ?', 'Sur des colonnes souvent filtrées/jointes', ['Sur toutes les colonnes sans distinction', 'Jamais', 'Seulement sur les colonnes texte longues'], 'Un bon index améliore les requêtes critiques.'),
+      seed('Que garantit une transaction ?', 'Atomicité et cohérence d’un ensemble d’actions', ['Compression des tables', 'Suppression des verrous', 'Suppression des contraintes'], 'Les transactions sécurisent les opérations sensibles.'),
+    ];
+  } else if (isSecurity) {
+    seeds = [
+      seed('Mesure clé contre SQL injection ?', 'Requêtes paramétrées', ['Concaténation dynamique brute', 'Désactiver les erreurs', 'Limiter les logs'], 'Les paramètres empêchent l’exécution d’input comme code SQL.'),
+      seed('Le XSS vise principalement ?', 'Le navigateur des utilisateurs', ['Le disque dur serveur', 'Le BIOS', 'Le compilateur'], 'Un script injecté peut voler session/cookies côté client.'),
+      seed('Protection centrale contre CSRF ?', 'Token CSRF + SameSite cookies', ['Masquer les URLs', 'Changer le thème', 'Désactiver HTTPS'], 'Le token relie la requête à une session légitime.'),
+      seed('Principe de moindre privilège signifie ?', 'Donner uniquement les droits nécessaires', ['Donner admin pour éviter les erreurs', 'Éviter l’authentification', 'Tout ouvrir en dev et prod'], 'Moins de droits = moins de surface d’attaque.'),
+      seed('Pourquoi HTTPS est indispensable ?', 'Chiffrer et authentifier les échanges', ['Accélérer JS', 'Remplacer le pare-feu', 'Supprimer les cookies'], 'TLS protège confidentialité et intégrité.'),
+      seed('Quelle pratique améliore la détection d’incidents ?', 'Logs structurés + monitoring', ['Supprimer les logs pour performance', 'Ignorer les alertes faibles', 'Cacher les erreurs'], 'Sans observabilité, pas de réponse incident fiable.'),
+    ];
+  } else if (isReact) {
+    seeds = [
+      seed('Rôle de useState ?', 'Gérer l’état local d’un composant', ['Faire des requêtes SQL', 'Compiler le JSX', 'Créer des routes serveur'], 'useState déclenche un rerender sur mise à jour.'),
+      seed('Quand utiliser useEffect ?', 'Pour gérer les effets de bord', ['Pour déclarer des types', 'Pour styler le DOM directement', 'Pour remplacer JSX'], 'Effets = fetch, subscriptions, timers, etc.'),
+      seed('Pourquoi une clé stable dans une liste ?', 'Aider React à réconcilier correctement', ['Accélérer le CSS', 'Éviter TypeScript', 'Supprimer le state'], 'Une clé stable évite des bugs de rendu.'),
+      seed('React favorise quel style de conception ?', 'Composants petits et réutilisables', ['Fichier unique géant', 'Logique globale mutable', 'Manipulation DOM brute partout'], 'La modularité simplifie maintenance et tests.'),
+      seed('Quand utiliser useMemo/useCallback ?', 'Quand un calcul/fonction coûte cher ou stable est requis', ['Toujours, sans réflexion', 'Jamais', 'Seulement en backend'], 'Ces hooks optimisent sous conditions précises.'),
+      seed('Objectif d’un composant contrôlé dans un formulaire ?', 'Lier la valeur d’input à l’état React', ['Éviter les événements', 'Supprimer onChange', 'Gérer l’état côté CSS'], 'Le contrôle explicite fiabilise la validation UX.'),
+    ];
+  } else if (isJs) {
+    seeds = [
+      seed('Avantage majeur de async/await ?', 'Rendre l’asynchrone plus lisible et maintenable', ['Remplacer toutes les erreurs', 'Supprimer les Promises', 'Augmenter automatiquement les performances'], 'Lisibilité = moins de bugs de flux.'),
+      seed('Différence clé let/const vs var ?', 'let/const ont une portée de bloc', ['Aucune', 'let est global', 'var est immutable'], 'La portée bloc réduit des effets de bord.'),
+      seed('Quand utiliser map ?', 'Transformer chaque élément d’un tableau', ['Filtrer un tableau', 'Trouver un index', 'Muter toujours l’original'], 'map retourne un nouveau tableau transformé.'),
+      seed('Pourquoi éviter callback hell ?', 'Complexité et difficulté de debug', ['Parce que JS ne supporte pas les callbacks', 'Parce que Promise est plus lente', 'Parce que React l’interdit'], 'La structure de flux impacte fortement la maintenabilité.'),
+      seed('Objectif des modules ES ?', 'Organiser et isoler le code', ['Compiler du Rust', 'Créer des index SQL', 'Remplacer npm'], 'Imports/exports clarifient les dépendances.'),
+      seed('Que signifie une bonne gestion d’erreur asynchrone ?', 'Traiter les échecs explicitement (try/catch)', ['Ignorer les rejets Promise', 'Relancer infiniment', 'Masquer les erreurs'], 'Les erreurs contrôlées évitent les comportements imprévisibles.'),
+    ];
+  }
 
   const selected = shuffleArray(seeds).slice(0, QUIZ_QUESTION_COUNT);
   const questions: QuizQuestion[] = selected.map((seed) => {
@@ -1863,8 +1930,11 @@ const App: React.FC = () => {
       let nextQuiz: QuizPayload | null = null;
 
       if (!isWebDemoPreview && canUseTauriInvoke) {
+        const theoryContext = stripMarkdownSyntax(chapter.theory || '').slice(0, 2200);
+        const codeSnippet = chapter.codeExample?.code ? chapter.codeExample.code.slice(0, 700) : '';
+
         const prompt = [
-          'Génère un QCM amusant et aléatoire pour un apprenant débutant/intermédiaire.',
+          'Génère un QCM amusant ET strictement centré sur le cours demandé.',
           'Format STRICT JSON uniquement, sans markdown, sans texte avant/après.',
           `Nombre de questions: ${QUIZ_QUESTION_COUNT}`,
           'Schéma:',
@@ -1874,8 +1944,15 @@ const App: React.FC = () => {
           '- 4 options par question',
           '- une seule bonne réponse',
           '- answerIndex basé sur index 0',
+          '- les questions doivent être spécifiques au chapitre et pas génériques',
+          '- intégrer des points vus dans le contenu et/ou l’exemple de code',
           `Module: ${chapter.title}`,
+          `Sous-titre: ${chapter.subtitle}`,
+          `Niveau: ${chapter.difficulty}`,
+          `Durée: ${chapter.duration}`,
           `Contexte: ${chapterContextText(chapter)}`,
+          `Extrait du cours: ${theoryContext}`,
+          codeSnippet ? `Extrait code (${chapter.codeExample.language}):\n${codeSnippet}` : '',
         ].join('\n');
 
         const response = await invoke<BackendResult<string>>('ask_local_ai_with_context', {
@@ -1892,7 +1969,7 @@ const App: React.FC = () => {
       }
 
       if (!nextQuiz) {
-        nextQuiz = buildFallbackQuiz(chapter.title);
+        nextQuiz = buildFallbackQuiz(chapter);
       }
 
       setQuizPayload(nextQuiz);
@@ -1902,7 +1979,7 @@ const App: React.FC = () => {
       });
     } catch (error) {
       console.error('Erreur génération QCM:', error);
-      setQuizPayload(buildFallbackQuiz(chapter.title));
+      setQuizPayload(buildFallbackQuiz(chapter));
       setQuizChapterId(chapter.id);
       toast.error('QCM IA indisponible, version locale générée.');
     } finally {
