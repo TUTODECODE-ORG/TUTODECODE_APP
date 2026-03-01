@@ -584,6 +584,54 @@ fn enforce_windows_terminal_content(content: &str) -> String {
     normalized
 }
 
+fn ensure_ticket_seed_files(
+    scenario_dir: &Path,
+    ticket_id: &str,
+    chapter_id: &str,
+    chapter_title: &str,
+    lang: &str,
+    ext: &str,
+) -> Result<(), String> {
+    fs::create_dir_all(scenario_dir).map_err(|e| e.to_string())?;
+
+    let readme = scenario_dir.join("README.md");
+    let mission = scenario_dir.join("MISSION.md");
+    let starter = scenario_dir.join(format!("starter_solution.{}", ext));
+
+    if !readme.exists() {
+        let mut content = format!(
+            "# Ticket de mise en situation\n\n- Ticket: {}\n- Cours: {}\n- ID cours: {}\n\nObjectif: résoudre le problème dans ce dossier puis soumettre votre correction dans l'application.",
+            ticket_id, chapter_title, chapter_id
+        );
+        if cfg!(target_os = "windows") {
+            content = enforce_windows_terminal_content(&content);
+        }
+        fs::write(&readme, content).map_err(|e| e.to_string())?;
+    }
+
+    if !mission.exists() {
+        let mut content = format!(
+            "# Mission\n\nUn bug bloque ce module ({chapter_title}).\n\n1. Analysez les fichiers de scénario.\n2. Corrigez le code dans `starter_solution.{ext}`.\n3. Utilisez le terminal intégré de l'app (PowerShell/CMD sur Windows).\n4. Ajoutez un court résumé de votre démarche dans l'app pour validation IA."
+        );
+        if cfg!(target_os = "windows") {
+            content = enforce_windows_terminal_content(&content);
+        }
+        fs::write(&mission, content).map_err(|e| e.to_string())?;
+    }
+
+    if !starter.exists() {
+        let mut content = format!(
+            "// Langage cible: {lang}\n// TODO: corrigez ici le problème demandé par le ticket {ticket_id}\n\n// Astuce: démontrez le correctif avec un test, un log, ou une preuve d'exécution.\n"
+        );
+        if cfg!(target_os = "windows") {
+            content = enforce_windows_terminal_content(&content);
+        }
+        fs::write(&starter, content).map_err(|e| e.to_string())?;
+    }
+
+    Ok(())
+}
+
 async fn analyze_ticket_with_ai(
     chapter_id: &str,
     chapter_title: &str,
@@ -1080,6 +1128,16 @@ fn create_course_ticket(
             .find(|t| t.chapter_id == chapter_id && t.status != "resolved");
 
         if let Some(ticket) = existing {
+            let (_lang, ext) = language_from_course(&chapter_id, &chapter_title);
+            let scenario_dir = Path::new(&ticket.scenario_dir);
+            ensure_ticket_seed_files(
+                scenario_dir,
+                &ticket.id,
+                &chapter_id,
+                &chapter_title,
+                _lang,
+                ext,
+            )?;
             return Ok(ticket);
         }
 
@@ -1131,6 +1189,15 @@ fn create_course_ticket(
         fs::write(&readme, readme_content).map_err(|e| e.to_string())?;
         fs::write(&mission, mission_content).map_err(|e| e.to_string())?;
         fs::write(&starter, starter_content).map_err(|e| e.to_string())?;
+
+        ensure_ticket_seed_files(
+            &scenario_dir,
+            &ticket_id,
+            &chapter_id,
+            &chapter_title,
+            lang,
+            ext,
+        )?;
 
         let now = current_timestamp();
         let ticket = CourseTicket {
