@@ -69,7 +69,7 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
   };
 
   const openGitHub = () => {
-    window.open('https://github.com/tutodecode/app/releases', '_blank');
+    window.open('https://github.com/TUTODECODE-ORG/TUTODECODE_APP', '_blank');
   };
 
   const openDemo = () => {

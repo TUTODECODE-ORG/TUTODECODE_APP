@@ -31,7 +31,9 @@ import {
   Download,
   Home,
   FolderOpen,
-  BellRing
+  BellRing,
+  Github,
+  ExternalLink
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -1047,7 +1049,16 @@ const HomePage = memo<HomePageProps>(({ chapters, completedChapters, onSelectCha
             © 2026 TutoDeCode. Tous droits réservés.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-sm text-[var(--td-text-secondary)] hover:text-[var(--td-text-primary)] transition-colors">GitHub</a>
+            <a 
+              href="https://github.com/TUTODECODE-ORG/TUTODECODE_APP" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-sm text-[var(--td-text-secondary)] hover:text-[var(--td-primary)] transition-colors"
+            >
+              <Github className="w-4 h-4" />
+              GitHub
+              <ExternalLink className="w-3 h-3 opacity-50" />
+            </a>
             <a href="#" className="text-sm text-[var(--td-text-secondary)] hover:text-[var(--td-text-primary)] transition-colors">Discord</a>
             <a href="#" className="text-sm text-[var(--td-text-secondary)] hover:text-[var(--td-text-primary)] transition-colors">Documentation</a>
           </div>
