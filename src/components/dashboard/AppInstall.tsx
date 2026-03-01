@@ -16,8 +16,7 @@ import {
   Bot,
   RefreshCw,
   Code2,
-  FileCode,
-  Info
+  FileCode
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -91,7 +90,7 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
             Devenez développeur avec TutoDeCode Pro
           </h2>
           <p className="text-lg text-[var(--td-text-secondary)] max-w-2xl mx-auto leading-relaxed">
-            L'app desktop qui vous guide pas à pas : <span className="text-[var(--td-primary)] font-medium">parcours structurés</span>, <span className="text-[var(--td-primary)] font-medium">IA mentor</span> pour corriger vos projets, et <span className="text-[var(--td-primary)] font-medium">tickets de missions</span> pour coder comme un pro.
+            Apprenez à coder avec des <span className="text-[var(--td-primary)] font-medium">cours structurés</span>, des <span className="text-[var(--td-primary)] font-medium">QCM intégrés</span>, et une <span className="text-[var(--td-primary)] font-medium">IA mentor locale</span> (Ollama) pour vous aider sans envoyer vos données sur le cloud.
           </p>
           <div className="flex items-center justify-center gap-6 mt-6 text-sm text-[var(--td-text-tertiary)]">
             <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" />100% Gratuit</span>
@@ -190,28 +189,6 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
                   <p className="text-xs text-[var(--td-text-secondary)] mt-3 text-center">
                     Installateur MSI officiel • ~50 MB • Licence AGPL-3.0
                   </p>
-                  
-                  {/* SmartScreen Info */}
-                  <div className="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
-                    <div className="flex items-start gap-2">
-                      <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                      <div className="text-xs text-amber-200/80">
-                        <p className="font-medium text-amber-300 mb-1">Windows SmartScreen</p>
-                        <p>L'app n'est pas signée (coût de 400€/an). Si Windows affiche un avertissement, cliquez « Plus d'infos » → « Exécuter quand même ». Le code source est vérifiable sur GitHub.</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Winget Info */}
-                  <div className="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                    <div className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
-                      <div className="text-xs text-cyan-200/80">
-                        <p className="font-medium text-cyan-300 mb-1">Bientôt sur Winget</p>
-                        <p>Nous sommes en cours de soumission au <a href="https://github.com/microsoft/winget-pkgs" target="_blank" rel="noopener noreferrer" className="underline hover:text-cyan-300">Windows Package Manager</a> (le « apt » de Windows). Une fois validé par Microsoft, l'app sera reconnue comme partenaire officiel et installable via <code className="px-1 py-0.5 bg-cyan-500/20 rounded text-cyan-300">winget install TutoDeCode</code>.</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 {/* GitHub Releases */}
