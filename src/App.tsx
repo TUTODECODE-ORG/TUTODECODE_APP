@@ -2162,7 +2162,7 @@ const App: React.FC = () => {
               </div>
 
               {quizPayload && (
-                <div className="mt-3 space-y-3">
+                <div className="mt-3 space-y-3 max-h-[42vh] overflow-y-auto pr-1">
                   {quizPayload.questions.map((question, questionIndex) => (
                     <div key={`${questionIndex}-${question.question.slice(0, 20)}`} className="rounded-lg border border-[var(--td-border)] bg-[var(--td-bg-primary)] p-3">
                       <p className="text-sm font-medium text-[var(--td-text-primary)] mb-2">
@@ -2338,7 +2338,7 @@ const App: React.FC = () => {
         )}
 
         {/* Main Content */}
-        <div ref={mainContentRef} className="flex-1 min-h-0 relative overflow-hidden bg-[var(--td-bg-primary)]">
+        <div ref={mainContentRef} className="flex-1 min-h-0 relative overflow-y-auto overflow-x-hidden bg-[var(--td-bg-primary)]">
           <Suspense fallback={
             <div className="flex flex-col items-center justify-center h-full gap-3">
               <div className="w-8 h-8 border-2 border-[var(--td-primary)]/30 border-t-[var(--td-primary)] animate-spin" />
