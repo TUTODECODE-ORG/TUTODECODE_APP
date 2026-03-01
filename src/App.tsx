@@ -332,6 +332,20 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
   const keywords = Array.isArray(course?.keywords) ? course.keywords.filter(Boolean) : [];
   const keyA = keywords[0] || 'concept principal';
   const keyB = keywords[1] || 'mise en pratique';
+  const courseTitle = course?.title || 'ce module';
+
+  const narrativeIntro = [
+    '### Mise en situation vivante',
+    `Imaginez que vous êtes responsable de **${courseTitle}** sur un vrai projet: délai court, bug réel, et une équipe qui attend une solution fiable.`,
+    `Ce bloc (${title}) représente le moment où vous passez de “je connais la théorie” à “je peux agir sous contrainte et livrer proprement”.`,
+    `Votre avantage ici: transformer **${keyA}** en réflexe concret, puis renforcer **${keyB}** jusqu’à pouvoir expliquer vos choix avec confiance.`,
+  ].join('\n');
+
+  const analogySection = [
+    '### Analogie pour retenir vite',
+    `Pensez à ce bloc comme à une séquence d’atelier: vous préparez vos outils (contexte), vous exécutez le geste technique (commande/code), puis vous contrôlez la qualité (validation).`,
+    'Si une étape est sautée, le résultat peut sembler correct au début mais casser en production. L’objectif est donc la maîtrise, pas la chance.',
+  ].join('\n');
 
   const commandPlan = objectives.length > 0
     ? objectives.slice(0, 3).map((item: any, itemIndex: number) => {
@@ -361,9 +375,22 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
 
     const realWorldScenario = [
       '### Cas concret terrain',
-      `Contexte: vous devez intervenir sur **${course?.title || 'ce module'}** dans un environnement réel (projet, VM, serveur ou app locale).`,
+      `Contexte: vous devez intervenir sur **${courseTitle}** dans un environnement réel (projet, VM, serveur ou app locale).`,
       `Mission: appliquer **${title}** pour résoudre un besoin concret sans casser l’existant.`,
       'Attendu: une preuve mesurable (sortie de commande, résultat applicatif, capture de logs ou validation fonctionnelle).',
+    ].join('\n');
+
+    const beforeAfterSection = [
+      '### Avant / Après (impact réel)',
+      '- **Avant**: actions hésitantes, debug lent, décisions techniques difficiles à justifier.',
+      '- **Après**: méthode claire, correction rapide, communication technique propre et argumentée.',
+      'C’est exactement cette transition qui fait passer d’un niveau “débutant assisté” à un niveau “pro autonome”.',
+    ].join('\n');
+
+    const motivationSection = [
+      '### Pourquoi ça change votre niveau',
+      'Ce bloc n’est pas juste une information de plus: c’est une compétence transférable dans vos projets perso, en stage, en freelance ou en entreprise.',
+      'Quand vous maîtrisez cette partie, vous gagnez en vitesse, en fiabilité et en crédibilité technique.',
     ].join('\n');
 
     const expertQuestions = [
@@ -383,6 +410,10 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
   return [
     `## Bloc ${index + 1} — ${title} (${duration})`,
     '',
+    narrativeIntro,
+    '',
+    analogySection,
+    '',
     '### Pourquoi ce bloc est important',
     `Ce bloc vous fait passer de la compréhension théorique à la compétence opérationnelle sur **${keyA}** et **${keyB}**.`,
     'L’objectif est de savoir non seulement “faire fonctionner”, mais aussi **expliquer**, **déboguer** et **améliorer**.',
@@ -396,6 +427,8 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
     codeExplanation,
     '',
     realWorldScenario,
+    '',
+    beforeAfterSection,
     '',
     '### Erreurs fréquentes à éviter',
     '- Aller trop vite et modifier plusieurs choses en même temps.',
@@ -416,6 +449,8 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
     expertQuestions,
     '',
     eliteMission,
+    '',
+    motivationSection,
   ].join('\n');
 };
 
