@@ -774,6 +774,7 @@ const App: React.FC = () => {
   const [desktopNews, setDesktopNews] = useState<string[]>([]);
   const [privacyNotice, setPrivacyNotice] = useState<string>('Aucune donnée personnelle n’est collectée pendant la synchronisation des contenus.');
   const [lastSyncedAt, setLastSyncedAt] = useState<number | null>(null);
+  const [hasPromptedLabSetup, setHasPromptedLabSetup] = useState(false);
   
   // Nouvelles vues
   const [currentView, setCurrentView] = useState<AppView>('home');
@@ -957,10 +958,12 @@ const App: React.FC = () => {
     };
   }, [canUseTauriInvoke, applyDesktopSyncPayload]);
 
-  const ensureLabWorkspace = useCallback(async (): Promise<CourseLabWorkspace | null> => {
+  const ensureLabWorkspace = useCallback(async (options?: { showCancelToast?: boolean }): Promise<CourseLabWorkspace | null> => {
     if (!canUseTauriInvoke) {
       return null;
     }
+
+    const showCancelToast = options?.showCancelToast ?? true;
 
     const existing = await loadWorkspaceConfig();
     if (existing) return existing;
@@ -973,7 +976,9 @@ const App: React.FC = () => {
       });
 
       if (!selected || Array.isArray(selected)) {
-        toast.error('Sélection dossier annulée. Impossible de lancer la mise en situation.');
+        if (showCancelToast) {
+          toast.error('Sélection dossier annulée. Impossible de lancer la mise en situation.');
+        }
         return null;
       }
 
@@ -1086,6 +1091,22 @@ const App: React.FC = () => {
   }, [canUseTauriInvoke, loadWorkspaceConfig, userId, getChapterById, curriculum]);
 
   useEffect(() => {
+    if (!canUseTauriInvoke || isLoading || hasPromptedLabSetup) return;
+
+    if (labWorkspace) {
+      setHasPromptedLabSetup(true);
+      return;
+    }
+
+    setHasPromptedLabSetup(true);
+    toast.info('Configuration initiale du lab', {
+      description: 'Choisissez le dossier de mise en situation pour les tickets pratiques.',
+    });
+
+    void ensureLabWorkspace({ showCancelToast: false });
+  }, [canUseTauriInvoke, isLoading, hasPromptedLabSetup, labWorkspace, ensureLabWorkspace]);
+
+  useEffect(() => {
     if (curriculum.length === 0) return;
     if (!curriculum.some((chapter) => chapter.id === currentChapterId)) {
       setCurrentChapterId(curriculum[0].id);
@@ -1182,10 +1203,7 @@ const App: React.FC = () => {
   // HANDLERS
   // ============================================
   const handleSelectChapter = useCallback(async (chapterId: string) => {
-    if (canUseTauriInvoke) {
-      const workspace = await ensureLabWorkspace();
-      if (!workspace) return;
-    } else {
+    if (!canUseTauriInvoke) {
       setActiveTicket(null);
     }
 
@@ -1203,7 +1221,7 @@ const App: React.FC = () => {
     if (canUseTauriInvoke) {
       await loadOpenTicketForChapter(chapterId);
     }
-  }, [canUseTauriInvoke, ensureLabWorkspace, loadOpenTicketForChapter, scrollMainToTop]);
+  }, [canUseTauriInvoke, loadOpenTicketForChapter, scrollMainToTop]);
 
   const handleFinishCourse = useCallback(async (chapterId: string) => {
     const chapter = getChapterById(chapterId);
