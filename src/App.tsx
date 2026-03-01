@@ -1106,6 +1106,7 @@ const App: React.FC = () => {
   const [isRequestingHelp, setIsRequestingHelp] = useState(false);
   const [isSubmittingTicket, setIsSubmittingTicket] = useState(false);
   const [quizPayload, setQuizPayload] = useState<QuizPayload | null>(null);
+  const [quizChapterId, setQuizChapterId] = useState<string | null>(null);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   const [isGeneratingQuiz, setIsGeneratingQuiz] = useState(false);
@@ -1572,6 +1573,7 @@ const App: React.FC = () => {
 
   const generateQuizForChapter = useCallback(async (chapter: Chapter) => {
     setIsGeneratingQuiz(true);
+    setQuizChapterId(chapter.id);
     setQuizResult(null);
     setQuizAnswers({});
 
@@ -1612,12 +1614,14 @@ const App: React.FC = () => {
       }
 
       setQuizPayload(nextQuiz);
+      setQuizChapterId(chapter.id);
       toast.success('QCM généré', {
         description: 'Un nouveau QCM aléatoire est prêt.',
       });
     } catch (error) {
       console.error('Erreur génération QCM:', error);
       setQuizPayload(buildFallbackQuiz(chapter.title));
+      setQuizChapterId(chapter.id);
       toast.error('QCM IA indisponible, version locale générée.');
     } finally {
       setIsGeneratingQuiz(false);
@@ -1823,18 +1827,11 @@ const App: React.FC = () => {
     }
   }, [currentChapterId, canUseTauriInvoke, loadOpenTicketForChapter, quizModeEnabled]);
 
-  useEffect(() => {
-    if (!quizModeEnabled) return;
-    if (currentView !== 'course') return;
-    if (showHomePage) return;
-    if (!currentChapter) return;
-    void generateQuizForChapter(currentChapter);
-  }, [quizModeEnabled, currentView, showHomePage, currentChapter, generateQuizForChapter]);
-
-  const answeredQuizCount = Object.keys(quizAnswers).length;
-  const totalQuizQuestions = quizPayload?.questions.length ?? 0;
+  const currentQuizPayload = currentChapter && quizChapterId === currentChapter.id ? quizPayload : null;
+  const answeredQuizCount = currentQuizPayload ? Object.keys(quizAnswers).length : 0;
+  const totalQuizQuestions = currentQuizPayload?.questions.length ?? 0;
   const canSubmitQuiz = Boolean(
-    quizPayload &&
+    currentQuizPayload &&
     !isGeneratingQuiz &&
     !quizResult &&
     answeredQuizCount === totalQuizQuestions
@@ -2211,7 +2208,7 @@ const App: React.FC = () => {
                       QCM IA aléatoire · {currentChapter.title}
                     </p>
                     <p className="text-xs text-[var(--td-text-secondary)] mt-0.5">
-                      Nouveau quiz à chaque génération. Score minimum: {quizPayload?.passScore ?? QUIZ_PASS_SCORE_DEFAULT}%.
+                      Quiz généré uniquement pour ce module quand vous cliquez sur « J’ai fini le cours ». Score minimum: {currentQuizPayload?.passScore ?? QUIZ_PASS_SCORE_DEFAULT}%.
                     </p>
                   </div>
                 </div>
@@ -2227,9 +2224,9 @@ const App: React.FC = () => {
                 </Button>
               </div>
 
-              {quizPayload && (
+              {currentQuizPayload ? (
                 <div className="mt-3 space-y-3 max-h-[42vh] overflow-y-auto pr-1">
-                  {quizPayload.questions.map((question, questionIndex) => (
+                  {currentQuizPayload.questions.map((question, questionIndex) => (
                     <div key={`${questionIndex}-${question.question.slice(0, 20)}`} className="rounded-lg border border-[var(--td-border)] bg-[var(--td-bg-primary)] p-3">
                       <p className="text-sm font-medium text-[var(--td-text-primary)] mb-2">
                         Q{questionIndex + 1}. {question.question}
@@ -2272,7 +2269,7 @@ const App: React.FC = () => {
 
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <p className="text-xs text-[var(--td-text-tertiary)]">
-                      Répondu: {answeredQuizCount}/{quizPayload.questions.length}
+                      Répondu: {answeredQuizCount}/{currentQuizPayload.questions.length}
                     </p>
                     <Button
                       size="sm"
@@ -2280,7 +2277,7 @@ const App: React.FC = () => {
                       onClick={() => void submitQuiz()}
                       disabled={!canSubmitQuiz}
                     >
-                      {canSubmitQuiz ? 'Valider mon score' : `Répondez aux ${quizPayload.questions.length} questions`}
+                      {canSubmitQuiz ? 'Valider mon score' : `Répondez aux ${currentQuizPayload.questions.length} questions`}
                     </Button>
                   </div>
 
@@ -2299,6 +2296,12 @@ const App: React.FC = () => {
                       </p>
                     </div>
                   )}
+                </div>
+              ) : (
+                <div className="mt-3 rounded-lg border border-[var(--td-border)] bg-[var(--td-bg-primary)] p-3">
+                  <p className="text-xs text-[var(--td-text-secondary)]">
+                    Aucun QCM actif pour ce module. Cliquez sur « J’ai fini le cours » pour générer le QCM de ce chapitre uniquement.
+                  </p>
                 </div>
               )}
             </div>
