@@ -945,6 +945,7 @@ const App: React.FC = () => {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   const [isGeneratingQuiz, setIsGeneratingQuiz] = useState(false);
+  const [finishClickLockedByChapter, setFinishClickLockedByChapter] = useState<Record<string, boolean>>({});
   const [showBackToTop, setShowBackToTop] = useState(false);
   const mainContentRef = useRef<HTMLDivElement | null>(null);
   const [desktopAnnouncement, setDesktopAnnouncement] = useState<string>('');
@@ -1460,6 +1461,16 @@ const App: React.FC = () => {
   }, [canUseTauriInvoke, chapterContextText, isWebDemoPreview, ollamaModel]);
 
   const handleFinishCourse = useCallback(async (chapterId: string) => {
+    if (finishClickLockedByChapter[chapterId]) {
+      toast.info('Validation déjà lancée pour ce module.');
+      return;
+    }
+
+    setFinishClickLockedByChapter((prev) => ({
+      ...prev,
+      [chapterId]: true,
+    }));
+
     const chapter = getChapterById(chapterId);
     if (!chapter) {
       toast.error('Cours introuvable pour générer le ticket.');
@@ -1509,7 +1520,7 @@ const App: React.FC = () => {
     } finally {
       setIsGeneratingTicket(false);
     }
-  }, [canUseTauriInvoke, ensureLabWorkspace, createOrLoadTicketForChapter, chapterContextText, isWebDemoPreview, userId, getChapterById, quizModeEnabled, generateQuizForChapter]);
+  }, [canUseTauriInvoke, ensureLabWorkspace, createOrLoadTicketForChapter, chapterContextText, isWebDemoPreview, userId, getChapterById, quizModeEnabled, generateQuizForChapter, finishClickLockedByChapter]);
 
   const requestTicketHelp = useCallback(async () => {
     if (!activeTicket || !currentChapter) return;
@@ -2284,6 +2295,7 @@ const App: React.FC = () => {
                 onPrevious={handlePreviousChapter}
                 onFinishCourse={handleFinishCourse}
                 isCompleted={completedChapters.includes(currentChapter.id)}
+                isFinishLocked={Boolean(finishClickLockedByChapter[currentChapter.id])}
                 hasOpenTicket={quizModeEnabled ? false : Boolean(activeTicket && activeTicket.chapter_id === currentChapter.id && activeTicket.status !== 'resolved') || isGeneratingTicket}
               />
             )}

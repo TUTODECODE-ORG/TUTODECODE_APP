@@ -31,6 +31,7 @@ interface CourseEngineProps {
   onFinishCourse?: (chapterId: string) => void;
   isCompleted?: boolean;
   hasOpenTicket?: boolean;
+  isFinishLocked?: boolean;
   className?: string;
 }
 
@@ -402,6 +403,7 @@ export const CourseEngine = memo<CourseEngineProps>(({
   onFinishCourse,
   isCompleted = false,
   hasOpenTicket = false,
+  isFinishLocked = false,
   className
 }) => {
   const [isFocusMode, setIsFocusMode] = useState(false);
@@ -494,10 +496,10 @@ export const CourseEngine = memo<CourseEngineProps>(({
                 size="sm"
                 className="btn-primary"
                 onClick={() => onFinishCourse?.(chapter.id)}
-                disabled={hasOpenTicket}
+                disabled={hasOpenTicket || isFinishLocked}
               >
                 <CheckCircle2 className="w-4 h-4 mr-1" />
-                {hasOpenTicket ? 'Ticket déjà généré' : 'J’ai fini le cours'}
+                {hasOpenTicket ? 'Ticket déjà généré' : isFinishLocked ? 'Validation déjà lancée' : 'J’ai fini le cours'}
               </Button>
             )}
             
@@ -594,10 +596,10 @@ export const CourseEngine = memo<CourseEngineProps>(({
               <Button
                 className="btn-primary md:ml-auto"
                 onClick={() => onFinishCourse?.(chapter.id)}
-                disabled={hasOpenTicket}
+                disabled={hasOpenTicket || isFinishLocked}
               >
                 <CheckCircle2 className="w-4 h-4 mr-2" />
-                {hasOpenTicket ? 'Ticket déjà généré' : 'J’ai fini le cours'}
+                {hasOpenTicket ? 'Ticket déjà généré' : isFinishLocked ? 'Validation déjà lancée' : 'J’ai fini le cours'}
               </Button>
             )}
           </div>
