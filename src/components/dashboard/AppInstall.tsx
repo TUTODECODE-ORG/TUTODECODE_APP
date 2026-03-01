@@ -6,7 +6,6 @@
 import React from 'react';
 import { 
   Download, 
-  Monitor, 
   Shield, 
   CheckCircle2,
   ExternalLink,
@@ -166,8 +165,10 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
                 <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/15 to-indigo-600/15 border-2 border-blue-500/30 shadow-lg shadow-blue-500/10">
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-                        <Monitor className="w-5 h-5 text-white" />
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0078D4] to-[#00BCF2] flex items-center justify-center">
+                        <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                        </svg>
                       </div>
                       <div>
                         <span className="font-bold text-[var(--td-text-primary)] block">Windows</span>
