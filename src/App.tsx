@@ -114,6 +114,25 @@ interface TicketSubmitResult {
   generated_files?: string[];
 }
 
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  answerIndex: number;
+  explanation?: string;
+}
+
+interface QuizPayload {
+  questions: QuizQuestion[];
+  passScore?: number;
+}
+
+interface QuizResult {
+  score: number;
+  total: number;
+  passed: boolean;
+  passScore: number;
+}
+
 interface DesktopSyncCourseUpdate {
   id: string;
   title?: string;
@@ -229,6 +248,119 @@ const buildCurriculumFromCourses = (courses: typeof allCourses): Chapter[] => co
 });
 
 const defaultCurriculum: Chapter[] = buildCurriculumFromCourses(allCourses);
+
+const QUIZ_QUESTION_COUNT = 5;
+const QUIZ_PASS_SCORE_DEFAULT = 70;
+
+const stripCodeFences = (value: string): string => {
+  const trimmed = value.trim();
+  const fenceMatch = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  if (fenceMatch?.[1]) {
+    return fenceMatch[1].trim();
+  }
+  return trimmed;
+};
+
+const shuffleArray = <T,>(items: T[]): T[] => {
+  const clone = [...items];
+  for (let i = clone.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [clone[i], clone[j]] = [clone[j], clone[i]];
+  }
+  return clone;
+};
+
+const parseAiQuizPayload = (raw: string): QuizPayload | null => {
+  try {
+    const parsed = JSON.parse(stripCodeFences(raw));
+    const questions = Array.isArray(parsed?.questions) ? parsed.questions : [];
+    const normalizedQuestions: QuizQuestion[] = questions
+      .map((item: any) => ({
+        question: String(item?.question || '').trim(),
+        options: Array.isArray(item?.options) ? item.options.map((opt: any) => String(opt).trim()).filter(Boolean) : [],
+        answerIndex: Number(item?.answerIndex),
+        explanation: item?.explanation ? String(item.explanation) : undefined,
+      }))
+      .filter((item: QuizQuestion) => item.question.length > 0 && item.options.length >= 2 && Number.isInteger(item.answerIndex) && item.answerIndex >= 0 && item.answerIndex < item.options.length)
+      .slice(0, QUIZ_QUESTION_COUNT);
+
+    if (normalizedQuestions.length < 3) {
+      return null;
+    }
+
+    const passScore = Number(parsed?.passScore);
+    return {
+      questions: normalizedQuestions,
+      passScore: Number.isFinite(passScore) && passScore >= 0 && passScore <= 100 ? passScore : QUIZ_PASS_SCORE_DEFAULT,
+    };
+  } catch {
+    return null;
+  }
+};
+
+const buildFallbackQuiz = (chapterTitle: string): QuizPayload => {
+  const seeds = [
+    {
+      question: `Pour débuter le module "${chapterTitle}", quelle approche est la plus efficace ?`,
+      correct: 'Faire un mini test pratique immédiatement puis ajuster.',
+      wrong: ['Lire uniquement de la théorie pendant 3h.', 'Copier-coller sans comprendre.', 'Attendre la fin du module pour pratiquer.'],
+      explanation: 'La pratique rapide permet d’ancrer les notions et d’identifier les zones floues.',
+    },
+    {
+      question: 'Que faire en premier quand une commande échoue ?',
+      correct: 'Lire le message d’erreur complet et identifier le mot-clé principal.',
+      wrong: ['Relancer la même commande 10 fois.', 'Ignorer stderr et continuer.', 'Supprimer des fichiers au hasard.'],
+      explanation: 'Le message d’erreur contient souvent la cause exacte.',
+    },
+    {
+      question: 'Quelle habitude aide le plus à progresser vite ?',
+      correct: 'Faire des itérations courtes: test, correction, re-test.',
+      wrong: ['Écrire tout le code d’un coup sans tester.', 'Changer 20 choses à la fois.', 'Ne jamais vérifier le résultat.'],
+      explanation: 'Les boucles courtes réduisent les erreurs et accélèrent l’apprentissage.',
+    },
+    {
+      question: 'Face à un bug, quelle stratégie est la plus solide ?',
+      correct: 'Isoler le problème avec un exemple minimal reproductible.',
+      wrong: ['Réécrire tout le projet directement.', 'Modifier uniquement le CSS.', 'Désactiver les logs pour aller plus vite.'],
+      explanation: 'Un cas minimal permet de trouver la cause racine.',
+    },
+    {
+      question: 'Comment valider qu’une correction est fiable ?',
+      correct: 'Comparer avant/après et vérifier le résultat attendu.',
+      wrong: ['Se fier uniquement à l’intuition.', 'Éviter de re-tester par peur de casser.', 'Considérer que “ça doit marcher”.'],
+      explanation: 'La validation explicite évite les faux positifs.',
+    },
+    {
+      question: 'Quel comportement améliore le plus la compréhension ?',
+      correct: 'Expliquer à voix haute ce que fait chaque étape.',
+      wrong: ['Aller le plus vite possible sans réfléchir.', 'Ignorer les détails de syntaxe.', 'Faire confiance au hasard.'],
+      explanation: 'L’explication active révèle les zones non comprises.',
+    },
+    {
+      question: 'Que faire si une piste ne marche pas ?',
+      correct: 'Revenir au dernier état stable et tester une nouvelle hypothèse.',
+      wrong: ['Empiler des changements non liés.', 'Supprimer des dossiers système.', 'Arrêter le module directement.'],
+      explanation: 'Revenir à un état stable permet de garder un diagnostic propre.',
+    },
+  ];
+
+  const selected = shuffleArray(seeds).slice(0, QUIZ_QUESTION_COUNT);
+  const questions: QuizQuestion[] = selected.map((seed) => {
+    const options = shuffleArray([seed.correct, ...seed.wrong]);
+    const answerIndex = options.findIndex((option) => option === seed.correct);
+    return {
+      question: seed.question,
+      options,
+      answerIndex,
+      explanation: seed.explanation,
+    };
+  });
+
+  return {
+    questions,
+    passScore: QUIZ_PASS_SCORE_DEFAULT,
+  };
+};
 
 const applySyncedCourseUpdates = (base: Chapter[], updates: DesktopSyncCourseUpdate[] = []): Chapter[] => {
   if (!updates.length) return base;
@@ -810,6 +942,10 @@ const App: React.FC = () => {
   const [isGeneratingTicket, setIsGeneratingTicket] = useState(false);
   const [isRequestingHelp, setIsRequestingHelp] = useState(false);
   const [isSubmittingTicket, setIsSubmittingTicket] = useState(false);
+  const [quizPayload, setQuizPayload] = useState<QuizPayload | null>(null);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+  const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
+  const [isGeneratingQuiz, setIsGeneratingQuiz] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const mainContentRef = useRef<HTMLDivElement | null>(null);
   const [desktopAnnouncement, setDesktopAnnouncement] = useState<string>('');
@@ -817,6 +953,7 @@ const App: React.FC = () => {
   const [privacyNotice, setPrivacyNotice] = useState<string>('Aucune donnée personnelle n’est collectée pendant la synchronisation des contenus.');
   const [lastSyncedAt, setLastSyncedAt] = useState<number | null>(null);
   const [hasPromptedLabSetup, setHasPromptedLabSetup] = useState(false);
+  const quizModeEnabled = true;
   
   // Nouvelles vues
   const [currentView, setCurrentView] = useState<AppView>('home');
@@ -1245,6 +1382,10 @@ const App: React.FC = () => {
   // HANDLERS
   // ============================================
   const handleSelectChapter = useCallback(async (chapterId: string) => {
+    if (quizModeEnabled) {
+      setActiveTicket(null);
+    }
+
     if (!canUseTauriInvoke) {
       setActiveTicket(null);
     }
@@ -1260,15 +1401,102 @@ const App: React.FC = () => {
 
     setTicketHelpAnswer('');
 
-    if (canUseTauriInvoke) {
+    if (canUseTauriInvoke && !quizModeEnabled) {
       await loadOpenTicketForChapter(chapterId);
     }
-  }, [canUseTauriInvoke, loadOpenTicketForChapter, scrollMainToTop]);
+  }, [canUseTauriInvoke, loadOpenTicketForChapter, scrollMainToTop, quizModeEnabled]);
+
+  const generateQuizForChapter = useCallback(async (chapter: Chapter) => {
+    setIsGeneratingQuiz(true);
+    setQuizResult(null);
+    setQuizAnswers({});
+
+    try {
+      let nextQuiz: QuizPayload | null = null;
+
+      if (!isWebDemoPreview && canUseTauriInvoke) {
+        const prompt = [
+          'Génère un QCM amusant et aléatoire pour un apprenant débutant/intermédiaire.',
+          'Format STRICT JSON uniquement, sans markdown, sans texte avant/après.',
+          `Nombre de questions: ${QUIZ_QUESTION_COUNT}`,
+          'Schéma:',
+          '{"passScore":70,"questions":[{"question":"...","options":["A","B","C","D"],"answerIndex":0,"explanation":"..."}]}',
+          'Contraintes:',
+          '- questions concrètes, pédagogiques, fun',
+          '- 4 options par question',
+          '- une seule bonne réponse',
+          '- answerIndex basé sur index 0',
+          `Module: ${chapter.title}`,
+          `Contexte: ${chapterContextText(chapter)}`,
+        ].join('\n');
+
+        const response = await invoke<BackendResult<string>>('ask_local_ai_with_context', {
+          prompt,
+          sessionId: `quiz-${chapter.id}-${Date.now()}`,
+          context: `Chapitre ${chapter.order}: ${chapter.title}`,
+          conversation: [],
+          modelOverride: ollamaModel || undefined,
+        });
+
+        if (response.success && response.data) {
+          nextQuiz = parseAiQuizPayload(response.data);
+        }
+      }
+
+      if (!nextQuiz) {
+        nextQuiz = buildFallbackQuiz(chapter.title);
+      }
+
+      setQuizPayload(nextQuiz);
+      toast.success('QCM généré', {
+        description: 'Un nouveau QCM aléatoire est prêt.',
+      });
+    } catch (error) {
+      console.error('Erreur génération QCM:', error);
+      setQuizPayload(buildFallbackQuiz(chapter.title));
+      toast.error('QCM IA indisponible, version locale générée.');
+    } finally {
+      setIsGeneratingQuiz(false);
+    }
+  }, [canUseTauriInvoke, chapterContextText, isWebDemoPreview, ollamaModel]);
+
+  const submitQuiz = useCallback(async () => {
+    if (!quizPayload || !currentChapter) return;
+
+    const total = quizPayload.questions.length;
+    const answered = Object.keys(quizAnswers).length;
+    if (answered < total) {
+      toast.error('Répondez à toutes les questions avant de valider.');
+      return;
+    }
+
+    const correct = quizPayload.questions.reduce((count, question, questionIndex) => {
+      return quizAnswers[questionIndex] === question.answerIndex ? count + 1 : count;
+    }, 0);
+
+    const score = Math.round((correct / total) * 100);
+    const passScore = quizPayload.passScore ?? QUIZ_PASS_SCORE_DEFAULT;
+    const passed = score >= passScore;
+
+    setQuizResult({ score, total, passed, passScore });
+
+    if (passed) {
+      toast.success(`✅ QCM réussi (${score}%)`);
+      await handleCompleteChapter(currentChapter.id);
+    } else {
+      toast.error(`❌ QCM non réussi (${score}%). Il faut ${passScore}% minimum.`);
+    }
+  }, [quizPayload, currentChapter, quizAnswers, handleCompleteChapter]);
 
   const handleFinishCourse = useCallback(async (chapterId: string) => {
     const chapter = getChapterById(chapterId);
     if (!chapter) {
       toast.error('Cours introuvable pour générer le ticket.');
+      return;
+    }
+
+    if (quizModeEnabled) {
+      await generateQuizForChapter(chapter);
       return;
     }
 
@@ -1310,7 +1538,7 @@ const App: React.FC = () => {
     } finally {
       setIsGeneratingTicket(false);
     }
-  }, [canUseTauriInvoke, ensureLabWorkspace, createOrLoadTicketForChapter, chapterContextText, isWebDemoPreview, userId, getChapterById]);
+  }, [canUseTauriInvoke, ensureLabWorkspace, createOrLoadTicketForChapter, chapterContextText, isWebDemoPreview, userId, getChapterById, quizModeEnabled, generateQuizForChapter]);
 
   const requestTicketHelp = useCallback(async () => {
     if (!activeTicket || !currentChapter) return;
@@ -1394,14 +1622,14 @@ const App: React.FC = () => {
         setTicketSolution('');
         setTicketHelpRequest('');
         setTicketHelpAnswer('');
-        if (canUseTauriInvoke) {
+        if (canUseTauriInvoke && !quizModeEnabled) {
           await loadOpenTicketForChapter(next.id);
         } else {
           setActiveTicket(null);
         }
       }
     }
-  }, [currentChapterId, canUseTauriInvoke, loadOpenTicketForChapter]);
+  }, [currentChapterId, canUseTauriInvoke, loadOpenTicketForChapter, quizModeEnabled]);
 
   const handlePreviousChapter = useCallback(async () => {
     const current = getChapterById(currentChapterId);
@@ -1412,14 +1640,22 @@ const App: React.FC = () => {
         setTicketSolution('');
         setTicketHelpRequest('');
         setTicketHelpAnswer('');
-        if (canUseTauriInvoke) {
+        if (canUseTauriInvoke && !quizModeEnabled) {
           await loadOpenTicketForChapter(prev.id);
         } else {
           setActiveTicket(null);
         }
       }
     }
-  }, [currentChapterId, canUseTauriInvoke, loadOpenTicketForChapter]);
+  }, [currentChapterId, canUseTauriInvoke, loadOpenTicketForChapter, quizModeEnabled]);
+
+  useEffect(() => {
+    if (!quizModeEnabled) return;
+    if (currentView !== 'course') return;
+    if (showHomePage) return;
+    if (!currentChapter) return;
+    void generateQuizForChapter(currentChapter);
+  }, [quizModeEnabled, currentView, showHomePage, currentChapter, generateQuizForChapter]);
 
   const handleTerminalOutput = useCallback((output: TerminalOutput) => {
     setTerminalOutputs(prev => [...prev, output]);
@@ -1782,7 +2018,112 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        {currentView === 'course' && activeTicket && activeTicket.status !== 'resolved' && (
+        {currentView === 'course' && quizModeEnabled && currentChapter && (
+          <div className="px-4 py-3 border-b border-[var(--td-border-subtle)] bg-[var(--td-primary)]/5">
+            <div className="rounded-lg border border-[var(--td-border)] bg-[var(--td-surface)] p-3">
+              <div className="flex flex-col xl:flex-row xl:items-center gap-3">
+                <div className="flex items-start gap-2 flex-1">
+                  <Sparkles className="w-4 h-4 mt-0.5 text-[var(--td-primary)]" />
+                  <div>
+                    <p className="text-sm font-medium text-[var(--td-text-primary)]">
+                      QCM IA aléatoire · {currentChapter.title}
+                    </p>
+                    <p className="text-xs text-[var(--td-text-secondary)] mt-0.5">
+                      Nouveau quiz à chaque génération. Score minimum: {quizPayload?.passScore ?? QUIZ_PASS_SCORE_DEFAULT}%.
+                    </p>
+                  </div>
+                </div>
+
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-[var(--td-border)]"
+                  onClick={() => void generateQuizForChapter(currentChapter)}
+                  disabled={isGeneratingQuiz}
+                >
+                  {isGeneratingQuiz ? 'Génération IA...' : 'Nouveau QCM aléatoire'}
+                </Button>
+              </div>
+
+              {quizPayload && (
+                <div className="mt-3 space-y-3">
+                  {quizPayload.questions.map((question, questionIndex) => (
+                    <div key={`${questionIndex}-${question.question.slice(0, 20)}`} className="rounded-lg border border-[var(--td-border)] bg-[var(--td-bg-primary)] p-3">
+                      <p className="text-sm font-medium text-[var(--td-text-primary)] mb-2">
+                        Q{questionIndex + 1}. {question.question}
+                      </p>
+                      <div className="grid gap-2 md:grid-cols-2">
+                        {question.options.map((option, optionIndex) => {
+                          const selected = quizAnswers[questionIndex] === optionIndex;
+                          const showingResult = Boolean(quizResult);
+                          const isCorrect = question.answerIndex === optionIndex;
+
+                          let toneClass = 'border-[var(--td-border)] text-[var(--td-text-secondary)] hover:bg-[var(--td-surface-hover)]';
+                          if (selected) {
+                            toneClass = 'border-[var(--td-primary)] text-[var(--td-text-primary)] bg-[var(--td-primary)]/10';
+                          }
+                          if (showingResult && isCorrect) {
+                            toneClass = 'border-[var(--td-success)] text-[var(--td-success)] bg-[var(--td-success-muted)]';
+                          }
+
+                          return (
+                            <button
+                              key={`${questionIndex}-${optionIndex}`}
+                              type="button"
+                              className={cn('rounded-md border px-3 py-2 text-left text-xs transition-colors', toneClass)}
+                              onClick={() => {
+                                if (quizResult) return;
+                                setQuizAnswers((prev) => ({ ...prev, [questionIndex]: optionIndex }));
+                              }}
+                            >
+                              <span className="font-mono mr-2">{String.fromCharCode(65 + optionIndex)}.</span>
+                              {option}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {quizResult && question.explanation && (
+                        <p className="text-xs text-[var(--td-text-tertiary)] mt-2">💡 {question.explanation}</p>
+                      )}
+                    </div>
+                  ))}
+
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <p className="text-xs text-[var(--td-text-tertiary)]">
+                      Répondu: {Object.keys(quizAnswers).length}/{quizPayload.questions.length}
+                    </p>
+                    <Button
+                      size="sm"
+                      className="bg-[var(--td-primary)] hover:bg-[var(--td-primary-hover)]"
+                      onClick={() => void submitQuiz()}
+                      disabled={isGeneratingQuiz || Boolean(quizResult)}
+                    >
+                      Valider mon score
+                    </Button>
+                  </div>
+
+                  {quizResult && (
+                    <div className={cn(
+                      'rounded-lg border p-3',
+                      quizResult.passed
+                        ? 'border-[var(--td-success)] bg-[var(--td-success-muted)]'
+                        : 'border-amber-500/40 bg-amber-500/10'
+                    )}>
+                      <p className="text-sm font-medium text-[var(--td-text-primary)]">
+                        {quizResult.passed ? '✅ Réussi' : '❌ Échoué'} · Score {quizResult.score}% ({quizResult.total} questions)
+                      </p>
+                      <p className="text-xs text-[var(--td-text-secondary)] mt-1">
+                        Seuil requis: {quizResult.passScore}%. {quizResult.passed ? 'Chapitre validé.' : 'Relancez un nouveau QCM pour retenter.'}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {currentView === 'course' && !quizModeEnabled && activeTicket && activeTicket.status !== 'resolved' && (
           <div className="px-4 py-3 border-b border-[var(--td-border-subtle)] bg-amber-500/5">
             <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
               <div className="flex flex-col xl:flex-row xl:items-center gap-3">
@@ -1945,7 +2286,7 @@ const App: React.FC = () => {
                 onPrevious={handlePreviousChapter}
                 onFinishCourse={handleFinishCourse}
                 isCompleted={completedChapters.includes(currentChapter.id)}
-                hasOpenTicket={Boolean(activeTicket && activeTicket.chapter_id === currentChapter.id && activeTicket.status !== 'resolved') || isGeneratingTicket}
+                hasOpenTicket={quizModeEnabled ? false : Boolean(activeTicket && activeTicket.chapter_id === currentChapter.id && activeTicket.status !== 'resolved') || isGeneratingTicket}
               />
             )}
           </Suspense>
