@@ -305,19 +305,22 @@ const buildCourseTheory = (course: any): string => {
     .map((section: any, index) => {
       const title = typeof section?.title === 'string' ? section.title : `Bloc ${index + 1}`;
       const duration = typeof section?.duration === 'string' && section.duration.trim() ? section.duration.trim() : 'durée libre';
-      const preview = firstContentPreview(section);
+      const rawContent = typeof section?.content === 'string' ? section.content.trim() : '';
+      const preview = rawContent || firstContentPreview(section, 1800);
       const sectionObjectives = Array.isArray(section?.terminalObjectives) ? section.terminalObjectives : [];
       const sectionObjectiveLine = sectionObjectives.length
-        ? `\nObjectif pratique: ${sectionObjectives.slice(0, 2).map((item: any) => `${item?.cmd || 'commande'} (${item?.description || 'objectif'})`).join(' · ')}`
+        ? `\n\nObjectif pratique: ${sectionObjectives.slice(0, 3).map((item: any) => `${item?.cmd || 'commande'} (${item?.description || 'objectif'})`).join(' · ')}`
         : '';
 
+      const sectionExercise = `\n\nExercice guidé:\n- Reproduisez l’exemple principal de ce bloc.\n- Modifiez-le avec votre propre variante.\n- Vérifiez le résultat et notez ce qui a changé.`;
+
       if (!preview) {
-        return `### Bloc ${index + 1} — ${title} (${duration})\nContenu guidé à pratiquer étape par étape.${sectionObjectiveLine}`;
+        return `## Bloc ${index + 1} — ${title} (${duration})\nContenu guidé à pratiquer étape par étape.${sectionObjectiveLine}${sectionExercise}`;
       }
 
-      return `### Bloc ${index + 1} — ${title} (${duration})\n${preview}${sectionObjectiveLine}`;
+      return `## Bloc ${index + 1} — ${title} (${duration})\n${preview}${sectionObjectiveLine}${sectionExercise}`;
     })
-    .join('\n\n');
+    .filter(Boolean);
 
   const masteryTargets = [
     `Piloter un module complet de ${course?.title || 'ce cours'} de façon autonome.`,
@@ -326,7 +329,7 @@ const buildCourseTheory = (course: any): string => {
     'Être prêt à réutiliser les compétences dans un vrai projet personnel ou professionnel.',
   ];
 
-  return [
+  const introPage = [
     `# ${course?.title || 'Module'}`,
     '',
     course?.description || 'Module pratique orienté progression.',
@@ -335,19 +338,28 @@ const buildCourseTheory = (course: any): string => {
     '',
     '## Objectifs pédagogiques',
     ...objectives.map((item) => `- ${item}`),
+  ].join('\n');
+
+  const roadmapPage = [
+    `# ${course?.title || 'Module'} — Plan de progression`,
     '',
     '## Parcours long recommandé',
     ...(roadmap.length ? roadmap : ['1. **Découverte**', '2. **Pratique**', '3. **Validation**']),
     '',
     '## Plan d’entraînement intensif',
     ...practicalChecklist.map((item) => `- ${item}`),
-    '',
-    '## Cours détaillé',
-    sectionDeepDives || '### Aperçu\nCe module couvre théorie, mise en pratique et validation finale.',
+  ].join('\n');
+
+  const sectionPages = sectionDeepDives.length > 0 ? sectionDeepDives : ['## Aperçu\nCe module couvre théorie, mise en pratique et validation finale.'];
+
+  const masteryPage = [
+    `# ${course?.title || 'Module'} — Validation finale`,
     '',
     '## Compétences finales visées',
     ...masteryTargets.map((item) => `- ${item}`),
   ].join('\n');
+
+  return [introPage, roadmapPage, ...sectionPages, masteryPage].join('\n\n<!--PAGE_BREAK-->\n\n');
 };
 
 const buildChallengeHints = (course: any): string[] => {

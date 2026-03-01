@@ -3,7 +3,7 @@
 // Visualiseur de cours avec parsing Markdown et mode Focus
 // ============================================
 
-import { useState, useEffect, useRef, memo } from 'react';
+import { useState, useEffect, useRef, useMemo, memo } from 'react';
 import { 
   Maximize2, 
   Minimize2, 
@@ -408,7 +408,27 @@ export const CourseEngine = memo<CourseEngineProps>(({
 }) => {
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [currentTheoryPage, setCurrentTheoryPage] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const theoryPages = useMemo(() => {
+    const raw = typeof chapter.theory === 'string' ? chapter.theory : '';
+    const pages = raw
+      .split('<!--PAGE_BREAK-->')
+      .map((part) => part.trim())
+      .filter(Boolean);
+    return pages.length > 0 ? pages : [raw || 'Contenu indisponible.'];
+  }, [chapter.theory]);
+
+  useEffect(() => {
+    setCurrentTheoryPage(0);
+  }, [chapter.id]);
+
+  useEffect(() => {
+    if (currentTheoryPage >= theoryPages.length) {
+      setCurrentTheoryPage(Math.max(0, theoryPages.length - 1));
+    }
+  }, [currentTheoryPage, theoryPages.length]);
 
   // Calcul de la progression de lecture
   useEffect(() => {
@@ -427,7 +447,7 @@ export const CourseEngine = memo<CourseEngineProps>(({
     }
   }, []);
 
-  const parsedContent = parseMarkdown(chapter.theory);
+  const parsedContent = parseMarkdown(theoryPages[currentTheoryPage] || chapter.theory);
 
   return (
     <div className={cn(
@@ -539,6 +559,34 @@ export const CourseEngine = memo<CourseEngineProps>(({
           </div>
 
           {/* Théorie */}
+          {theoryPages.length > 1 && (
+            <div className="mb-6 rounded-lg border border-[var(--td-border)] bg-[var(--td-surface)] p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-xs text-[var(--td-text-secondary)]">
+                Page {currentTheoryPage + 1}/{theoryPages.length}
+              </p>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentTheoryPage((prev) => Math.max(0, prev - 1))}
+                  disabled={currentTheoryPage === 0}
+                >
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                  Page précédente
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setCurrentTheoryPage((prev) => Math.min(theoryPages.length - 1, prev + 1))}
+                  disabled={currentTheoryPage >= theoryPages.length - 1}
+                >
+                  Page suivante
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+              </div>
+            </div>
+          )}
+
           <article className="prose prose-invert max-w-none">
             {parsedContent}
           </article>
