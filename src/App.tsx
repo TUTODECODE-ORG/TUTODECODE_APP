@@ -366,6 +366,20 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
       'Attendu: une preuve mesurable (sortie de commande, résultat applicatif, capture de logs ou validation fonctionnelle).',
     ].join('\n');
 
+    const expertQuestions = [
+      `- Pourquoi ce bloc (${title}) est critique dans un contexte production ?`,
+      '- Quelle est la première hypothèse que vous testez si le résultat attendu n’arrive pas ?',
+      '- Quel signal mesurable prouve que votre correction est stable ?',
+      '- Comment expliqueriez-vous cette solution à un junior en 2 minutes ?',
+    ].join('\n');
+
+    const eliteMission = [
+      '### Mission élite (niveau senior)',
+      '- Reproduisez un incident réaliste lié au bloc.',
+      '- Corrigez-le avec une méthode traçable (hypothèse → test → validation).',
+      '- Rédigez un mini postmortem: cause racine, impact, prévention.',
+    ].join('\n');
+
   return [
     `## Bloc ${index + 1} — ${title} (${duration})`,
     '',
@@ -397,6 +411,11 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
     '- Vous savez refaire ce bloc sans copier-coller.',
     '- Vous pouvez expliquer le “pourquoi” derrière chaque commande ou choix.',
     '- Vous êtes capable de diagnostiquer un échec courant en autonomie.',
+    '',
+    '### Questions de maîtrise',
+    expertQuestions,
+    '',
+    eliteMission,
   ].join('\n');
 };
 
@@ -450,6 +469,20 @@ const buildCourseTheory = (course: any): string => {
     'Être prêt à réutiliser les compétences dans un vrai projet personnel ou professionnel.',
   ];
 
+  const diagnosticPage = [
+    `# ${course?.title || 'Module'} — Diagnostic de départ`,
+    '',
+    '## Auto-évaluation initiale',
+    '- Notez votre niveau actuel sur 10 pour ce domaine.',
+    '- Listez 3 points que vous maîtrisez déjà.',
+    '- Listez 3 points qui vous bloquent aujourd’hui.',
+    '',
+    '## Contrat de progression',
+    '- Engagement: pratiquer chaque bloc avec preuve de résultat.',
+    '- Règle: ne jamais passer au bloc suivant sans validation minimale.',
+    '- Objectif: sortir du cours en autonomie opérationnelle, pas seulement en théorie.',
+  ].join('\n');
+
   const introPage = [
     `# ${course?.title || 'Module'}`,
     '',
@@ -473,14 +506,95 @@ const buildCourseTheory = (course: any): string => {
 
   const sectionPages = sectionDeepDives.length > 0 ? sectionDeepDives : ['## Aperçu\nCe module couvre théorie, mise en pratique et validation finale.'];
 
+  const debuggingPlaybookPage = [
+    `# ${course?.title || 'Module'} — Playbook de debug`,
+    '',
+    '## Méthode universelle (à appliquer systématiquement)',
+    '1. Reproduire le bug dans un contexte minimal.',
+    '2. Capturer les signaux (logs, sorties, code de retour, état système).',
+    '3. Isoler la cause probable et poser une hypothèse unique.',
+    '4. Tester une correction ciblée (un changement à la fois).',
+    '5. Vérifier la correction + non-régression.',
+    '6. Documenter la solution et les garde-fous pour éviter la récidive.',
+    '',
+    '## Anti-patterns à bannir',
+    '- Changer 10 choses en même temps.',
+    '- Corriger sans preuve de validation.',
+    '- Ignorer les logs ou les messages d’erreur précis.',
+  ].join('\n');
+
+  const masterySprintPage = [
+    `# ${course?.title || 'Module'} — Sprint 30 jours`,
+    '',
+    '## Programme de consolidation',
+    '- Semaine 1: compréhension + reproduction des blocs.',
+    '- Semaine 2: variantes personnelles + mini défis.',
+    '- Semaine 3: debug avancé + optimisation.',
+    '- Semaine 4: capstone final + revue qualité.',
+    '',
+    '## Rythme recommandé',
+    '- 45 à 90 min par session, 5 sessions/semaine.',
+    '- Une sortie vérifiable à chaque session.',
+    '- Une révision active toutes les 72h (questions/flashcards/checklist).',
+  ].join('\n');
+
+  const capstonePage = [
+    `# ${course?.title || 'Module'} — Capstone final`,
+    '',
+    '## Mission finale',
+    'Construisez un mini projet complet intégrant les compétences majeures du cours.',
+    '',
+    '## Livrables obligatoires',
+    '- Implémentation fonctionnelle.',
+    '- Script de validation/reproduction.',
+    '- Note d’architecture (choix techniques + compromis).',
+    '- Rapport de debug sur au moins 1 incident résolu.',
+    '',
+    '## Barème expert (100 points)',
+    '- Exactitude technique: 35',
+    '- Robustesse et sécurité: 25',
+    '- Clarté et maintenabilité: 20',
+    '- Documentation et pédagogie: 20',
+  ].join('\n');
+
+  const interviewPrepPage = [
+    `# ${course?.title || 'Module'} — Préparation entretien`,
+    '',
+    '## Questions à savoir traiter',
+    '- Expliquez votre méthode de diagnostic sur un incident réel.',
+    '- Comment garantissez-vous qu’une correction ne casse pas autre chose ?',
+    '- Quelles métriques suivez-vous pour juger une solution ? ',
+    '- Donnez un exemple de compromis performance vs lisibilité.',
+    '',
+    '## Réponse attendue',
+    '- Structure STAR (Situation, Tâche, Action, Résultat).',
+    '- Appui sur des preuves techniques (logs, mesures, tests).',
+    '- Capacité à vulgariser pour un public non expert.',
+  ].join('\n');
+
   const masteryPage = [
     `# ${course?.title || 'Module'} — Validation finale`,
     '',
     '## Compétences finales visées',
     ...masteryTargets.map((item) => `- ${item}`),
+    '',
+    '## Définition du niveau “roi du domaine”',
+    '- Vous résolvez un problème inédit sans dépendre d’un copier-coller.',
+    '- Vous justifiez chaque choix avec des critères techniques clairs.',
+    '- Vous transmettez la solution à d’autres développeurs de manière structurée.',
   ].join('\n');
 
-  return [introPage, roadmapPage, ...sectionPages, masteryPage].join('\n\n<!--PAGE_BREAK-->\n\n');
+  return [
+    diagnosticPage,
+    introPage,
+    roadmapPage,
+    ...sectionPages,
+    debuggingPlaybookPage,
+    masterySprintPage,
+    capstonePage,
+    interviewPrepPage,
+    masteryPage,
+  ].join('\n\n<!--PAGE_BREAK-->\n\n');
 };
 
 const buildChallengeHints = (course: any): string[] => {
