@@ -263,13 +263,61 @@ const formatMinutesAsDuration = (minutes: number): string => {
 };
 
 const explainCodeLines = (code: string): string[] => {
+  const commandHints: Record<string, string> = {
+    pwd: 'affiche votre répertoire courant pour éviter d’exécuter des actions au mauvais endroit',
+    ls: 'liste les fichiers/dossiers pour comprendre l’état actuel du système',
+    cd: 'change de répertoire pour vous positionner dans la bonne zone de travail',
+    mkdir: 'crée une structure de dossier propre pour organiser votre travail',
+    touch: 'crée un fichier vide utile pour initialiser une config ou une note',
+    cp: 'copie un fichier sans perdre l’original, pratique pour tester en sécurité',
+    mv: 'déplace ou renomme un fichier, utile pour refactorer une arborescence',
+    rm: 'supprime un fichier, à utiliser avec prudence après vérification du chemin',
+    cat: 'affiche le contenu d’un fichier pour audit ou debug rapide',
+    grep: 'filtre des lignes pour repérer une valeur précise dans des logs/configs',
+    chmod: 'modifie les permissions pour sécuriser ou exécuter un fichier',
+    chown: 'change le propriétaire d’un fichier pour corriger des droits d’accès',
+    docker: 'exécute une action de conteneurisation (build, run, logs, etc.)',
+    kubectl: 'pilote les ressources Kubernetes pour déployer et observer vos services',
+    npm: 'gère dépendances/scripts JavaScript pour exécuter votre application',
+    cargo: 'compile, teste ou lance un projet Rust selon la sous-commande',
+    rustc: 'compile un fichier Rust isolé pour vérifier rapidement une idée',
+    'SELECT': 'interroge les données pour lire exactement les enregistrements ciblés',
+    'INSERT': 'ajoute des enregistrements en respectant le schéma de la table',
+    'UPDATE': 'met à jour des données existantes de manière contrôlée',
+    'DELETE': 'supprime des enregistrements selon un filtre explicite',
+  };
+
   const lines = code
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => line.length > 0)
     .slice(0, 8);
 
-  return lines.map((line, index) => `- Étape ${index + 1}: \`${line}\` → ce que cette instruction vous apprend dans la pratique.`);
+  return lines.map((line, index) => {
+    const firstTokenRaw = line.split(/\s+/)[0] || '';
+    const firstToken = firstTokenRaw.replace(/[^a-zA-Z]/g, '');
+    const sqlToken = firstTokenRaw.toUpperCase();
+    const hint = commandHints[firstToken] || commandHints[sqlToken];
+
+    if (hint) {
+      return `- Étape ${index + 1}: \`${line}\` → ${hint}.`;
+    }
+
+    if (/^fn\s+|^function\s+/i.test(line)) {
+      return `- Étape ${index + 1}: \`${line}\` → définit une unité réutilisable pour isoler la logique métier.`;
+    }
+    if (/^let\s+|^const\s+|^var\s+/i.test(line)) {
+      return `- Étape ${index + 1}: \`${line}\` → initialise une donnée de travail qui servira au traitement.`;
+    }
+    if (/^if\s*\(|^if\s+/i.test(line)) {
+      return `- Étape ${index + 1}: \`${line}\` → applique une condition pour sécuriser le flux d’exécution.`;
+    }
+    if (/^for\s+|^while\s+/i.test(line)) {
+      return `- Étape ${index + 1}: \`${line}\` → itère sur un ensemble pour automatiser les opérations répétitives.`;
+    }
+
+    return `- Étape ${index + 1}: \`${line}\` → exécute une action précise à valider immédiatement par son résultat.`;
+  });
 };
 
 const buildDeepSectionLesson = (course: any, section: any, index: number): string => {
@@ -311,6 +359,13 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
         '- Reproduisez le scénario, observez la sortie, puis expliquez le pourquoi.',
       ].join('\n');
 
+    const realWorldScenario = [
+      '### Cas concret terrain',
+      `Contexte: vous devez intervenir sur **${course?.title || 'ce module'}** dans un environnement réel (projet, VM, serveur ou app locale).`,
+      `Mission: appliquer **${title}** pour résoudre un besoin concret sans casser l’existant.`,
+      'Attendu: une preuve mesurable (sortie de commande, résultat applicatif, capture de logs ou validation fonctionnelle).',
+    ].join('\n');
+
   return [
     `## Bloc ${index + 1} — ${title} (${duration})`,
     '',
@@ -325,6 +380,8 @@ const buildDeepSectionLesson = (course: any, section: any, index: number): strin
     ...commandPlan,
     '',
     codeExplanation,
+    '',
+    realWorldScenario,
     '',
     '### Erreurs fréquentes à éviter',
     '- Aller trop vite et modifier plusieurs choses en même temps.',

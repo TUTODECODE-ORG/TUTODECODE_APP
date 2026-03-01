@@ -9,6 +9,8 @@ import {
   Minimize2, 
   ChevronLeft, 
   ChevronRight, 
+  ChevronDown,
+  ChevronUp,
   BookOpen, 
   CheckCircle2,
   Lock
@@ -147,7 +149,7 @@ const parseMarkdown = (content: string): React.ReactNode[] => {
       elements.push(
         <p 
           key={`p-${index}`} 
-          className="text-[var(--td-text-secondary)] leading-relaxed my-6"
+          className="text-[var(--td-text-secondary)] leading-relaxed my-3"
           dangerouslySetInnerHTML={{ __html: parseInline(line) }}
         />
       );
@@ -409,6 +411,8 @@ export const CourseEngine = memo<CourseEngineProps>(({
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
   const [currentTheoryPage, setCurrentTheoryPage] = useState(0);
+  const [showCodeExample, setShowCodeExample] = useState(false);
+  const [showChallenge, setShowChallenge] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const theoryPages = useMemo(() => {
@@ -422,6 +426,8 @@ export const CourseEngine = memo<CourseEngineProps>(({
 
   useEffect(() => {
     setCurrentTheoryPage(0);
+    setShowCodeExample(false);
+    setShowChallenge(false);
   }, [chapter.id]);
 
   useEffect(() => {
@@ -594,22 +600,51 @@ export const CourseEngine = memo<CourseEngineProps>(({
           {/* Exemple de code */}
           {chapter.codeExample && (
             <div className="mt-8">
-              <h3 className="text-xl font-semibold text-[var(--td-text-primary)] mb-4">
-                Exemple de Code
-              </h3>
-              <CodeBlock
-                code={chapter.codeExample.code}
-                language={chapter.codeExample.language}
-                filename={chapter.codeExample.filename}
-              />
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-xl font-semibold text-[var(--td-text-primary)]">
+                  Exemple de Code
+                </h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowCodeExample((prev) => !prev)}
+                >
+                  {showCodeExample ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
+                  {showCodeExample ? 'Masquer' : 'Afficher'}
+                </Button>
+              </div>
+              {showCodeExample && (
+                <CodeBlock
+                  code={chapter.codeExample.code}
+                  language={chapter.codeExample.language}
+                  filename={chapter.codeExample.filename}
+                />
+              )}
             </div>
           )}
 
           {/* Challenge */}
           {chapter.challenge && (
-            <ChallengePanel
-              challenge={chapter.challenge}
-            />
+            <div className="mt-8">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-xl font-semibold text-[var(--td-text-primary)]">
+                  Challenge pratique
+                </h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowChallenge((prev) => !prev)}
+                >
+                  {showChallenge ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
+                  {showChallenge ? 'Masquer' : 'Afficher'}
+                </Button>
+              </div>
+              {showChallenge && (
+                <ChallengePanel
+                  challenge={chapter.challenge}
+                />
+              )}
+            </div>
           )}
 
           {/* QCM (si présent) */}
