@@ -226,39 +226,39 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
           <div className="rounded-2xl border border-[var(--td-border)] bg-[var(--td-surface)] p-5">
             <h4 className="text-sm font-semibold text-[var(--td-text-primary)] mb-3 flex items-center gap-2">
               <Bot className="w-4 h-4 text-[var(--td-primary)]" />
-              Ce que fait l'IA dans l'app
+              Ce que fait l'IA (Ollama)
             </h4>
             <ul className="space-y-2 text-xs text-[var(--td-text-secondary)]">
-              <li>• Génère des missions/tickets à partir du cours.</li>
-              <li>• Analyse votre retour « Je pense avoir fini ».</li>
-              <li>• Valide le cours si réussi, sinon explique ce qu'il manque.</li>
-              <li>• Aide possible sans donner la réponse finale.</li>
+              <li>• Répond à vos questions sur le code via chat.</li>
+              <li>• Analyse les erreurs terminal et donne des indices.</li>
+              <li>• Guide sans donner les réponses directement.</li>
+              <li>• Fonctionne 100% en local (aucune donnée envoyée).</li>
             </ul>
           </div>
 
           <div className="rounded-2xl border border-[var(--td-border)] bg-[var(--td-surface)] p-5">
             <h4 className="text-sm font-semibold text-[var(--td-text-primary)] mb-3 flex items-center gap-2">
               <FolderOpen className="w-4 h-4 text-[var(--td-primary)]" />
-              Ce qui est écrit sur votre machine
+              Ce que l'app stocke localement
             </h4>
             <ul className="space-y-2 text-xs text-[var(--td-text-secondary)]">
-              <li>• Dossier lab local choisi par vous.</li>
-              <li>• Fichiers de mission et starter générés dans ce dossier.</li>
-              <li>• Rapports de validation IA en fichiers locaux.</li>
-              <li>• Progression sauvegardée localement.</li>
+              <li>• Progression des cours (chapitres terminés).</li>
+              <li>• Résultats des QCM.</li>
+              <li>• Préférences utilisateur.</li>
+              <li>• Cache des cours synchronisés.</li>
             </ul>
           </div>
 
           <div className="rounded-2xl border border-[var(--td-border)] bg-[var(--td-surface)] p-5">
             <h4 className="text-sm font-semibold text-[var(--td-text-primary)] mb-3 flex items-center gap-2">
               <RefreshCw className="w-4 h-4 text-[var(--td-primary)]" />
-              Mises à jour sans réinstallation
+              Mises à jour des cours
             </h4>
             <ul className="space-y-2 text-xs text-[var(--td-text-secondary)]">
-              <li>• Sync API des contenus publics (interface/cours).</li>
-              <li>• Cache local pour éviter les téléchargements en boucle.</li>
-              <li>• Fonctionnement offline conservé en cas de coupure.</li>
-              <li>• Aucune donnée utilisateur envoyée pendant la sync.</li>
+              <li>• Sync des nouveaux cours depuis l'API.</li>
+              <li>• Cache local pour éviter re-téléchargements.</li>
+              <li>• Mode hors-ligne si pas de connexion.</li>
+              <li>• Aucune donnée personnelle envoyée.</li>
             </ul>
           </div>
         </div>
