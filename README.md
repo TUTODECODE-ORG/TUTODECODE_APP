@@ -6,6 +6,13 @@ Plateforme souveraine de formation technique (Tauri + React) avec IA locale et z
 TutoDeCode est une plateforme orientee pratique pour apprendre l'informatique via des parcours guides, des tickets de mission et une validation assistee par IA locale.
 Ce depot contient le code source de l'application desktop Tauri et du frontend associe.
 
+## Utilisation du code source
+Le code source est public et protege par la licence de l'Association TUTODECODE.
+Vous avez le droit d'utiliser, etudier, modifier et redistribuer le code dans le cadre de la licence AGPL-3.0-only.
+En revanche, vous ne pouvez pas vous approprier le projet ni supprimer les mentions d'origine.
+Toute reutilisation doit conserver la provenance du projet et indiquer clairement qu'il vient de TutoDeCode.
+Pour les details juridiques complets, voir [LICENSE](LICENSE) et [LEGAL.md](LEGAL.md).
+
 ## Installation (utilisateurs)
 Les installeurs officiels sont heberges sur https://tutodecode.org.
 Merci de passer par le site pour installer l'application.
