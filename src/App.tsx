@@ -221,11 +221,45 @@ const clipText = (value: string, maxLength: number): string => {
   return `${value.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`;
 };
 
-const firstContentPreview = (section: any, maxLength = 520): string => {
+const firstContentPreview = (section: any, maxLength = 820): string => {
   const raw = typeof section?.content === 'string' ? section.content : '';
   const clean = stripMarkdownSyntax(raw);
   if (!clean) return '';
   return clipText(clean, maxLength);
+};
+
+const parseDurationToMinutes = (value?: string): number => {
+  if (!value || typeof value !== 'string') return 0;
+  const normalized = value.toLowerCase().replace(/\s+/g, '');
+  let minutes = 0;
+
+  const hoursMatch = normalized.match(/(\d+)h/);
+  const minutesMatch = normalized.match(/(\d+)min/);
+
+  if (hoursMatch?.[1]) {
+    minutes += Number(hoursMatch[1]) * 60;
+  }
+  if (minutesMatch?.[1]) {
+    minutes += Number(minutesMatch[1]);
+  }
+
+  if (minutes === 0) {
+    const asNumber = Number(normalized.replace(/[^\d]/g, ''));
+    if (Number.isFinite(asNumber) && asNumber > 0) {
+      minutes = asNumber;
+    }
+  }
+
+  return minutes;
+};
+
+const formatMinutesAsDuration = (minutes: number): string => {
+  if (minutes <= 0) return 'durée variable';
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  if (hours <= 0) return `${remainder}min`;
+  if (remainder === 0) return `${hours}h`;
+  return `${hours}h${remainder.toString().padStart(2, '0')}`;
 };
 
 const buildLearningObjectives = (course: any): string[] => {
@@ -233,56 +267,86 @@ const buildLearningObjectives = (course: any): string[] => {
   const first = keywords[0] || 'les fondamentaux du module';
   const second = keywords[1] || 'la pratique en conditions réelles';
   const third = keywords[2] || 'la validation de vos acquis';
+  const fourth = keywords[3] || 'les standards professionnels';
+  const category = String(course?.category || 'tech').toUpperCase();
 
   return [
-    `Comprendre les concepts clés liés à ${first}.`,
-    `Mettre en œuvre ${second} via des étapes guidées.`,
-    `Évaluer votre progression avec ${third} et des checks concrets.`,
+    `Comprendre en profondeur les concepts clés liés à ${first}.`,
+    `Mettre en œuvre ${second} via des exercices progressifs et contextualisés.`,
+    `Analyser des cas réels et corriger les erreurs fréquentes du domaine ${category}.`,
+    `Consolider vos acquis avec ${third} et des validations mesurables.`,
+    `Adopter ${fourth} pour produire un résultat robuste et maintenable.`,
+    'Être capable d’expliquer votre démarche comme dans un contexte professionnel.',
   ];
 };
 
 const buildCourseTheory = (course: any): string => {
   const sections: any[] = Array.isArray(course?.content) ? course.content : [];
   const objectives = buildLearningObjectives(course);
-  const roadmap = sections.slice(0, 6).map((section, index) => {
+  const summedMinutes = sections.reduce((acc, section) => acc + parseDurationToMinutes(section?.duration), 0);
+  const declaredMinutes = parseDurationToMinutes(course?.duration);
+  const estimatedMinutes = summedMinutes > 0 ? summedMinutes : declaredMinutes;
+  const roadmap = sections.slice(0, 12).map((section, index) => {
     const title = typeof section?.title === 'string' ? section.title : `Partie ${index + 1}`;
     const duration = typeof section?.duration === 'string' && section.duration.trim() ? ` (${section.duration.trim()})` : '';
     return `${index + 1}. **${title}**${duration}`;
   });
 
   const practicalChecklist = [
-    'Lire rapidement la partie théorie puis passer à un mini test pratique.',
-    'Exécuter au moins une commande ou snippet lié au chapitre.',
-    'Noter une erreur rencontrée et la correction appliquée.',
-    'Valider les acquis avec le quiz de fin de module.',
+    'Étudier une section, pratiquer immédiatement, puis documenter ce que vous avez retenu.',
+    'Exécuter au moins une commande ou un snippet significatif par bloc de cours.',
+    'Conserver un journal d’erreurs avec cause racine + correction appliquée.',
+    'Comparer votre solution à un standard pro (lisibilité, sécurité, performance).',
+    'Valider les acquis avec le quiz final et retenter si besoin pour dépasser le seuil.',
   ];
 
-  const sectionPreviews = sections
-    .slice(0, 2)
+  const sectionDeepDives = sections
+    .slice(0, 10)
     .map((section: any, index) => {
-      const title = typeof section?.title === 'string' ? section.title : `Focus ${index + 1}`;
+      const title = typeof section?.title === 'string' ? section.title : `Bloc ${index + 1}`;
+      const duration = typeof section?.duration === 'string' && section.duration.trim() ? section.duration.trim() : 'durée libre';
       const preview = firstContentPreview(section);
-      if (!preview) return '';
-      return `### ${title}\n${preview}`;
+      const sectionObjectives = Array.isArray(section?.terminalObjectives) ? section.terminalObjectives : [];
+      const sectionObjectiveLine = sectionObjectives.length
+        ? `\nObjectif pratique: ${sectionObjectives.slice(0, 2).map((item: any) => `${item?.cmd || 'commande'} (${item?.description || 'objectif'})`).join(' · ')}`
+        : '';
+
+      if (!preview) {
+        return `### Bloc ${index + 1} — ${title} (${duration})\nContenu guidé à pratiquer étape par étape.${sectionObjectiveLine}`;
+      }
+
+      return `### Bloc ${index + 1} — ${title} (${duration})\n${preview}${sectionObjectiveLine}`;
     })
-    .filter(Boolean)
     .join('\n\n');
+
+  const masteryTargets = [
+    `Piloter un module complet de ${course?.title || 'ce cours'} de façon autonome.`,
+    'Identifier, corriger et expliquer les erreurs sans assistance externe immédiate.',
+    'Produire un livrable final clair (commande, script, composant ou config) validable.',
+    'Être prêt à réutiliser les compétences dans un vrai projet personnel ou professionnel.',
+  ];
 
   return [
     `# ${course?.title || 'Module'}`,
     '',
     course?.description || 'Module pratique orienté progression.',
     '',
+    `Durée estimée de travail réel: **${formatMinutesAsDuration(estimatedMinutes)}**`,
+    '',
     '## Objectifs pédagogiques',
     ...objectives.map((item) => `- ${item}`),
     '',
-    '## Parcours recommandé',
+    '## Parcours long recommandé',
     ...(roadmap.length ? roadmap : ['1. **Découverte**', '2. **Pratique**', '3. **Validation**']),
     '',
-    '## Checklist de réussite',
+    '## Plan d’entraînement intensif',
     ...practicalChecklist.map((item) => `- ${item}`),
     '',
-    sectionPreviews || '### Aperçu\nCe module couvre théorie, mise en pratique et validation finale.',
+    '## Cours détaillé',
+    sectionDeepDives || '### Aperçu\nCe module couvre théorie, mise en pratique et validation finale.',
+    '',
+    '## Compétences finales visées',
+    ...masteryTargets.map((item) => `- ${item}`),
   ].join('\n');
 };
 
@@ -298,12 +362,14 @@ const buildChallengeHints = (course: any): string[] => {
     });
 
   const baseHints = [
-    'Commencez par reproduire un exemple minimal avant d’ajouter des variantes.',
+    'Commencez par reproduire un exemple minimal avant d’ajouter des variantes complexes.',
+    'Découpez votre mission en micro-étapes validables (entrée, traitement, sortie).',
     'Vérifiez le résultat attendu après chaque étape (évitez les gros changements d’un coup).',
     'En cas d’erreur, notez le message exact puis corrigez la cause racine.',
+    'Expliquez à voix haute ce que fait votre solution pour solidifier la compréhension.',
   ];
 
-  return [...baseHints, ...terminalObjectives].slice(0, 4);
+  return [...baseHints, ...terminalObjectives].slice(0, 6);
 };
 
 const buildCurriculumFromCourses = (courses: typeof allCourses): Chapter[] => courses.map((course, index) => {
