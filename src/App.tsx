@@ -15,6 +15,7 @@ import React, {
 } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { open as pickDirectory } from '@tauri-apps/plugin-dialog';
+import '@xterm/xterm/css/xterm.css';
 import { 
   BookOpen, 
   Terminal, 
@@ -610,107 +611,146 @@ const TerminalPanel = memo<TerminalPanelProps>(({ isOpen, onClose, onOutput }) =
   useEffect(() => {
     if (!terminalRef.current || !isOpen) return;
 
-    // Import dynamique de xterm pour éviter le chargement initial
-    import('@xterm/xterm').then(({ Terminal: XTermTerminal }) => {
-      import('@xterm/addon-fit').then(({ FitAddon }) => {
-        const term = new XTermTerminal({
-          cursorBlink: true,
-          fontFamily: 'JetBrains Mono, monospace',
-          fontSize: 14,
-          theme: {
-            background: '#0A0C12',
-            foreground: '#F0F6FC',
-            cursor: '#6366F1',
-            black: '#0A0C12',
-            red: '#EF4444',
-            green: '#10B981',
-            yellow: '#F59E0B',
-            blue: '#6366F1',
-            magenta: '#A855F7',
-            cyan: '#06B6D4',
-            white: '#F0F6FC',
-          },
-          scrollback: 10000,
-        });
+    let disposed = false;
+    let term: import('@xterm/xterm').Terminal | null = null;
+    let resizeHandler: (() => void) | null = null;
 
-        const fitAddon = new FitAddon();
-        term.loadAddon(fitAddon);
-        term.open(terminalRef.current!);
-        fitAddon.fit();
+    const bootTerminal = async () => {
+      const [{ Terminal: XTermTerminal }, { FitAddon }] = await Promise.all([
+        import('@xterm/xterm'),
+        import('@xterm/addon-fit'),
+      ]);
 
-        // Message de bienvenue
-        term.writeln('\x1b[1;34m╔══════════════════════════════════════════════════════════════╗\x1b[0m');
-        term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTerminal TutoDeCode Pro\x1b[0m                              \x1b[1;34m║\x1b[0m');
-        term.writeln('\x1b[1;34m║\x1b[0m  \x1b[90mTapez \x1b[33mhelp\x1b[90m pour les commandes disponibles\x1b[0m              \x1b[1;34m║\x1b[0m');
-        term.writeln('\x1b[1;34m╚══════════════════════════════════════════════════════════════╝\x1b[0m');
-        term.writeln('');
-        term.write('\x1b[1;32m➜\x1b[0m \x1b[1;34m~/tutodecode\x1b[0m \x1b[90m(main)\x1b[0m ');
+      if (disposed || !terminalRef.current) return;
 
-        // Gestion des entrées
-        let currentLine = '';
-        term.onData((data: string) => {
-          const code = data.charCodeAt(0);
-
-          if (code === 13) { // Enter
-            term.writeln('');
-            handleCommand(currentLine, term);
-            currentLine = '';
-          } else if (code === 127) { // Backspace
-            if (currentLine.length > 0) {
-              currentLine = currentLine.slice(0, -1);
-              term.write('\b \b');
-            }
-          } else if (code >= 32 && code < 127) {
-            currentLine += data;
-            term.write(data);
-          }
-        });
-
-        const handleCommand = (cmd: string, term: any) => {
-          const trimmed = cmd.trim();
-          
-          if (trimmed === 'help') {
-            term.writeln('\x1b[1;36mCommandes disponibles:\x1b[0m');
-            term.writeln('  \x1b[33mclear\x1b[0m      - Efface le terminal');
-            term.writeln('  \x1b[33mhelp\x1b[0m       - Affiche cette aide');
-            term.writeln('  \x1b[33mcheck\x1b[0m      - Vérifie votre solution');
-            term.writeln('  \x1b[33mhint\x1b[0m       - Demande un indice');
-            term.writeln('  \x1b[33mcargo\x1b[0m      - Commandes Cargo');
-          } else if (trimmed === 'clear') {
-            term.clear();
-          } else if (trimmed === 'check') {
-            term.writeln('\x1b[32m✅ Solution validée !\x1b[0m');
-            onOutput?.({
-              id: Date.now().toString(),
-              type: 'output',
-              content: 'Solution validée',
-              timestamp: Date.now()
-            });
-          } else if (trimmed === 'hint') {
-            term.writeln('\x1b[33m💡 Regardez attentivement le message d\'erreur...\x1b[0m');
-          } else if (trimmed.startsWith('cargo')) {
-            term.writeln('\x1b[90m   Compiling tutodecode-app v0.1.0\x1b[0m');
-            term.writeln('\x1b[90m    Finished dev [unoptimized + debuginfo] target(s) in 2.34s\x1b[0m');
-          } else if (trimmed) {
-            term.writeln(`\x1b[31mCommande non trouvée: ${trimmed}\x1b[0m`);
-          }
-
-          term.write('\x1b[1;32m➜\x1b[0m \x1b[1;34m~/tutodecode\x1b[0m \x1b[90m(main)\x1b[0m ');
-        };
-
-        // Cleanup
-        return () => {
-          term.dispose();
-        };
+      term = new XTermTerminal({
+        cursorBlink: true,
+        fontFamily: 'JetBrains Mono, monospace',
+        fontSize: 14,
+        theme: {
+          background: '#0A0C12',
+          foreground: '#F0F6FC',
+          cursor: '#6366F1',
+          black: '#0A0C12',
+          red: '#EF4444',
+          green: '#10B981',
+          yellow: '#F59E0B',
+          blue: '#6366F1',
+          magenta: '#A855F7',
+          cyan: '#06B6D4',
+          white: '#F0F6FC',
+        },
+        scrollback: 10000,
       });
-    });
+
+      const fitAddon = new FitAddon();
+      term.loadAddon(fitAddon);
+      term.open(terminalRef.current);
+      fitAddon.fit();
+      term.focus();
+
+      term.writeln('\x1b[1;34m╔══════════════════════════════════════════════════════════════╗\x1b[0m');
+      term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTerminal TutoDeCode Pro\x1b[0m                              \x1b[1;34m║\x1b[0m');
+      term.writeln('\x1b[1;34m║\x1b[0m  \x1b[90mTapez \x1b[33mhelp\x1b[90m pour les commandes disponibles\x1b[0m              \x1b[1;34m║\x1b[0m');
+      term.writeln('\x1b[1;34m╚══════════════════════════════════════════════════════════════╝\x1b[0m');
+      term.writeln('');
+      term.write('\x1b[1;32m➜\x1b[0m \x1b[1;34m~/tutodecode\x1b[0m \x1b[90m(main)\x1b[0m ');
+
+      const handleCommand = (cmd: string, terminalInstance: import('@xterm/xterm').Terminal) => {
+        const trimmed = cmd.trim();
+        if (trimmed === 'help') {
+          terminalInstance.writeln('\x1b[1;36mCommandes disponibles:\x1b[0m');
+          terminalInstance.writeln('  \x1b[33mclear\x1b[0m      - Efface le terminal');
+          terminalInstance.writeln('  \x1b[33mhelp\x1b[0m       - Affiche cette aide');
+          terminalInstance.writeln('  \x1b[33mcheck\x1b[0m      - Vérifie votre solution');
+          terminalInstance.writeln('  \x1b[33mhint\x1b[0m       - Demande un indice');
+          terminalInstance.writeln('  \x1b[33mcargo\x1b[0m      - Commandes Cargo');
+          onOutput?.({
+            id: Date.now().toString(),
+            type: 'system',
+            content: 'Aide terminal affichée',
+            timestamp: Date.now(),
+          });
+        } else if (trimmed === 'clear') {
+          terminalInstance.clear();
+        } else if (trimmed === 'check') {
+          terminalInstance.writeln('\x1b[32m✅ Solution validée !\x1b[0m');
+          onOutput?.({
+            id: Date.now().toString(),
+            type: 'output',
+            content: 'Solution validée',
+            timestamp: Date.now(),
+          });
+        } else if (trimmed === 'hint') {
+          const hintMessage = '💡 Regardez attentivement le message d\'erreur...';
+          terminalInstance.writeln(`\x1b[33m${hintMessage}\x1b[0m`);
+          onOutput?.({
+            id: Date.now().toString(),
+            type: 'output',
+            content: hintMessage,
+            timestamp: Date.now(),
+          });
+        } else if (trimmed.startsWith('cargo')) {
+          terminalInstance.writeln('\x1b[90m   Compiling tutodecode-app v0.1.0\x1b[0m');
+          terminalInstance.writeln('\x1b[90m    Finished dev [unoptimized + debuginfo] target(s) in 2.34s\x1b[0m');
+          onOutput?.({
+            id: Date.now().toString(),
+            type: 'output',
+            content: 'cargo check terminé sans erreur',
+            timestamp: Date.now(),
+          });
+        } else if (trimmed) {
+          terminalInstance.writeln(`\x1b[31mCommande non trouvée: ${trimmed}\x1b[0m`);
+          onOutput?.({
+            id: Date.now().toString(),
+            type: 'error',
+            content: `Commande non trouvée: ${trimmed}`,
+            timestamp: Date.now(),
+          });
+        }
+
+        terminalInstance.write('\x1b[1;32m➜\x1b[0m \x1b[1;34m~/tutodecode\x1b[0m \x1b[90m(main)\x1b[0m ');
+      };
+
+      let currentLine = '';
+      term.onData((data: string) => {
+        const code = data.charCodeAt(0);
+
+        if (code === 13) {
+          term?.writeln('');
+          if (term) handleCommand(currentLine, term);
+          currentLine = '';
+        } else if (code === 127) {
+          if (currentLine.length > 0) {
+            currentLine = currentLine.slice(0, -1);
+            term?.write('\b \b');
+          }
+        } else if (code >= 32 && code < 127) {
+          currentLine += data;
+          term?.write(data);
+        }
+      });
+
+      resizeHandler = () => fitAddon.fit();
+      window.addEventListener('resize', resizeHandler);
+    };
+
+    void bootTerminal();
+
+    return () => {
+      disposed = true;
+      if (resizeHandler) {
+        window.removeEventListener('resize', resizeHandler);
+      }
+      term?.dispose();
+    };
   }, [isOpen, onOutput]);
 
   if (!isOpen) return null;
 
   return (
     <div className={cn(
-      "fixed inset-x-0 bottom-0 bg-[var(--td-bg-primary)] border-t border-[var(--td-border)] z-40 transition-all duration-300",
+      "fixed inset-x-0 bottom-0 bg-[var(--td-bg-primary)] border-t border-[var(--td-border)] z-40 transition-all duration-300 flex flex-col",
       isMaximized ? "top-0" : "h-80"
     )}>
       {/* Header */}
@@ -735,7 +775,9 @@ const TerminalPanel = memo<TerminalPanelProps>(({ isOpen, onClose, onOutput }) =
       </div>
 
       {/* Terminal */}
-      <div ref={terminalRef} className="h-full p-2" />
+      <div className="flex-1 p-2 min-h-0">
+        <div ref={terminalRef} className="w-full h-full" />
+      </div>
     </div>
   );
 });
