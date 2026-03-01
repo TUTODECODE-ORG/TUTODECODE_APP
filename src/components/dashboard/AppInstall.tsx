@@ -27,8 +27,6 @@ interface AppInstallProps {
 }
 
 export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: AppInstallProps) {
-  const linuxInstallerUrl = '/downloads/TutoDeCode-Linux.AppImage';
-
   const features = [
     {
       icon: WifiOff,
@@ -72,23 +70,6 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
 
   const openGitHub = () => {
     window.open('https://github.com/tutodecode/app/releases', '_blank');
-  };
-
-  const downloadLinux = () => {
-    const token = Date.now();
-    const linuxUrl = `${linuxInstallerUrl}?v=${token}`;
-
-    fetch(linuxUrl, { method: 'HEAD', cache: 'no-store' })
-      .then((response) => {
-        if (response.ok) {
-          window.location.href = linuxUrl;
-          return;
-        }
-        openGitHub();
-      })
-      .catch(() => {
-        openGitHub();
-      });
   };
 
   const openDemo = () => {
@@ -200,28 +181,10 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
                     className="w-full"
                   >
                     <ExternalLink className="w-4 h-4 mr-2" />
-                    Voir le code source (Tauri + Linux)
+                    Voir le code source (Tauri)
                   </Button>
                   <p className="text-xs text-[var(--td-text-tertiary)] mt-2 text-center">
-                    Dépôt officiel: code source des apps Tauri/Linux + artefacts de release
-                  </p>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-[var(--td-surface-elevated)] border border-[var(--td-border)]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="font-semibold text-[var(--td-text-primary)]">Linux</span>
-                    <Badge className="bg-[var(--td-primary)]/20 text-[var(--td-primary)]">Nouveau</Badge>
-                  </div>
-                  <Button
-                    variant="outline"
-                    onClick={downloadLinux}
-                    className="w-full"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Installer pour Linux
-                  </Button>
-                  <p className="text-xs text-[var(--td-text-tertiary)] mt-2 text-center">
-                    Télécharge l'AppImage Linux si présent, sinon ouvre les releases GitHub.
+                    Dépôt officiel: code source de l'app Tauri + artefacts de release
                   </p>
                 </div>
 
