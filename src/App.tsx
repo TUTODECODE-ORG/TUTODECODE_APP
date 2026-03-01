@@ -206,11 +206,113 @@ const defaultCodeByCategory = (category?: string): { language: string; code: str
   }
 };
 
+const stripMarkdownSyntax = (value: string): string => {
+  return value
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/#+\s?/g, '')
+    .replace(/[>*_]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+};
+
+const clipText = (value: string, maxLength: number): string => {
+  if (value.length <= maxLength) return value;
+  return `${value.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`;
+};
+
+const firstContentPreview = (section: any, maxLength = 520): string => {
+  const raw = typeof section?.content === 'string' ? section.content : '';
+  const clean = stripMarkdownSyntax(raw);
+  if (!clean) return '';
+  return clipText(clean, maxLength);
+};
+
+const buildLearningObjectives = (course: any): string[] => {
+  const keywords = Array.isArray(course?.keywords) ? course.keywords.filter(Boolean) : [];
+  const first = keywords[0] || 'les fondamentaux du module';
+  const second = keywords[1] || 'la pratique en conditions réelles';
+  const third = keywords[2] || 'la validation de vos acquis';
+
+  return [
+    `Comprendre les concepts clés liés à ${first}.`,
+    `Mettre en œuvre ${second} via des étapes guidées.`,
+    `Évaluer votre progression avec ${third} et des checks concrets.`,
+  ];
+};
+
+const buildCourseTheory = (course: any): string => {
+  const sections: any[] = Array.isArray(course?.content) ? course.content : [];
+  const objectives = buildLearningObjectives(course);
+  const roadmap = sections.slice(0, 6).map((section, index) => {
+    const title = typeof section?.title === 'string' ? section.title : `Partie ${index + 1}`;
+    const duration = typeof section?.duration === 'string' && section.duration.trim() ? ` (${section.duration.trim()})` : '';
+    return `${index + 1}. **${title}**${duration}`;
+  });
+
+  const practicalChecklist = [
+    'Lire rapidement la partie théorie puis passer à un mini test pratique.',
+    'Exécuter au moins une commande ou snippet lié au chapitre.',
+    'Noter une erreur rencontrée et la correction appliquée.',
+    'Valider les acquis avec le quiz de fin de module.',
+  ];
+
+  const sectionPreviews = sections
+    .slice(0, 2)
+    .map((section: any, index) => {
+      const title = typeof section?.title === 'string' ? section.title : `Focus ${index + 1}`;
+      const preview = firstContentPreview(section);
+      if (!preview) return '';
+      return `### ${title}\n${preview}`;
+    })
+    .filter(Boolean)
+    .join('\n\n');
+
+  return [
+    `# ${course?.title || 'Module'}`,
+    '',
+    course?.description || 'Module pratique orienté progression.',
+    '',
+    '## Objectifs pédagogiques',
+    ...objectives.map((item) => `- ${item}`),
+    '',
+    '## Parcours recommandé',
+    ...(roadmap.length ? roadmap : ['1. **Découverte**', '2. **Pratique**', '3. **Validation**']),
+    '',
+    '## Checklist de réussite',
+    ...practicalChecklist.map((item) => `- ${item}`),
+    '',
+    sectionPreviews || '### Aperçu\nCe module couvre théorie, mise en pratique et validation finale.',
+  ].join('\n');
+};
+
+const buildChallengeHints = (course: any): string[] => {
+  const sections: any[] = Array.isArray(course?.content) ? course.content : [];
+  const terminalObjectives = sections
+    .flatMap((section: any) => Array.isArray(section?.terminalObjectives) ? section.terminalObjectives : [])
+    .slice(0, 2)
+    .map((objective: any) => {
+      const cmd = typeof objective?.cmd === 'string' ? objective.cmd : '';
+      const description = typeof objective?.description === 'string' ? objective.description : 'Objectif terminal à atteindre';
+      return cmd ? `Testez \`${cmd}\` : ${description}.` : description;
+    });
+
+  const baseHints = [
+    'Commencez par reproduire un exemple minimal avant d’ajouter des variantes.',
+    'Vérifiez le résultat attendu après chaque étape (évitez les gros changements d’un coup).',
+    'En cas d’erreur, notez le message exact puis corrigez la cause racine.',
+  ];
+
+  return [...baseHints, ...terminalObjectives].slice(0, 4);
+};
+
 const buildCurriculumFromCourses = (courses: typeof allCourses): Chapter[] => courses.map((course, index) => {
   const firstSection = course.content?.[0];
   const firstCodeBlock = firstSection?.codeBlocks?.[0];
   const fallbackCode = defaultCodeByCategory(course.category);
   const codeLanguage = firstCodeBlock?.language || fallbackCode.language;
+  const challengeKeyword = course.keywords?.[0] || course.category || 'ce domaine';
+  const challengeHints = buildChallengeHints(course);
 
   return {
     id: course.id,
@@ -219,25 +321,21 @@ const buildCurriculumFromCourses = (courses: typeof allCourses): Chapter[] => co
     subtitle: `${(course.category || 'it').toUpperCase()} · ${course.chapters || 1} chapitres`,
     duration: course.duration || '2h',
     difficulty: levelToDifficulty(course.level),
-    theory: firstSection?.content || course.description || `Introduction au module ${course.title}`,
+    theory: buildCourseTheory(course),
     codeExample: {
       language: codeLanguage,
       filename: `${course.id}.${languageToExtension(codeLanguage)}`,
       code: firstCodeBlock?.code || fallbackCode.code,
     },
     challenge: {
-      title: `Atelier: ${course.title}`,
-      description: `Mettez en pratique les fondamentaux du module ${course.title}.`,
-      task: `Réalisez une mini implémentation liée à ${course.keywords?.[0] || course.category || 'ce domaine'} puis validez le résultat.`,
-      hints: [
-        'Commencez par reproduire l’exemple de code.',
-        'Adaptez-le à votre contexte.',
-        'Validez avec une sortie claire.',
-      ],
+      title: `Atelier renforcé: ${course.title}`,
+      description: `Transformez la théorie en pratique avec un mini-lab guidé et une validation finale sur ${course.title}.`,
+      task: `Construisez une mini solution autour de ${challengeKeyword}, démontrez le résultat et expliquez votre démarche en 3 étapes (problème, action, validation).`,
+      hints: challengeHints,
       validation: {
-        command: 'valider_module',
+        command: `valider_${course.id.replace(/-/g, '_')}`,
         expectedOutput: 'OK',
-        successMessage: 'Excellent, module validé.',
+        successMessage: 'Excellent, module validé avec une progression solide.',
       },
     },
     isLocked: index !== 0,
