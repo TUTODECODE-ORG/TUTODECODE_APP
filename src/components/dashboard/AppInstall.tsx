@@ -262,9 +262,6 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
             <p className="text-[10px] text-[var(--td-text-tertiary)] mt-3 italic">L'app envoie 0 donnée personnelle.</p>
           </div>
         </div>
-            </ul>
-          </div>
-        </div>
 
         {/* Requirements */}
         <div className="mt-8 text-center space-y-2">
