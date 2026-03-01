@@ -4,6 +4,7 @@
 // ============================================
 
 import { useState, useEffect, useRef, useMemo, memo } from 'react';
+import DOMPurify from 'dompurify';
 import { 
   Maximize2, 
   Minimize2, 
@@ -158,11 +159,12 @@ const parseMarkdown = (content: string): React.ReactNode[] => {
 };
 
 const parseInline = (text: string): string => {
-  return text
+  const raw = text
     .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 bg-[var(--td-surface)] rounded text-[var(--td-accent-ai)] font-mono text-sm">$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-[var(--td-text-primary)]">$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-[var(--td-primary)] hover:underline" target="_blank" rel="noopener">$1</a>');
+  return DOMPurify.sanitize(raw);
 };
 
 // ============================================
