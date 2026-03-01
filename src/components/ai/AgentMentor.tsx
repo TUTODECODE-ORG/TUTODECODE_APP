@@ -63,7 +63,7 @@ async function checkOllamaConnection(): Promise<OllamaStatus> {
     
     if (response.ok) {
       const data = await response.json();
-      const models = data.models?.map((m: { name: string }) => m.name.split(':')[0]) || [];
+      const models = data.models?.map((m: { name: string }) => m.name) || [];
       return {
         connected: true,
         model: models[0] || null,
@@ -77,30 +77,75 @@ async function checkOllamaConnection(): Promise<OllamaStatus> {
 }
 
 async function askOllama(model: string, prompt: string, systemPrompt?: string): Promise<string> {
-  const response = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model,
-      prompt,
-      system: systemPrompt || `Tu es un mentor de programmation pour TutoDeCode Pro. 
+  const buildBody = (modelName: string) => JSON.stringify({
+    model: modelName,
+    prompt,
+    system: systemPrompt || `Tu es un mentor de programmation pour TutoDeCode Pro. 
 Tu aides les étudiants à apprendre Rust et Tauri.
 - Ne donne JAMAIS la réponse directement
 - Guide l'étudiant avec des indices
 - Encourage et motive
 - Sois concis (2-3 phrases max)
 - Si c'est une erreur de code, explique pourquoi ça ne marche pas`,
-      stream: false,
-      options: {
-        temperature: 0.7,
-        num_predict: 200
-      }
-    }),
+    stream: false,
+    options: {
+      temperature: 0.7,
+      num_predict: 200
+    }
+  });
+
+  const response = await fetch(`${OLLAMA_URL}/api/generate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: buildBody(model),
     signal: AbortSignal.timeout(30000)
   });
   
   if (!response.ok) {
-    throw new Error(`Ollama error: ${response.status}`);
+    let remoteError = '';
+    try {
+      const errJson = await response.json();
+      remoteError = errJson?.error || '';
+    } catch {
+      // ignore parse failure
+    }
+
+    if (response.status === 404) {
+      const tagsResp = await fetch(`${OLLAMA_URL}/api/tags`, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000)
+      });
+
+      if (tagsResp.ok) {
+        const tagsData = await tagsResp.json();
+        const availableModels: string[] = tagsData.models?.map((m: { name: string }) => m.name) || [];
+        const fallbackModel = availableModels.find((m) => m !== model);
+
+        if (fallbackModel) {
+          const retry = await fetch(`${OLLAMA_URL}/api/generate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: buildBody(fallbackModel),
+            signal: AbortSignal.timeout(30000)
+          });
+
+          if (retry.ok) {
+            const retryData = await retry.json();
+            return retryData.response || 'Pas de réponse';
+          }
+        }
+      }
+
+      if (remoteError) {
+        throw new Error(`HTTP 404 Not Found (${remoteError})`);
+      }
+      throw new Error(`HTTP 404 Not Found (modèle introuvable: ${model})`);
+    }
+
+    if (remoteError) {
+      throw new Error(`HTTP ${response.status} (${remoteError})`);
+    }
+    throw new Error(`HTTP ${response.status}`);
   }
   
   const data = await response.json();

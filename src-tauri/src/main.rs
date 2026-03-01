@@ -39,6 +39,21 @@ struct OllamaGenerateResponse {
     response: String,
 }
 
+#[derive(Deserialize)]
+struct OllamaErrorResponse {
+    error: Option<String>,
+}
+
+#[derive(Deserialize)]
+struct OllamaModelInfo {
+    name: String,
+}
+
+#[derive(Deserialize)]
+struct OllamaTagsResponse {
+    models: Option<Vec<OllamaModelInfo>>,
+}
+
 // ============================================
 // TYPES ET STRUCTURES
 // ============================================
@@ -274,19 +289,20 @@ async fn ask_local_ai(prompt: String) -> CommandResult<String> {
         Err(e) => return CommandResult::err(format!("Client HTTP invalide: {}", e)),
     };
 
-    let payload = serde_json::json!({
-        "model": model,
-        "prompt": prompt,
-        "stream": false
-    });
+    let send_generate = |model_name: &str| {
+        let payload = serde_json::json!({
+            "model": model_name,
+            "prompt": prompt,
+            "stream": false
+        });
 
-    let response = client
-        .post("http://127.0.0.1:11434/api/generate")
-        .json(&payload)
-        .send()
-        .await;
+        client
+            .post("http://127.0.0.1:11434/api/generate")
+            .json(&payload)
+            .send()
+    };
 
-    let response = match response {
+    let response = match send_generate(&model).await {
         Ok(r) => r,
         Err(e) => {
             return CommandResult::err(format!(
@@ -297,7 +313,69 @@ async fn ask_local_ai(prompt: String) -> CommandResult<String> {
     };
 
     if !response.status().is_success() {
-        return CommandResult::err(format!("Erreur Ollama: HTTP {}", response.status()));
+        let status = response.status();
+        let maybe_error = response
+            .json::<OllamaErrorResponse>()
+            .await
+            .ok()
+            .and_then(|e| e.error)
+            .unwrap_or_default();
+
+        if status.as_u16() == 404 {
+            let tags_resp = client
+                .get("http://127.0.0.1:11434/api/tags")
+                .send()
+                .await
+                .ok()
+                .filter(|r| r.status().is_success());
+
+            if let Some(tags_resp) = tags_resp {
+                if let Ok(tags) = tags_resp.json::<OllamaTagsResponse>().await {
+                    if let Some(fallback_model) = tags
+                        .models
+                        .unwrap_or_default()
+                        .into_iter()
+                        .map(|m| m.name)
+                        .find(|name| !name.trim().is_empty() && name != &model)
+                    {
+                        let retry_response = match send_generate(&fallback_model).await {
+                            Ok(r) => r,
+                            Err(e) => {
+                                return CommandResult::err(format!(
+                                    "Erreur Ollama: modèle '{}' introuvable (HTTP 404) et fallback '{}' indisponible. Détail: {}",
+                                    model, fallback_model, e
+                                ))
+                            }
+                        };
+
+                        if retry_response.status().is_success() {
+                            return match retry_response.json::<OllamaGenerateResponse>().await {
+                                Ok(data) => CommandResult::ok(data.response),
+                                Err(e) => CommandResult::err(format!("Réponse IA invalide: {}", e)),
+                            };
+                        }
+                    }
+                }
+            }
+
+            if maybe_error.is_empty() {
+                return CommandResult::err(format!(
+                    "Erreur Ollama: HTTP 404 Not Found. Le modèle '{}' n'est probablement pas installé. Lancez: ollama pull {}",
+                    model, model
+                ));
+            }
+
+            return CommandResult::err(format!(
+                "Erreur Ollama: HTTP 404 Not Found ({})",
+                maybe_error
+            ));
+        }
+
+        if maybe_error.is_empty() {
+            return CommandResult::err(format!("Erreur Ollama: HTTP {}", status));
+        }
+
+        return CommandResult::err(format!("Erreur Ollama: HTTP {} ({})", status, maybe_error));
     }
 
     match response.json::<OllamaGenerateResponse>().await {
