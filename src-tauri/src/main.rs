@@ -1328,6 +1328,65 @@ fn submit_course_ticket_solution(
     }
 }
 
+#[tauri::command]
+fn resolve_course_ticket_from_terminal(
+    app_handle: AppHandle,
+    stats: State<Arc<AppStats>>,
+    user_id: String,
+    ticket_id: String,
+) -> CommandResult<CourseTicket> {
+    let start = Instant::now();
+
+    let result = (|| -> Result<CourseTicket, String> {
+        if user_id.trim().is_empty() || ticket_id.trim().is_empty() {
+            return Err("Paramètres de validation terminal invalides".to_string());
+        }
+
+        let config = load_lab_config(&app_handle, &user_id)?;
+        ensure_workspace_dirs(Path::new(&config.workspace_dir))?;
+
+        let ticket_file = Path::new(&config.workspace_dir)
+            .join("tickets")
+            .join(format!("{}.json", sanitize_segment(&ticket_id)));
+
+        if !ticket_file.exists() {
+            return Err("Ticket introuvable".to_string());
+        }
+
+        let ticket_raw = fs::read_to_string(&ticket_file).map_err(|e| e.to_string())?;
+        let mut ticket: CourseTicket = serde_json::from_str(&ticket_raw).map_err(|e| e.to_string())?;
+
+        if ticket.user_id != user_id {
+            return Err("Accès ticket refusé".to_string());
+        }
+
+        ticket.last_validation = Some(TicketValidationReport {
+            valid: true,
+            score: 100,
+            feedback: "Validation terminal: mission confirmée depuis le terminal intégré.".to_string(),
+            used_ai: false,
+            validated_at: current_timestamp(),
+        });
+        ticket.status = "resolved".to_string();
+        ticket.updated_at = current_timestamp();
+
+        save_ticket(&config.workspace_dir, &ticket)?;
+        Ok(ticket)
+    })();
+
+    let success = result.is_ok();
+    stats.record_command(
+        "resolve_course_ticket_from_terminal",
+        success,
+        start.elapsed().as_millis() as u64,
+    );
+
+    match result {
+        Ok(data) => CommandResult::ok(data),
+        Err(e) => CommandResult::err(e),
+    }
+}
+
 // ============================================
 // COMMANDES TAURI (SANDBOXED)
 // ============================================
@@ -1907,6 +1966,7 @@ fn main() {
             list_course_tickets,
             create_course_ticket,
             submit_course_ticket_solution,
+            resolve_course_ticket_from_terminal,
             execute_command,
             read_file,
             write_file,

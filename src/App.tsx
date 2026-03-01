@@ -1383,17 +1383,37 @@ const App: React.FC = () => {
   const handleTerminalOutput = useCallback((output: TerminalOutput) => {
     setTerminalOutputs(prev => [...prev, output]);
 
-    try {
-      const text = typeof output.content === 'string' ? output.content : '';
-      if (text.includes('Solution validée')) {
-        if (currentView === 'course') {
-          handleCompleteChapter(currentChapterId);
-        }
-      }
-    } catch (e) {
-      // ignore
+    const text = typeof output.content === 'string' ? output.content : '';
+    if (!text.includes('Solution validée')) {
+      return;
     }
-  }, [currentChapterId, currentView, handleCompleteChapter]);
+
+    const run = async () => {
+      if (currentView !== 'course') {
+        return;
+      }
+
+      try {
+        if (activeTicket?.id && canUseTauriInvoke) {
+          const resolved = await invoke<BackendResult<CourseTicket>>('resolve_course_ticket_from_terminal', {
+            userId,
+            ticketId: activeTicket.id,
+          });
+
+          if (resolved.success && resolved.data) {
+            setActiveTicket(resolved.data);
+            setTickets(prev => prev.map((ticket) => (ticket.id === resolved.data!.id ? resolved.data! : ticket)));
+          }
+        }
+
+        await handleCompleteChapter(currentChapterId);
+      } catch (error) {
+        console.error('Erreur validation terminal:', error);
+      }
+    };
+
+    void run();
+  }, [activeTicket, canUseTauriInvoke, currentChapterId, currentView, handleCompleteChapter, userId]);
 
   const submitTicketSolution = useCallback(async () => {
     if (!activeTicket) return;
