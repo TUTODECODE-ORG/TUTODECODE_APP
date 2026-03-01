@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { WASMLab } from '../components/Lab/Terminal';
+---
+
+<Layout title="Laboratoire WASM">
+    <div class="space-y-8">
+        <header>
+            <h2 class="text-3xl font-bold mb-2">Laboratoire d'Expertise</h2>
+            <p class="text-slate-400 text-sm">Exécutez de vraies commandes Linux et Node.js directement dans votre navigateur.</p>
+        </header>
+
+        <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+            <div class="xl:col-span-3">
+                <WASMLab client:only="react" />
+            </div>
+            
+            <aside class="space-y-6">
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
+                    <h4 class="font-bold mb-4 text-sm uppercase tracking-widest text-blue-400">Scénarios Disponibles</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li>
+                            <button class="w-full text-left p-2 hover:bg-slate-800 rounded transition-colors border border-transparent hover:border-slate-700">
+                                <div class="font-medium">Intro à Linux</div>
+                                <div class="text-[10px] text-slate-500">Navigation et filesystem</div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="w-full text-left p-2 hover:bg-slate-800 rounded transition-colors border border-transparent hover:border-slate-700">
+                                <div class="font-medium">Debugging Node.js</div>
+                                <div class="text-[10px] text-slate-500">Async/Await patterns</div>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="w-full text-left p-2 hover:bg-slate-800 rounded transition-colors border border-transparent hover:border-slate-700">
+                                <div class="font-medium">Audit de Sécurité</div>
+                                <div class="text-[10px] text-slate-500">Scan de dépendances</div>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-6 bg-yellow-500/5 border border-yellow-500/20 rounded-2xl">
+                    <p class="text-xs text-yellow-200/60 leading-relaxed">
+                        ⚠️ <strong>Sécurité TOTALE</strong> : Tout ce que vous tapez meurt dès que vous fermez l'onglet. 
+                        Rien n'est persisté sur un serveur distant.
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</Layout>

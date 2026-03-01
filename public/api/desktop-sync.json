@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "publishedAt": "2026-03-01T00:00:00Z",
+  "ui": {
+    "announcement": "L'application desktop synchronise automatiquement les nouveautés d'interface et de cours depuis le site, sans réinstallation complète.",
+    "latestNews": [
+      "Nouveau flux de mise à jour distant pour les contenus pédagogiques.",
+      "Tickets IA: génération de mission et validation assistée améliorées.",
+      "Synchronisation limitée aux contenus publics (aucune donnée utilisateur transmise)."
+    ]
+  },
+  "privacy": {
+    "collectsUserData": false,
+    "message": "Cette synchronisation récupère uniquement des contenus publics (interface/cours) et n'envoie aucune information utilisateur."
+  },
+  "courses": {
+    "revision": "2026.03.01",
+    "updates": [
+      {
+        "id": "linux-basics",
+        "subtitle": "KERNEL · contenu synchronisé",
+        "theory": "Ce module Linux est synchronisé automatiquement depuis l'API de contenu pour rester à jour sans réinstallation de l'application desktop."
+      }
+    ]
+  }
+}

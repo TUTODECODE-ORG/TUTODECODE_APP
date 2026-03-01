@@ -1,0 +1,22 @@
+node_modules/
+.vite/
+dist/
+assets/
+src-tauri/target/
+target/
+
+# Generated web/install artifacts
+index.deploy.html
+public/downloads/
+public/*.bat
+public/*.txt
+
+# Diagnostics and local logs
+diagnostic.html
+diff.txt
+lint_output.txt
+ts_error_log.txt
+
+# Common local/system files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,65 @@
+---
+export const getStaticPaths = () => {
+  return [
+    { params: { slug: 'devops' }, props: { title: 'Défense & Opérations (DevOps)' } },
+    { params: { slug: 'fullstack' }, props: { title: 'Ingénierie Fullstack' } },
+    { params: { slug: 'security' }, props: { title: 'Cybersécurité Offensive' } },
+  ];
+};
+
+const { slug } = Astro.params;
+const { title } = Astro.props;
+
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title={title}>
+    <div class="space-y-12">
+        <header class="max-w-3xl">
+            <div class="text-blue-500 font-bold text-xs uppercase tracking-widest mb-2">Roadmap v3.0</div>
+            <h2 class="text-4xl font-bold mb-4">{title}</h2>
+            <p class="text-slate-400">
+                Un parcours d'expertise complet pour devenir un expert en {slug}. 
+                Pas de tutoriels rapides, uniquement de la haute intensité.
+            </p>
+        </header>
+
+        <div class="relative pl-8 border-l border-slate-800 space-y-12">
+            <!-- Roadmap Steps -->
+            <div class="relative">
+                <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                <div class="space-y-2">
+                    <h4 class="font-bold">Niveau 1 : Les Fondations Mobiles</h4>
+                    <p class="text-sm text-slate-400">Maîtrise de l'architecture bas niveau.</p>
+                    <div class="text-[10px] text-blue-400 font-mono">DURÉE : 40h+</div>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-slate-800"></div>
+                <div class="space-y-2">
+                    <h4 class="font-bold">Niveau 2 : Patterns Architecturaux</h4>
+                    <p class="text-sm text-slate-400">Systèmes distribués et isolation.</p>
+                    <div class="text-[10px] text-blue-400 font-mono">DURÉE : 60h+</div>
+                </div>
+            </div>
+
+            <div class="relative opacity-40">
+                <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-slate-800"></div>
+                <div class="space-y-2">
+                    <h4 class="font-bold">Niveau 3 : Maîtrise Cognitive (IA)</h4>
+                    <p class="text-sm text-slate-400">Intégration de Transformers.js en local.</p>
+                    <div class="text-[10px] text-blue-400 font-mono">DURÉE : 80h+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-8 bg-blue-600/10 border border-blue-500/20 rounded-2xl flex items-center justify-between">
+            <div>
+                <h4 class="font-bold">Prêt pour la Certification ?</h4>
+                <p class="text-sm text-slate-400">Générez votre certificat souverain signé WebCrypto.</p>
+            </div>
+            <button class="px-6 py-2 bg-blue-600 rounded-lg font-bold hover:bg-blue-700 transition-colors">Démarrer</button>
+        </div>
+    </div>
+</Layout>

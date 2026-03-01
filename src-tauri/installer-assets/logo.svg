@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 512" width="800" height="512">
+  <defs>
+    <linearGradient id="gradD" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" /> <!-- Amber 400 -->
+      <stop offset="100%" style="stop-color:#F97316;stop-opacity:1" /> <!-- Orange 500 -->
+    </linearGradient>
+    <linearGradient id="gradC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FB923C;stop-opacity:1" /> <!-- Orange 400 -->
+      <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" /> <!-- Orange 600 -->
+    </linearGradient>
+    <linearGradient id="gradT" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" /> <!-- Blue 400 -->
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1" /> <!-- Blue 600 -->
+    </linearGradient>
+  </defs>
+
+  <!-- Letter T -->
+  <path d="M50 100 H210 V170 H160 V412 H100 V170 H50 V100 Z" 
+        fill="url(#gradT)" />
+
+  <!-- Letter D -->
+  <path d="M240 100 H340 Q450 100 450 256 Q450 412 340 412 H240 V100 Z M310 170 V342 H340 Q380 342 380 256 Q380 170 340 170 H310 Z" 
+        fill="url(#gradD)" />
+
+  <!-- Letter C -->
+  <path d="M720 150 Q720 100 650 100 H550 V412 H650 Q720 412 720 362 V300 H650 V342 H620 V170 H650 V212 H720 V150 Z" 
+        fill="url(#gradC)" />
+  <!-- Correcting C path to be more standard 'C' shape -->
+  <path d="M730 140 L660 140 Q630 140 630 170 V342 Q630 372 660 372 L730 372 L730 442 L660 442 Q550 442 550 342 V170 Q550 70 660 70 L730 70 V140 Z" 
+        fill="url(#gradC)" 
+        display="none"/> <!-- Hidden draft -->
+        
+  <!-- Better C -->
+  <path d="M740 150 L670 150 Q640 150 640 180 V332 Q640 362 670 362 L740 362 L740 432 L670 432 Q560 432 560 332 V180 Q560 80 670 80 L740 80 V150 Z"
+        fill="url(#gradC)" />
+
+</svg>

@@ -1,0 +1,216 @@
+/* ===== RESPONSIVE UTILITIES ===== */
+
+/* Adaptive spacing - scales with screen size */
+.spacing-xs {
+    padding: clamp(0.25rem, 1vw, 0.5rem);
+}
+
+.spacing-sm {
+    padding: clamp(0.5rem, 2vw, 1rem);
+}
+
+.spacing-md {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.spacing-lg {
+    padding: clamp(1.5rem, 4vw, 2rem);
+}
+
+.spacing-xl {
+    padding: clamp(2rem, 5vw, 3rem);
+}
+
+/* Gap utilities - responsive gaps */
+.gap-responsive-sm {
+    gap: clamp(0.5rem, 2vw, 1rem);
+}
+
+.gap-responsive-md {
+    gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+.gap-responsive-lg {
+    gap: clamp(1.5rem, 4vw, 2rem);
+}
+
+/* Grid auto-fit - adapts column count based on screen width */
+.grid-auto-fit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.grid-auto-fill {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Responsive card grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+/* Mobile: stack, Tablet: 2 cols, Desktop: 3+ cols */
+.adaptive-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .adaptive-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .adaptive-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 1536px) {
+    .adaptive-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+}
+
+/* Responsive flexbox */
+.flex-responsive {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .flex-responsive {
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+}
+
+/* Hide on mobile */
+@media (max-width: 639px) {
+    .hidden-mobile {
+        display: none !important;
+    }
+}
+
+/* Hide on tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .hidden-tablet {
+        display: none !important;
+    }
+}
+
+/* Hide on desktop */
+@media (min-width: 1024px) {
+    .hidden-desktop {
+        display: none !important;
+    }
+}
+
+/* Show only on mobile */
+.mobile-only {
+    display: block;
+}
+
+@media (min-width: 640px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* Responsive text alignment */
+.text-center-mobile {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .text-center-mobile {
+        text-align: left;
+    }
+}
+
+/* Responsive button sizing */
+.btn-responsive {
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+/* Touch target size - minimum 44px for mobile */
+.touch-target {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .touch-target {
+        min-height: 36px;
+        min-width: 36px;
+    }
+}
+
+/* Safe areas for notched devices */
+.safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+.safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    .landscape-compact {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+}
+
+/* Print optimizations */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .print-full-width {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Reduced motion - respects user preferences */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    * {
+        border-width: 2px !important;
+    }
+}
+
+/* Dark mode adaptations */
+@media (prefers-color-scheme: dark) {
+    .auto-dark {
+        filter: brightness(0.8);
+    }
+}

@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+// In a real Astro app, we would use getCollection here
+// const allCourses = await getCollection('courses');
+---
+
+<Layout title="Bibliothèque de Cours">
+    <div class="space-y-8">
+        <header class="flex items-center justify-between">
+            <div>
+                <h2 class="text-3xl font-bold mb-2">Bibliothèque</h2>
+                <p class="text-slate-400 text-sm">Explorez des parcours sur l'ensemble de l'informatique: dev, data, cloud, systèmes, réseau, sécurité, IA et plus.</p>
+            </div>
+            <div class="flex gap-2">
+                <button class="px-3 py-1.5 bg-slate-800 rounded-lg text-xs hover:bg-slate-700">Tous</button>
+                <button class="px-3 py-1.5 bg-slate-800/40 border border-slate-800 rounded-lg text-xs hover:bg-slate-700">Systèmes</button>
+                <button class="px-3 py-1.5 bg-slate-800/40 border border-slate-800 rounded-lg text-xs hover:bg-slate-700">Data</button>
+                <button class="px-3 py-1.5 bg-slate-800/40 border border-slate-800 rounded-lg text-xs hover:bg-slate-700">Cloud</button>
+                <button class="px-3 py-1.5 bg-slate-800/40 border border-slate-800 rounded-lg text-xs hover:bg-slate-700">Fullstack</button>
+                <button class="px-3 py-1.5 bg-slate-800/40 border border-slate-800 rounded-lg text-xs hover:bg-slate-700">DevOps</button>
+                <button class="px-3 py-1.5 bg-slate-800/40 border border-slate-800 rounded-lg text-xs hover:bg-slate-700">Cybersécurité</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Simulated Skeleton for 8,000 files -->
+            {[1,2,3,4,5,6,7,8].map(i => (
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-blue-500/40 transition-all cursor-pointer">
+                    <div class="h-32 bg-slate-800 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span class="px-2 py-0.5 bg-blue-500 text-[10px] font-bold rounded uppercase">IT</span>
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div class="font-bold text-sm leading-tight">Module #{i}: Fondamentaux d'un domaine informatique</div>
+                        <div class="flex items-center justify-between text-[10px] text-slate-500">
+                            <span>⏱️ 60h</span>
+                            <span>📊 Avancé</span>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        <div class="py-12 text-center">
+            <p class="text-slate-500 text-sm">Et 7,786 autres modules à explorer...</p>
+        </div>
+    </div>
+</Layout>

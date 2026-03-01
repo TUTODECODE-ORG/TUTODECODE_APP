@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Search } from '../components/Search';
+import { LocalAssistant } from '../components/LocalAssistant';
+
+// Future integration: fetch real counts from collections
+const stats = [
+    { label: 'Cours Disponibles', value: '7,794+' },
+    { label: 'Domaines IT', value: '42' },
+    { label: 'Roadmaps', value: '8' },
+];
+---
+
+<Layout title="Tableau de bord">
+	<div class="space-y-12">
+        <!-- Header Section -->
+        <section class="flex flex-col gap-6">
+            <h2 class="text-4xl font-bold tracking-tight">Bonjour, l'Indestrustible.</h2>
+            <p class="text-slate-400 max-w-2xl leading-relaxed">
+                Bienvenue dans la v3.0 de TutoDecode. Explorez tous les domaines de l'informatique: développement, data, cloud, systèmes, réseau, sécurité, IA et architecture. 
+                Votre progression, vos certificats et vos notes ne quitteront jamais votre navigateur.
+            </p>
+            <Search client:load />
+        </section>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {stats.map(stat => (
+                <div class="p-6 bg-slate-900/30 border border-slate-800 rounded-2xl">
+                    <div class="text-slate-500 text-xs uppercase tracking-widest mb-1">{stat.label}</div>
+                    <div class="text-3xl font-bold">{stat.value}</div>
+                </div>
+            ))}
+        </div>
+
+        <!-- Main Body Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Course Categories / Roadmaps -->
+                <section>
+                    <h3 class="text-xl font-semibold mb-6">Roadmaps Métiers</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {['DevOps', 'Fullstack', 'Cybersecurity', 'Data', 'Cloud', 'Backend', 'Frontend', 'Systèmes'].map(roadmap => (
+                            <a href={`/roadmaps/${roadmap.toLowerCase()}`} class="group p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500/50 transition-all">
+                                <div class="font-bold mb-2 group-hover:text-blue-400">{roadmap}</div>
+                                <div class="text-xs text-slate-500">Parcours complet du niveau débutant à expert.</div>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold mb-6">Derniers Apprentissages</h3>
+                    <div class="text-slate-500 text-sm py-12 border-2 border-dashed border-slate-800 rounded-2xl text-center">
+                        Aucune donnée locale détectée. Commencez un cours pour voir votre progression.
+                    </div>
+                </section>
+            </div>
+
+            <aside class="space-y-8">
+                <LocalAssistant client:idle />
+                
+                <div class="p-6 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 border border-blue-500/20 rounded-2xl">
+                    <h4 class="font-bold mb-2 flex items-center gap-2">
+                        <span>🛡️</span> Souveraineté Totale
+                    </h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Cette application ne contient aucun cookie, aucun script de tracking. 
+                        Vos certifications sont signées cryptographiquement sur cet appareil.
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</Layout>

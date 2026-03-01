@@ -1,0 +1,41 @@
+﻿{
+  "metadata": {
+    "version": "1.0.0",
+    "updatedAt": "2026-02-27T15:28:03.1256827Z",
+    "description": "Cours personnalis\u00E9s charg\u00E9s automatiquement au runtime",
+    "count": 1
+  },
+  "courses": [
+    {
+      "id": "t",
+      "title": "tets",
+      "description": "Cours personnalis\u00E9 import\u00E9.",
+      "level": "intermediate",
+      "duration": "2h",
+      "category": "forge",
+      "keywords": [],
+      "content": [
+        {
+          "id": "deef",
+          "title": "fefee",
+          "duration": "1",
+          "content": "Contenu \u00E0 compl\u00E9ter."
+        }
+      ],
+      "quiz": [
+        {
+          "id": "1363",
+          "question": "636",
+          "options": [
+            "3\u002B3",
+            "33",
+            "3\u002B\u002B",
+            "4"
+          ],
+          "correctAnswer": 3,
+          "explanation": "R\u00E9ponse valid\u00E9e."
+        }
+      ]
+    }
+  ]
+}

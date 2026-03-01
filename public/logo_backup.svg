@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Background -->
+  <rect width="400" height="400" fill="#F8F9FA"/>
+  
+  <!-- Letter T (Blue) -->
+  <path d="M 50 100 L 170 100 L 170 130 L 130 130 L 130 280 L 90 280 L 90 130 L 50 130 Z" 
+        fill="#4A90E2"/>
+  
+  <!-- Letter D (Orange gradient) -->
+  <defs>
+    <linearGradient id="gradD" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F8961E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M 150 100 L 220 100 Q 270 100 270 150 L 270 230 Q 270 280 220 280 L 150 280 L 150 250 L 215 250 Q 230 250 230 235 L 230 145 Q 230 130 215 130 L 150 130 Z" 
+        fill="url(#gradD)"/>
+  
+  <!-- Letter C (Orange-Yellow gradient) -->
+  <defs>
+    <linearGradient id="gradC" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FAC832;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5A623;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M 350 145 Q 350 100 300 100 L 260 100 L 260 130 L 295 130 Q 310 130 310 145 L 310 235 Q 310 250 295 250 L 260 250 L 260 280 L 300 280 Q 350 280 350 235 Z" 
+        fill="url(#gradC)"/>
+</svg>

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.0.0",
+  "productName": "TutoDeCode",
+  "version": "1.0.1",
+  "identifier": "com.tutodecode.pro",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "npm run dev:tauri-frontend",
+    "beforeBuildCommand": "npm run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "TutoDeCode",
+        "width": 1600,
+        "height": 1000,
+        "minWidth": 1200,
+        "minHeight": 800,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false,
+        "transparent": false,
+        "decorations": true,
+        "alwaysOnTop": false,
+        "visible": true,
+        "skipTaskbar": false,
+        "windowEffects": {
+          "effects": ["mica"],
+          "state": "followsWindowActiveState"
+        }
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "script-src": "'self' 'unsafe-inline' 'unsafe-eval'",
+        "style-src": "'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src": "'self' https://fonts.gstatic.com data:",
+        "connect-src": "'self' blob: data: https://api.github.com",
+        "img-src": "'self' blob: data: https:",
+        "media-src": "'self' blob:",
+        "frame-src": "'self'",
+        "worker-src": "'self' blob:"
+      },
+      "dangerousDisableAssetCspModification": false,
+      "freezePrototype": true
+    },
+    "macOSPrivateApi": false,
+    "withGlobalTauri": false
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["msi", "dmg", "deb", "appimage"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [],
+    "externalBin": [],
+    "copyright": "© 2024-2026 TutoDeCode. Tous droits réservés.",
+    "category": "DeveloperTool",
+    "shortDescription": "Plateforme premium de formation dev, securite et IA locale",
+    "longDescription": "TutoDeCode est une plateforme de formation technique avec parcours progressifs, pratique guidee et GhostAI local via Ollama, pour une execution souveraine sans dependance cloud.",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "http://timestamp.digicert.com",
+      "tsp": false,
+      "allowDowngrades": false,
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      },
+      "wix": {
+        "language": "fr-FR",
+        "upgradeCode": "2d80898f-a8da-5a39-a294-8a51f3dba3b9",
+        "bannerPath": "installer-assets/logo.png",
+        "dialogImagePath": "installer-assets/logo.png"
+      }
+    }
+  },
+  "plugins": {
+    "shell": {
+      "open": true
+    },
+    "updater": {
+      "active": true,
+      "dialog": true,
+      "endpoints": ["https://api.tutodecode.com/updates/{{target}}/{{arch}}/{{current_version}}"],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk5QkQ5QzA5MDE2QzQ5QTQKUldTNU1QdG9xZ0J4U2tUc0xCWkNVYjRuY0ZzQWJtN0lMdkd6eXlNdE5wNUxIeE1yN0d4Q2wK"
+    }
+  }
+}

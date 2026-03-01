@@ -1,0 +1,11 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "terminal-pty",
+  "description": "Terminal PTY capabilities for desktop platforms",
+  "windows": ["main"],
+  "permissions": [
+    "shell:default",
+    "shell:allow-execute",
+    "shell:allow-spawn"
+  ]
+}

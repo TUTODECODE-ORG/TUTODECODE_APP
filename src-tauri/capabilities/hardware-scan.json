@@ -1,0 +1,13 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "hardware-scan",
+  "description": "Hardware scanning capabilities",
+  "windows": ["main"],
+  "permissions": [
+    "os:allow-platform",
+    "os:allow-version",
+    "os:allow-os-type",
+    "process:allow-restart",
+    "process:allow-exit"
+  ]
+}

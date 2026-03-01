@@ -1,0 +1,2106 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "updatedAt": "2026-02-27T16:15:21.767Z",
+    "description": "Cours personnalisés chargés automatiquement au runtime",
+    "count": 39
+  },
+  "courses": [
+    {
+      "id": "linux-basics",
+      "title": "Les Bases de Linux",
+      "description": "Maîtrisez les fondamentaux de Linux : navigation, commandes essentielles et gestion du système.",
+      "level": "beginner",
+      "duration": "8h",
+      "category": "kernel",
+      "keywords": [
+        "linux",
+        "terminal",
+        "bash",
+        "commandes",
+        "unix"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction à Linux",
+          "duration": "30min",
+          "content": "# Introduction à Linux\n\nBienvenue dans le monde de Linux, le cœur battant d'internet. Vous pensiez que Windows dirigeait le monde ? Pensez-y à deux fois. La quasi-totalité des serveurs mondiaux, des supercalculateurs, et même des smartphones (Android) tournent sous Linux.\n\n## 🐧 Pourquoi Linux est-il incontournable ?\n- **C'est gratuit et open-source** : Tout le monde peut auditer le code.\n- **Stabilité légendaire** : Des serveurs peuvent tourner des années sans jamais avoir besoin d'un redémarrage.\n- **Sécurité** : Pas de .exe mystérieux, une gestion des droits stricte.\n- **Le vrai pouvoir** : Le terminal vous donne un contrôle absolu. Il n'y a pas d'interface graphique pour vous limiter.\n\n> 💡 **Le saviez-vous ?** Linus Torvalds a créé Linux en 1991 dans sa chambre d'étudiant parce qu'il n'avait pas les moyens de se payer Unix. Aujourd'hui, même Microsoft utilise Linux pour faire tourner Azure !"
+        },
+        {
+          "id": "distros",
+          "title": "Les Distributions Linux",
+          "duration": "25min",
+          "content": "# Les Distributions (Distros)\n\nContrairement à Windows ou macOS qui sont des blocs monolithiques, Linux est en fait juste un \"Noyau\" (Kernel). Autour de ce noyau, des milliers d'organisations construisent leur propre système d'exploitation : ce sont les **distributions**.\n\n## 🌍 Les Familles Principales\n- **Debian / Ubuntu** : Les plus connues. Ubuntu est la reine des débutants, Debian est la reine de la stabilité.\n- **RedHat / Fedora / CentOS** : Le standard des grandes entreprises et banques américaines.\n- **Arch Linux** : Pour les puristes. Vous assemblez votre OS brique par brique. Si vous l'utilisez, vous êtes moralement obligé de dire *\"I use Arch, by the way\"*.\n- **Kali Linux** : La boîte à outils des hackers (Pentesting).\n\n*Choisissez votre arme, mais rappelez-vous : sous le capot, le terminal bash reste votre meilleur ami.*"
+        },
+        {
+          "id": "navigation",
+          "title": "Navigation Système",
+          "duration": "45min",
+          "content": "# Navigation\n\nCommandes de base pour se déplacer.\n\n## Commandes\n- pwd : répertoire actuel\n- ls : liste fichiers\n- cd : changer de répertoire\n- tree : arborescence"
+        },
+        {
+          "id": "files",
+          "title": "Gestion des Fichiers",
+          "duration": "50min",
+          "content": "# Gestion Fichiers - Le Couteau Suisse\n\nSous Linux, l'adage est simple : **\"Tout est un fichier\"**. Même votre clavier ou votre écran sont considérés comme des fichiers texte par le système !\n\n## 🛠️ L'Arsenal de Base\n- `touch <fichier>` : Crée un fichier vide instantanément.\n- `mkdir <dossier>` : Crée un répertoire (Make Directory).\n- `cp <source> <destination>` : Copie vos données.\n- `mv <source> <destination>` : Déplace ou renomme. Il n'y a pas de commande magique \"rename\" par défaut, on déplace le fichier vers un nouveau nom.\n- `rm <fichier>` : Supprime définitivement. **Attention : Il n'y a PAS de corbeille dans le terminal.** C'est effacé pour toujours.\n\n> ☠️ **L'erreur fatale** : Taper `rm -rf /` en tant qu'administrateur effacera instantanément l'intégralité de votre disque dur. N'essayez jamais ça sur une vraie machine !"
+        },
+        {
+          "id": "permissions",
+          "title": "Permissions Unix",
+          "duration": "1h",
+          "content": "# Permissions\n\nChaque fichier a des permissions.\n\n## Types\n- r : lecture (4)\n- w : écriture (2)\n- x : exécution (1)\n\nExemple : chmod 755 fichier"
+        },
+        {
+          "id": "processes",
+          "title": "Gestion des Processus",
+          "duration": "45min",
+          "content": "# Processus\n\n## Commandes\n- ps : liste processus\n- top/htop : monitoring\n- kill : arrêter processus\n- bg/fg : arrière-plan"
+        },
+        {
+          "id": "network",
+          "title": "Réseau sous Linux",
+          "duration": "1h",
+          "content": "# Réseau\n\n## Commandes réseau\n- ifconfig/ip : config réseau\n- ping : tester connexion\n- netstat : connexions actives\n- ssh : connexion distante"
+        },
+        {
+          "id": "packages",
+          "title": "Gestion des Paquets",
+          "duration": "40min",
+          "content": "# Paquets\n\n## Gestionnaires\n- apt (Debian/Ubuntu)\n- yum/dnf (RedHat/Fedora)\n- pacman (Arch)\n\nExemple : sudo apt update && sudo apt install nginx"
+        },
+        {
+          "id": "shell",
+          "title": "Scripts Shell",
+          "duration": "1h30",
+          "content": "# Scripts Bash\n\nAutomatisez vos tâches.\n\n## Exemple\n#!/bin/bash\necho \"Hello\"\nfor i in {1..5}; do\n  echo $i\ndone"
+        },
+        {
+          "id": "advanced",
+          "title": "Techniques Avancées",
+          "duration": "1h",
+          "content": "# Avancé\n\n- Cron : tâches planifiées\n- Systemd : gestion services\n- LVM : volumes logiques\n- SELinux : sécurité renforcée"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "docker-intro",
+      "title": "Docker - Conteneurisation",
+      "description": "Maîtrisez Docker pour conteneuriser et déployer vos applications efficacement.",
+      "level": "intermediate",
+      "duration": "10h",
+      "category": "ship",
+      "keywords": [
+        "docker",
+        "conteneurs",
+        "devops",
+        "kubernetes"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction Docker",
+          "duration": "40min",
+          "content": "# Docker : La Révolution des Conteneurs\n\nDocker a fondamentalement changé la façon dont nous concevons, distribuons et exécutons les logiciels.\n\n## 🐋 Qu'est-ce qu'un Conteneur ?\nImaginez une boîte hermétique dans laquelle vous jetez votre code, vos librairies (comme Python ou Node.js), et toutes vos configurations. Cette boîte s'exécutera ***exactement*** de la même manière sur votre ordinateur portable, sur un serveur Amazon AWS, ou même dans l'espace.\n\n## ✨ La Magie de l'Isolation\n- **Portabilité totale** : Le fameux \"Ça marche sur ma machine\" n'existe plus.\n- **Légèreté absolue** : Contrairement aux machines virtuelles (VM) qui émulent tout un faux ordinateur pesant des gigaoctets, un conteneur peut peser que 5 Mégaoctets !\n- **Le standard de l'industrie** : Si vous construisez un projet moderne en 2026, on s'attendra à ce que vous fournissiez un \"Dockerfile\".\n\n> 💣 **Anecdote Docker** : Au début de sa création en 2013 par le Français Solomon Hykes, Docker était juste un projet interne pour une entreprise d'hébergement appelée dotCloud. Aujourd'hui, des milliards de conteneurs sont générés chaque jour sur la planète."
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "duration": "30min",
+          "content": "# Installation\n\n## Linux\nsudo apt install docker.io\nsudo systemctl start docker\nsudo usermod -aG docker $USER"
+        },
+        {
+          "id": "images",
+          "title": "Images vs Conteneurs",
+          "duration": "45min",
+          "content": "# Images et Conteneurs : La Différence Vitale\n\nSi vous ne retenez qu'une chose, retenez ceci :\n\n- **L'Image** : C'est le plan de construction (le moule). C'est un assemblage \"en lecture seule\". L'image contient votre code source.\n- **Le Conteneur** : C'est l'exécution vivante de l'image. C'est le gâteau qui sort du moule.\n\n## 🛠️ Comment ça marche ?\n1. Oubliez les installations complexes. Vous voulez un serveur de base de données PostgreSQL ?\n2. `docker pull postgres` (Télécharge le moule)\n3. `docker run postgres` (Cuit le gâteau)\n\nC'est l'équivalent de l'App Store, mais pour des infrastructures informatiques entières."
+        },
+        {
+          "id": "containers",
+          "title": "Conteneurs",
+          "duration": "1h",
+          "content": "# Conteneurs\n\nInstance d'une image.\n\n## Commandes\n- docker run\n- docker ps\n- docker stop/start\n- docker rm"
+        },
+        {
+          "id": "dockerfile",
+          "title": "Créer un Dockerfile",
+          "duration": "1h30",
+          "content": "# Le Dockerfile : La Recette du Chef\n\nLe Dockerfile est simplement un fichier texte clair contenant les instructions pour fabriquer votre image sur-mesure. Fini les *README* de 40 pages décrivant comment configurer un projet !\n\n## 📝 Grammaire Docker\n- `FROM` : L'ingrédient de base. Ex: `FROM python:3.10` commence avec un système contenant déjà Python.\n- `WORKDIR` : Choisit votre dossier de travail à l'intérieur de la boîte.\n- `COPY` : Aspire les fichiers de *votre* ordinateur vers l'intérieur de *la boîte*.\n- `RUN` : Exécute une commande (ex: installer des dépendances) pendant la création du moule.\n- `CMD` : La commande par défaut qui se lancera quand le conteneur démarre.\n\n> 💡 **Le Hack Ultime** : Séparez toujours `COPY package.json` et `COPY .` dans vos fichiers Docker pour profiter du *Système de Cache*. Cela rendra vos compilations 100x plus rapides !"
+        },
+        {
+          "id": "volumes",
+          "title": "Volumes Docker",
+          "duration": "50min",
+          "content": "# Volumes\n\nPersister les données.\n\n## Types\n- Volumes nommés\n- Bind mounts\n- tmpfs"
+        },
+        {
+          "id": "networks",
+          "title": "Réseaux Docker",
+          "duration": "45min",
+          "content": "# Réseaux\n\nConnexion entre conteneurs.\n\n## Types\n- bridge\n- host\n- overlay\n- none"
+        },
+        {
+          "id": "compose",
+          "title": "Docker Compose",
+          "duration": "1h30",
+          "content": "# Docker Compose\n\nOrchestrer plusieurs conteneurs.\n\n## docker-compose.yml\nversion: '3'\nservices:\n  web:\n    image: nginx\n    ports:\n      - 80:80\n  db:\n    image: postgres"
+        },
+        {
+          "id": "registry",
+          "title": "Docker Registry",
+          "duration": "40min",
+          "content": "# Registry\n\nStockage d'images.\n\n- Docker Hub\n- Registres privés\n- Push/Pull images"
+        },
+        {
+          "id": "security",
+          "title": "Sécurité Docker",
+          "duration": "1h",
+          "content": "# Sécurité\n\n- Ne pas utiliser root\n- Scanner vulnérabilités\n- Limiter ressources\n- Images minimales"
+        },
+        {
+          "id": "optimization",
+          "title": "Optimisation",
+          "duration": "1h",
+          "content": "# Optimisation\n\n- Multi-stage builds\n- Layers caching\n- .dockerignore\n- Images alpine"
+        },
+        {
+          "id": "production",
+          "title": "Docker en Production",
+          "duration": "1h30",
+          "content": "# Production\n\n- Orchestration (Swarm, K8s)\n- Monitoring\n- Logs centralisés\n- Health checks"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "sql-basics",
+      "title": "SQL - Bases de Données",
+      "description": "Apprenez SQL pour interroger et gérer efficacement vos bases de données relationnelles.",
+      "level": "beginner",
+      "duration": "12h",
+      "category": "forge",
+      "keywords": [
+        "sql",
+        "database",
+        "mysql",
+        "postgresql",
+        "requêtes"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction SQL",
+          "duration": "45min",
+          "content": "# La Puissance du SQL\n\nLe SQL (Structured Query Language) est littéralement le dialecte avec lequel nous parlons aux bases de données depuis les années 1970.\n\n## 🗄️ Pourquoi c'est le langage le plus important ?\n- **Incontournable** : Que vous fassiez du web, de la Data Science, ou de l'IA, les données sont stockées en SQL.\n- **Indépendant** : Ce n'est pas lié à un langage de programmation. Vous utilisez la même syntaxe en Python, Java, ou PHP.\n- **Déclaratif** : Vous ne dites pas à la machine *comment* chercher, vous lui dites *ce que* vous voulez. La machine se débrouille pour trouver le chemin le plus rapide.\n\n> 💡 **Le saviez-vous ?** Les bases de données comme PostgreSQL sont capables de traverser des téraoctets de données et de vous donner un résultat en moins d'une milliseconde, si la base est bien \"indexée\"."
+        },
+        {
+          "id": "install",
+          "title": "Installation MySQL",
+          "duration": "30min",
+          "content": "# Installation\n\n## Ubuntu\nsudo apt install mysql-server\nsudo mysql_secure_installation"
+        },
+        {
+          "id": "databases",
+          "title": "Créer une BDD",
+          "duration": "30min",
+          "content": "# Bases de données\n\nCREATE DATABASE ma_base;\nUSE ma_base;\nDROP DATABASE ma_base;"
+        },
+        {
+          "id": "tables",
+          "title": "Création de Tables",
+          "duration": "1h",
+          "content": "# L'Art de la Modélisation (Tables)\n\nUne table en SQL ressemble à un tableau Excel sous stéroïdes. Vous devez définir la structure (le \"Schéma\") à l'avance.\n\n## 🏗️ Anatomie d'une Table\n1. **Colonnes** : Elles ont des \"Types\" stricts (Texte, Entier, Date).\n2. **Clé Primaire (Primary Key)** : L'identifiant unique. C'est sacré. Souvent un `id` généré automatiquement.\n3. **Contraintes** : `UNIQUE` (pas de doublon), `NOT NULL` (champ obligatoire).\n\n```sql\nCREATE TABLE utilisateurs (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  email VARCHAR(255) UNIQUE NOT NULL,\n  age INT CHECK (age >= 18)\n);\n```\n\nDans le vrai monde, on passe 30% du temps à coder et 70% à réfléchir à la structure des tables pour ne pas s'enfermer dans une mauvaise architecture."
+        },
+        {
+          "id": "insert",
+          "title": "INSERT - Ajouter",
+          "duration": "45min",
+          "content": "# INSERT\n\nAjouter des données.\n\nINSERT INTO users (nom, email)\nVALUES ('Dupont', 'dupont@mail.com');"
+        },
+        {
+          "id": "select",
+          "title": "SELECT - Lire",
+          "duration": "1h30",
+          "content": "# SELECT\n\nLire des données.\n\nSELECT * FROM users;\nSELECT nom, email FROM users WHERE age > 18;\nSELECT * FROM users ORDER BY nom ASC;"
+        },
+        {
+          "id": "update",
+          "title": "UPDATE - Modifier",
+          "duration": "45min",
+          "content": "# UPDATE\n\nModifier des données.\n\nUPDATE users SET email = 'new@mail.com' WHERE id = 1;"
+        },
+        {
+          "id": "delete",
+          "title": "DELETE - Supprimer",
+          "duration": "40min",
+          "content": "# DELETE\n\nSupprimer des données.\n\nDELETE FROM users WHERE id = 5;\nTRUNCATE TABLE users;"
+        },
+        {
+          "id": "where",
+          "title": "Clause WHERE",
+          "duration": "1h",
+          "content": "# WHERE\n\nFiltrer les résultats.\n\n- Opérateurs : =, !=, >, <, >=, <=\n- LIKE : recherche pattern\n- IN : liste valeurs\n- BETWEEN : plage"
+        },
+        {
+          "id": "joins",
+          "title": "Maîtriser les Jointures",
+          "duration": "1h30",
+          "content": "# Jointures (JOINS) : Le Pouvoir du Relationnel\n\nC'est la fonctionnalité qui donne son \"R\" aux SGBDR (Systèmes de Gestion de Bases de Données **Relationnelles**).\n\n## 🔗 Relier les informations\nAu lieu d'avoir une table avec 100 colonnes \"utilisateur_adresse1, adresse2\", on sépare l'utilisateur et l'adresse dans 2 tables, puis on les \"joint\".\n\n- **INNER JOIN** : Croisement strict. Je veux les utilisateurs qui *ont* une commande.\n- **LEFT JOIN** : Garde tout à gauche. Je veux *tous* les utilisateurs, même s'ils n'ont pas commandé (affichera NULL).\n\nLes jointures sont la bête noire des débutants, mais c'est exactement là que se situe la différence entre un junior et un senior."
+        },
+        {
+          "id": "aggregate",
+          "title": "Fonctions Agrégation",
+          "duration": "1h",
+          "content": "# Agrégation\n\n- COUNT() : compter\n- SUM() : somme\n- AVG() : moyenne\n- MIN/MAX : min/max\n- GROUP BY : grouper"
+        },
+        {
+          "id": "index",
+          "title": "Index et Performance",
+          "duration": "1h",
+          "content": "# Index\n\nAccélérer les requêtes.\n\nCREATE INDEX idx_email ON users(email);\nSHOW INDEX FROM users;"
+        },
+        {
+          "id": "transactions",
+          "title": "Transactions",
+          "duration": "1h",
+          "content": "# Transactions\n\nATOMICITÉ garantie.\n\nSTART TRANSACTION;\nUPDATE comptes SET solde = solde - 100 WHERE id = 1;\nUPDATE comptes SET solde = solde + 100 WHERE id = 2;\nCOMMIT;"
+        },
+        {
+          "id": "advanced",
+          "title": "SQL Avancé",
+          "duration": "1h30",
+          "content": "# Avancé\n\n- Sous-requêtes\n- Vues (VIEWs)\n- Procédures stockées\n- Triggers\n- CTEs"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "security-basics",
+      "title": "Sécurité Web",
+      "description": "Protégez vos applications : HTTPS, injections SQL, XSS, CSRF et bonnes pratiques.",
+      "level": "intermediate",
+      "duration": "10h",
+      "category": "shield",
+      "keywords": [
+        "security",
+        "https",
+        "sql injection",
+        "xss",
+        "csrf",
+        "owasp"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "La Paranoïa comme standard",
+          "duration": "1h",
+          "content": "# Introduction Sécurité\n\nEn développement, vous devez coder avec un état d'esprit précis : **Tout le monde est malveillant, tout fichier est infecté, toute requête est une attaque**.\n\n## 🏰 La Philosophie\n1. Ne faites jamais confiance au client (Le navigateur ou l'App).\n2. Validez toujours vos données côté Serveur (Backend).\n3. L'OWASP (Open Worldwide Application Security Project) liste les 10 failles critiques de l'année. Apprenez ce top 10 par cœur.\n\nSi vous laissez une base de données ouverte sans mot de passe sur un serveur cloud, il faut en moyenne moins de 8 heures pour qu'un robot scanneur automatique (botnet) la trouve et y injecte un ransomware."
+        },
+        {
+          "id": "https",
+          "title": "HTTPS et TLS",
+          "duration": "1h",
+          "content": "# HTTPS\n\nChiffrement des communications.\n\n## Certificats\n- Let's Encrypt (gratuit)\n- TLS 1.3\n- HSTS"
+        },
+        {
+          "id": "sql-injection",
+          "title": "Injections SQL (Le Fléau)",
+          "duration": "1h30",
+          "content": "# SQL Injection : Tromper la Machine\n\nMalgré son âge, c'est l'attaque la plus dévastatrice.\n\n## ⚔️ L'Attaque\nImaginons un code : `SELECT * FROM users WHERE nom = '` + valeur_saisie + `'`\nSi un pirate saisit : `' OR '1'='1`\nLa requête devient : `SELECT * FROM users WHERE nom = '' OR '1'='1'`.\nL'IA de la BDD évalue `1=1` comme \"VRAI\", et renvoie donc **TOUT** le contenu de la table (mots de passe inclus).\n\n## 🛡️ La Défense (Prepared Statements)\nOn sépare le \"Schéma\" de la requête de sa \"Valeur\". La base de données analysera d'abord la logique, puis collera simplement la variable saisie en tant que texte idiot, la rendant inoffensive."
+        },
+        {
+          "id": "xss",
+          "title": "Cross-Site Scripting (XSS)",
+          "duration": "1h30",
+          "content": "# XSS : Empoisonnement de page\n\nIci, l'attaquant ne vise pas votre serveur. Il utilise votre site comme un tremplin pour attaquer les **autres utilisateurs** de votre site.\n\nIl injecte un script invisible dans un commentaire public. Quand Alice visite la page, son navigateur exécute le faux commentaire pensant qu'il fait partie de votre site. Le script vole les cookies de session d'Alice et les envoie au pirate.\n\n## 🛡️ La Défense\nÉchappez toujours (Sanitize) le code que vous affichez. Transformer les `<` en `&lt;`. C'est pour ça que la plupart des frameworks modernes comme React le font automatiquement pour vous (sauf si vous utilisez `dangerouslySetInnerHTML`)."
+        },
+        {
+          "id": "csrf",
+          "title": "CSRF - Attaques",
+          "duration": "1h",
+          "content": "# CSRF\n\nCross-Site Request Forgery.\n\n## Protection\n- CSRF tokens\n- SameSite cookies\n- Vérifier Origin header"
+        },
+        {
+          "id": "auth",
+          "title": "Authentification",
+          "duration": "1h30",
+          "content": "# Authentification\n\n## Bonnes pratiques\n- Hacher mots de passe (bcrypt)\n- 2FA\n- Sessions sécurisées\n- OAuth 2.0 / JWT"
+        },
+        {
+          "id": "passwords",
+          "title": "Gestion Mots de Passe",
+          "duration": "45min",
+          "content": "# Mots de passe\n\n## Règles\n- Minimum 12 caractères\n- Complexité\n- bcrypt/argon2\n- Pas de récupération (reset uniquement)"
+        },
+        {
+          "id": "headers",
+          "title": "Headers Sécurité",
+          "duration": "1h",
+          "content": "# Security Headers\n\n- X-Frame-Options\n- X-Content-Type-Options\n- Content-Security-Policy\n- Strict-Transport-Security\n- X-XSS-Protection"
+        },
+        {
+          "id": "cors",
+          "title": "CORS Configuration",
+          "duration": "45min",
+          "content": "# CORS\n\nCross-Origin Resource Sharing.\n\n## Configuration\nAccess-Control-Allow-Origin\nAccess-Control-Allow-Methods\nAccess-Control-Allow-Headers"
+        },
+        {
+          "id": "api-security",
+          "title": "Sécuriser APIs",
+          "duration": "1h",
+          "content": "# API Security\n\n- Rate limiting\n- API keys\n- OAuth tokens\n- Input validation\n- HTTPS obligatoire"
+        },
+        {
+          "id": "best-practices",
+          "title": "Bonnes Pratiques",
+          "duration": "1h",
+          "content": "# Best Practices\n\n- Principe moindre privilège\n- Défense en profondeur\n- Mise à jour régulière\n- Logging & monitoring\n- Tests de pénétration"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "javascript-modern",
+      "title": "JavaScript Moderne (ES6+)",
+      "description": "Maîtrisez JavaScript moderne : ES6+, async/await, modules et fonctionnalités avancées.",
+      "level": "intermediate",
+      "duration": "15h",
+      "category": "forge",
+      "keywords": [
+        "javascript",
+        "es6",
+        "async",
+        "promises",
+        "modules"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "JavaScript ES6+",
+          "duration": "1h",
+          "content": "# JS Moderne\n\nÉvolution du langage.\n\n## Nouveautés\n- let/const\n- Arrow functions\n- Template literals\n- Destructuring\n- Spread operator"
+        },
+        {
+          "id": "variables",
+          "title": "let, const, var",
+          "duration": "45min",
+          "content": "# Variables\n\n- var : function scope (ancien)\n- let : block scope\n- const : constante (block scope)"
+        },
+        {
+          "id": "arrow-functions",
+          "title": "Arrow Functions",
+          "duration": "1h",
+          "content": "# Arrow Functions\n\nSyntaxe moderne.\n\n// Ancien\nfunction add(a, b) {\n  return a + b;\n}\n\n// Moderne\nconst add = (a, b) => a + b;"
+        },
+        {
+          "id": "destructuring",
+          "title": "Destructuring",
+          "duration": "1h",
+          "content": "# Destructuring\n\nExtraire valeurs facilement.\n\nconst {nom, age} = user;\nconst [first, ...rest] = array;"
+        },
+        {
+          "id": "spread",
+          "title": "Spread & Rest",
+          "duration": "45min",
+          "content": "# Spread\n\ncopier/fusionner.\n\nconst arr2 = [...arr1];\nconst obj2 = {...obj1, new: 'value'};"
+        },
+        {
+          "id": "promises",
+          "title": "Promises",
+          "duration": "1h30",
+          "content": "# Promises\n\nGérer l'asynchrone.\n\nfetch(url)\n  .then(res => res.json())\n  .then(data => console.log(data))\n  .catch(err => console.error(err));"
+        },
+        {
+          "id": "async-await",
+          "title": "Async/Await",
+          "duration": "1h30",
+          "content": "# Async/Await\n\nPromises plus lisibles.\n\nasync function getData() {\n  try {\n    const res = await fetch(url);\n    const data = await res.json();\n    return data;\n  } catch (err) {\n    console.error(err);\n  }\n}"
+        },
+        {
+          "id": "modules",
+          "title": "Modules ES6",
+          "duration": "1h",
+          "content": "# Modules\n\nOrganiser le code.\n\n// export\nexport const PI = 3.14;\nexport function add(a,b) {}\n\n// import\nimport {PI, add} from './math.js';"
+        },
+        {
+          "id": "classes",
+          "title": "Classes ES6",
+          "duration": "1h30",
+          "content": "# Classes\n\nPOO en JavaScript.\n\nclass User {\n  constructor(nom) {\n    this.nom = nom;\n  }\n  \n  sayHello() {\n    return `Hello ${this.nom}`;\n  }\n}"
+        },
+        {
+          "id": "array-methods",
+          "title": "Méthodes Array",
+          "duration": "1h30",
+          "content": "# Array Methods\n\n- map() : transformer\n- filter() : filtrer\n- reduce() : agréger\n- find() : chercher\n- some/every : tester"
+        },
+        {
+          "id": "optional-chaining",
+          "title": "Optional Chaining",
+          "duration": "30min",
+          "content": "# Optional Chaining\n\nÉviter erreurs null.\n\nconst name = user?.profile?.name;\nconst result = obj?.method?.();"
+        },
+        {
+          "id": "nullish",
+          "title": "Nullish Coalescing",
+          "duration": "30min",
+          "content": "# Nullish ??\n\nValeur par défaut.\n\nconst value = input ?? 'default';\n// Seulement si null/undefined"
+        },
+        {
+          "id": "symbols",
+          "title": "Symbols & Iterators",
+          "duration": "45min",
+          "content": "# Symbols\n\nIdentifiants uniques.\n\nconst sym = Symbol('desc');\nconst obj = {[sym]: 'value'};"
+        },
+        {
+          "id": "proxy-reflect",
+          "title": "Proxy & Reflect",
+          "duration": "1h",
+          "content": "# Proxy\n\nIntercepter opérations.\n\nconst proxy = new Proxy(target, {\n  get(obj, prop) {\n    console.log(`Get ${prop}`);\n    return obj[prop];\n  }\n});"
+        },
+        {
+          "id": "best-practices",
+          "title": "Bonnes Pratiques JS",
+          "duration": "1h",
+          "content": "# Best Practices\n\n- Utiliser const par défaut\n- Éviter var\n- Async/await > callbacks\n- ES modules\n- Strict mode"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "react-fundamentals",
+      "title": "React - Fondamentaux",
+      "description": "Créez des applications web modernes avec React : composants, hooks, state management.",
+      "level": "intermediate",
+      "duration": "18h",
+      "category": "forge",
+      "keywords": [
+        "react",
+        "hooks",
+        "components",
+        "jsx",
+        "frontend"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction React",
+          "duration": "45min",
+          "content": "# React\n\nBibliothèque UI JavaScript.\n\n## Pourquoi React?\n- Composants réutilisables\n- Virtual DOM\n- Écosystème riche\n- Performance"
+        },
+        {
+          "id": "setup",
+          "title": "Setup Environnement",
+          "duration": "30min",
+          "content": "# Setup\n\nnpx create-react-app my-app\ncd my-app\nnpm start\n\n// ou Vite (plus rapide)\nnpm create vite@latest my-app -- --template react"
+        },
+        {
+          "id": "jsx",
+          "title": "JSX Syntaxe",
+          "duration": "1h",
+          "content": "# JSX\n\nJavaScript XML.\n\nconst element = <h1>Hello!</h1>;\n\nconst user = {\n  name: 'Alice'\n};\nconst greeting = <h1>Hello {user.name}</h1>;"
+        },
+        {
+          "id": "components",
+          "title": "Composants React",
+          "duration": "1h30",
+          "content": "# Composants\n\nBriques de base.\n\n// Function Component\nfunction Welcome(props) {\n  return <h1>Hello {props.name}</h1>;\n}\n\n// Arrow function\nconst Welcome = ({name}) => <h1>Hello {name}</h1>;"
+        },
+        {
+          "id": "props",
+          "title": "Props",
+          "duration": "1h",
+          "content": "# Props\n\nPasser des données.\n\n<UserCard name=\"Alice\" age={25} />\n\nfunction UserCard({name, age}) {\n  return <div>{name}: {age} ans</div>;\n}"
+        },
+        {
+          "id": "state",
+          "title": "State avec useState",
+          "duration": "1h30",
+          "content": "# useState Hook\n\nÉtat local.\n\nimport {useState} from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <button onClick={() => setCount(count + 1)}>\n      Count: {count}\n    </button>\n  );\n}"
+        },
+        {
+          "id": "useEffect",
+          "title": "useEffect Hook",
+          "duration": "2h",
+          "content": "# useEffect\n\nEffets de bord.\n\nuseEffect(() => {\n  // Code à exécuter\n  console.log('Mounted');\n  \n  return () => {\n    // Cleanup\n    console.log('Unmounted');\n  };\n}, [dependencies]);"
+        },
+        {
+          "id": "events",
+          "title": "Gestion Événements",
+          "duration": "1h",
+          "content": "# Events\n\nGérer interactions.\n\nfunction Button() {\n  const handleClick = (e) => {\n    e.preventDefault();\n    console.log('Clicked!');\n  };\n  \n  return <button onClick={handleClick}>Click</button>;\n}"
+        },
+        {
+          "id": "forms",
+          "title": "Formulaires React",
+          "duration": "1h30",
+          "content": "# Forms\n\nContrôler les inputs.\n\nconst [value, setValue] = useState('');\n\n<input \n  value={value}\n  onChange={(e) => setValue(e.target.value)}\n/>"
+        },
+        {
+          "id": "lists",
+          "title": "Listes et Clés",
+          "duration": "1h",
+          "content": "# Lists\n\nAfficher tableaux.\n\nconst items = ['a', 'b', 'c'];\n\nreturn (\n  <ul>\n    {items.map((item, i) => (\n      <li key={i}>{item}</li>\n    ))}\n  </ul>\n);"
+        },
+        {
+          "id": "conditional",
+          "title": "Rendu Conditionnel",
+          "duration": "45min",
+          "content": "# Conditional\n\n{isLoggedIn ? <Dashboard /> : <Login />}\n\n{error && <ErrorMessage />}\n\n{loading ? <Spinner /> : <Content />}"
+        },
+        {
+          "id": "useContext",
+          "title": "useContext Hook",
+          "duration": "1h30",
+          "content": "# Context API\n\nPartager données globalement.\n\nconst ThemeContext = React.createContext();\n\nfunction App() {\n  return (\n    <ThemeContext.Provider value=\"dark\">\n      <Child />\n    </ThemeContext.Provider>\n  );\n}"
+        },
+        {
+          "id": "useRef",
+          "title": "useRef Hook",
+          "duration": "1h",
+          "content": "# useRef\n\nRéférences DOM.\n\nconst inputRef = useRef();\n\nuseEffect(() => {\n  inputRef.current.focus();\n}, []);\n\n<input ref={inputRef} />"
+        },
+        {
+          "id": "custom-hooks",
+          "title": "Custom Hooks",
+          "duration": "1h30",
+          "content": "# Custom Hooks\n\nRéutiliser logique.\n\nfunction useLocalStorage(key) {\n  const [value, setValue] = useState(\n    () => localStorage.getItem(key)\n  );\n  \n  useEffect(() => {\n    localStorage.setItem(key, value);\n  }, [key, value]);\n  \n  return [value, setValue];\n}"
+        },
+        {
+          "id": "performance",
+          "title": "Optimisation Performance",
+          "duration": "1h30",
+          "content": "# Performance\n\n- useMemo : mémoriser calculs\n- useCallback : mémoriser fonctions\n- React.memo : mémoriser composants\n- Lazy loading\n- Code splitting"
+        },
+        {
+          "id": "best-practices",
+          "title": "Bonnes Pratiques",
+          "duration": "1h",
+          "content": "# Best Practices\n\n- Composants petits et focalisés\n- Props immutables\n- Hooks en haut du composant\n- Nommer composants clairement\n- TypeScript recommandé"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "ia-masterclass",
+      "title": "Masterclass : IA & Terminal Interactif",
+      "description": "L'expérience ultime. Apprenez la théorie par la pratique : plongez dans un environnement simulé interactif où une IA analyse et corrige votre code réseau et système en temps réel.",
+      "level": "advanced",
+      "duration": "15h",
+      "category": "shield",
+      "keywords": [
+        "ia",
+        "terminal",
+        "interactif",
+        "masterclass",
+        "temps-réel",
+        "survie"
+      ],
+      "content": [
+        {
+          "id": "recon",
+          "title": "Phase 1 : Reconnaissance Système",
+          "duration": "1h",
+          "content": "# Le Mode Survie Interactive\n\nCeci n'est pas un tutoriel ou un PDF copié-collé d'internet. Vous êtes face à un terminal simulé sous haute surveillance.\n\nL'**IA de correction en temps réel** est active. Si vous tapez une commande destructrice (ex: `rm -rf /`), le bac à sable vous bloquera.\n\n## Votre Mission :\n1. Identifier les processus zombies de notre serveur.\n2. Vérifier les connexions entrantes suspectes.\n\nC'est à vous de jouer. Démarrez l'audit."
+        },
+        {
+          "id": "code-review",
+          "title": "Phase 2 : Code Review par l'IA",
+          "duration": "2h",
+          "content": "# Programmation Réactive\n\nL'IA a détecté une faille dans le script Node.js gérant l'authentification. L'exécution est asynchrone mais ne gère pas les Promesses correctement, causant des fuites mémoire importantes.\n\n## Code Vulnérable :\nExaminez le snippet ci-dessous. Le `catch` est absent et les variables globales polluent la stack.\n\nDemandez à l'IA du terminal de vous aider ou corrigez le code via le bash intégré."
+        },
+        {
+          "id": "deployment",
+          "title": "Phase 3 : Déploiement Zero-Downtime",
+          "duration": "3h",
+          "content": "# Orchestration Finale\n\nMaintenant que le code est sécurisé, vous devez déployer les nouveaux conteneurs sans interrompre le trafic actuel (Zero-Downtime Deployment).\n\n## Objectifs Kubernetes\nNous utilisons K8s pour router le trafic de la v1.0 vers la v2.0 (Canary Release)."
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "git-github",
+      "title": "Git & GitHub Complet",
+      "description": "Maîtrisez Git pour versionner votre code et collaborer efficacement avec GitHub.",
+      "level": "beginner",
+      "duration": "8h",
+      "category": "ship",
+      "keywords": [
+        "git",
+        "github",
+        "version control",
+        "vcs"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction Git",
+          "duration": "30min",
+          "content": "# Git\n\nSystème de contrôle de version distribué.\n\n## Pourquoi Git?\n- Historique complet\n- Branches faciles\n- Collaboration\n- Gratuit et open source"
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "duration": "20min",
+          "content": "# Installation\n\n## Linux\nsudo apt install git\n\n## Configuration\ngit config --global user.name \"Nom\"\ngit config --global user.email \"email@mail.com\""
+        },
+        {
+          "id": "basics",
+          "title": "Commandes de Base",
+          "duration": "1h",
+          "content": "# Bases Git\n\ngit init\ngit add file.txt\ngit add .\ngit commit -m \"Message\"\ngit status\ngit log"
+        },
+        {
+          "id": "branches",
+          "title": "Branches Git",
+          "duration": "1h",
+          "content": "# Branches\n\nTravail parallèle.\n\ngit branch feature\ngit checkout feature\n# ou\ngit checkout -b feature\n\ngit branch -d feature"
+        },
+        {
+          "id": "merge",
+          "title": "Merge et Conflits",
+          "duration": "1h30",
+          "content": "# Merge\n\nFusionner branches.\n\ngit checkout main\ngit merge feature\n\n## Conflits\n- Résoudre manuellement\n- git add .\n- git commit"
+        },
+        {
+          "id": "remote",
+          "title": "Dépôts Distants",
+          "duration": "1h",
+          "content": "# Remote\n\ngit remote add origin url\ngit push -u origin main\ngit pull origin main\ngit fetch"
+        },
+        {
+          "id": "github",
+          "title": "GitHub Workflow",
+          "duration": "1h",
+          "content": "# GitHub\n\n1. Fork repository\n2. Clone localement\n3. Créer branche\n4. Commit changes\n5. Push\n6. Pull Request"
+        },
+        {
+          "id": "gitignore",
+          "title": ".gitignore",
+          "duration": "30min",
+          "content": "# .gitignore\n\nIgnorer fichiers.\n\nnode_modules/\n.env\n*.log\ndist/\n.DS_Store"
+        },
+        {
+          "id": "rebase",
+          "title": "Rebase et Rewrite",
+          "duration": "1h",
+          "content": "# Rebase\n\nRéécrire historique.\n\ngit rebase main\ngit rebase -i HEAD~3\n\n## Amend\ngit commit --amend"
+        },
+        {
+          "id": "stash",
+          "title": "Stash et Reset",
+          "duration": "45min",
+          "content": "# Stash\n\nSauvegarder temporairement.\n\ngit stash\ngit stash pop\ngit stash list\n\n## Reset\ngit reset --hard HEAD\ngit reset --soft HEAD~1"
+        },
+        {
+          "id": "advanced",
+          "title": "Git Avancé",
+          "duration": "1h",
+          "content": "# Avancé\n\n- Cherry-pick\n- Submodules\n- Git hooks\n- Tags\n- Bisect"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "python-basics",
+      "title": "Python pour Débutants",
+      "description": "Apprenez Python de zéro : syntaxe, structures de données, POO et projets pratiques.",
+      "level": "beginner",
+      "duration": "20h",
+      "category": "forge",
+      "keywords": [
+        "python",
+        "programming",
+        "scripting",
+        "poo"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction Python",
+          "duration": "30min",
+          "content": "# Python\n\nLangage polyvalent et simple.\n\n## Usages\n- Web (Django, Flask)\n- Data Science\n- Automation\n- AI/ML"
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "duration": "20min",
+          "content": "# Setup\n\nsudo apt install python3 python3-pip\npython3 --version\npip3 install numpy"
+        },
+        {
+          "id": "syntax",
+          "title": "Syntaxe de Base",
+          "duration": "1h",
+          "content": "# Syntaxe\n\nprint(\"Hello\")\n\n# Variables\nnom = \"Alice\"\nage = 25\nprix = 19.99\n\n# Commentaires\n# Commentaire ligne\n\"\"\" Multi\nligne \"\"\""
+        },
+        {
+          "id": "types",
+          "title": "Types de Données",
+          "duration": "1h30",
+          "content": "# Types\n\n- int : entiers\n- float : décimaux\n- str : chaînes\n- bool : True/False\n- list : [1,2,3]\n- tuple : (1,2,3)\n- dict : {\"key\": \"value\"}\n- set : {1,2,3}"
+        },
+        {
+          "id": "conditions",
+          "title": "Conditions",
+          "duration": "1h",
+          "content": "# if/elif/else\n\nif age >= 18:\n    print(\"Majeur\")\nelif age >= 13:\n    print(\"Ado\")\nelse:\n    print(\"Enfant\")"
+        },
+        {
+          "id": "loops",
+          "title": "Boucles",
+          "duration": "1h30",
+          "content": "# Loops\n\n# for\nfor i in range(5):\n    print(i)\n\nfor item in liste:\n    print(item)\n\n# while\nwhile x < 10:\n    x += 1"
+        },
+        {
+          "id": "functions",
+          "title": "Fonctions",
+          "duration": "1h30",
+          "content": "# Functions\n\ndef saluer(nom):\n    return f\"Bonjour {nom}\"\n\ndef add(a, b=0):\n    return a + b\n\n# Lambda\nsquare = lambda x: x**2"
+        },
+        {
+          "id": "lists",
+          "title": "Listes",
+          "duration": "1h30",
+          "content": "# Lists\n\nliste = [1, 2, 3]\nliste.append(4)\nliste.remove(2)\nliste[0] = 10\n\n# Slicing\nliste[1:3]\nliste[::-1]"
+        },
+        {
+          "id": "dict",
+          "title": "Dictionnaires",
+          "duration": "1h",
+          "content": "# Dictionaries\n\nuser = {\n    \"nom\": \"Alice\",\n    \"age\": 25\n}\n\nuser[\"email\"] = \"a@mail.com\"\nprint(user.get(\"nom\"))"
+        },
+        {
+          "id": "strings",
+          "title": "Strings",
+          "duration": "1h",
+          "content": "# Strings\n\ntext = \"Python\"\ntext.upper()\ntext.lower()\ntext.split()\n\n# f-strings\nnom = \"Alice\"\nage = 25\nprint(f\"{nom} a {age} ans\")"
+        },
+        {
+          "id": "files",
+          "title": "Fichiers I/O",
+          "duration": "1h",
+          "content": "# Files\n\n# Lire\nwith open(\"file.txt\", \"r\") as f:\n    content = f.read()\n\n# Écrire\nwith open(\"file.txt\", \"w\") as f:\n    f.write(\"Hello\")"
+        },
+        {
+          "id": "exceptions",
+          "title": "Exceptions",
+          "duration": "1h",
+          "content": "# Exceptions\n\ntry:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print(\"Erreur!\")\nfinally:\n    print(\"Fin\")"
+        },
+        {
+          "id": "modules",
+          "title": "Modules",
+          "duration": "1h",
+          "content": "# Modules\n\nimport math\nfrom datetime import datetime\nimport requests as req\n\n# Créer module\n# mymodule.py\ndef hello():\n    print(\"Hi\")"
+        },
+        {
+          "id": "oop",
+          "title": "POO - Classes",
+          "duration": "2h",
+          "content": "# Classes\n\nclass User:\n    def __init__(self, nom):\n        self.nom = nom\n    \n    def saluer(self):\n        return f\"Bonjour {self.nom}\"\n\nuser = User(\"Alice\")\nprint(user.saluer())"
+        },
+        {
+          "id": "inheritance",
+          "title": "Héritage",
+          "duration": "1h30",
+          "content": "# Héritage\n\nclass Animal:\n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        return \"Woof!\""
+        },
+        {
+          "id": "comprehensions",
+          "title": "Comprehensions",
+          "duration": "1h",
+          "content": "# List Comprehension\n\nsquares = [x**2 for x in range(10)]\n\n# Dict Comprehension\nd = {x: x**2 for x in range(5)}\n\n# Conditions\neven = [x for x in range(10) if x % 2 == 0]"
+        },
+        {
+          "id": "decorators",
+          "title": "Decorators",
+          "duration": "1h30",
+          "content": "# Decorators\n\ndef timer(func):\n    def wrapper(*args):\n        import time\n        start = time.time()\n        result = func(*args)\n        print(f\"Temps: {time.time()-start}s\")\n        return result\n    return wrapper\n\n@timer\ndef slow():\n    time.sleep(1)"
+        },
+        {
+          "id": "virtual-env",
+          "title": "Virtual Environments",
+          "duration": "1h",
+          "content": "# venv\n\npython3 -m venv env\nsource env/bin/activate\npip install package\ndeactivate\n\n# requirements\npip freeze > requirements.txt\npip install -r requirements.txt"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "nodejs-backend",
+      "title": "Node.js Backend",
+      "description": "Créez des APIs REST avec Node.js, Express, et MongoDB pour vos applications.",
+      "level": "intermediate",
+      "duration": "16h",
+      "category": "forge",
+      "keywords": [
+        "nodejs",
+        "express",
+        "api",
+        "backend",
+        "mongodb"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction Node.js",
+          "duration": "45min",
+          "content": "# Node.js\n\nJavaScript côté serveur.\n\n## Avantages\n- JavaScript full-stack\n- Asynchrone non-bloquant\n- NPM écosystème\n- Performance"
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "duration": "30min",
+          "content": "# Setup\n\n## Via nvm (recommandé)\ncurl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash\nnvm install --lts\nnode --version\nnpm --version"
+        },
+        {
+          "id": "basics",
+          "title": "Node.js Basics",
+          "duration": "1h",
+          "content": "# Basics\n\n// server.js\nconst http = require('http');\n\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, {'Content-Type': 'text/plain'});\n  res.end('Hello Node!');\n});\n\nserver.listen(3000);"
+        },
+        {
+          "id": "npm",
+          "title": "NPM Packages",
+          "duration": "45min",
+          "content": "# NPM\n\nnpm init -y\nnpm install express\nnpm install --save-dev nodemon\n\n// package.json\n\"scripts\": {\n  \"start\": \"node server.js\",\n  \"dev\": \"nodemon server.js\"\n}"
+        },
+        {
+          "id": "express",
+          "title": "Express Framework",
+          "duration": "1h30",
+          "content": "# Express\n\nFramework web minimaliste.\n\nconst express = require('express');\nconst app = express();\n\napp.get('/', (req, res) => {\n  res.send('Hello Express!');\n});\n\napp.listen(3000);"
+        },
+        {
+          "id": "routing",
+          "title": "Routing Express",
+          "duration": "1h30",
+          "content": "# Routing\n\n// Routes\napp.get('/users', getUsers);\napp.post('/users', createUser);\napp.put('/users/:id', updateUser);\napp.delete('/users/:id', deleteUser);\n\n// Params\napp.get('/users/:id', (req, res) => {\n  const id = req.params.id;\n});"
+        },
+        {
+          "id": "middleware",
+          "title": "Middleware",
+          "duration": "1h30",
+          "content": "# Middleware\n\nFonctions intermédiaires.\n\n// Logger\napp.use((req, res, next) => {\n  console.log(`${req.method} ${req.url}`);\n  next();\n});\n\n// Body parser\napp.use(express.json());\napp.use(express.urlencoded({extended: true}));"
+        },
+        {
+          "id": "mongodb",
+          "title": "MongoDB Integration",
+          "duration": "1h30",
+          "content": "# MongoDB\n\nnpm install mongodb mongoose\n\nconst mongoose = require('mongoose');\n\nmongoose.connect('mongodb://localhost/mydb', {\n  useNewUrlParser: true\n});"
+        },
+        {
+          "id": "models",
+          "title": "Mongoose Models",
+          "duration": "1h30",
+          "content": "# Models\n\nconst userSchema = new mongoose.Schema({\n  nom: String,\n  email: {type: String, unique: true},\n  age: Number,\n  createdAt: {type: Date, default: Date.now}\n});\n\nconst User = mongoose.model('User', userSchema);"
+        },
+        {
+          "id": "crud",
+          "title": "CRUD Operations",
+          "duration": "2h",
+          "content": "# CRUD\n\n// Create\nconst user = new User({nom: \"Alice\"});\nawait user.save();\n\n// Read\nconst users = await User.find();\nconst user = await User.findById(id);\n\n// Update\nawait User.findByIdAndUpdate(id, {nom: \"Bob\"});\n\n// Delete\nawait User.findByIdAndDelete(id);"
+        },
+        {
+          "id": "auth",
+          "title": "Authentication JWT",
+          "duration": "2h",
+          "content": "# JWT Auth\n\nnpm install jsonwebtoken bcryptjs\n\nconst jwt = require('jsonwebtoken');\n\n// Créer token\nconst token = jwt.sign({userId}, 'secret', {expiresIn: '1d'});\n\n// Vérifier\nconst decoded = jwt.verify(token, 'secret');"
+        },
+        {
+          "id": "validation",
+          "title": "Validation",
+          "duration": "1h",
+          "content": "# Validation\n\nnpm install joi\n\nconst Joi = require('joi');\n\nconst schema = Joi.object({\n  nom: Joi.string().min(3).required(),\n  email: Joi.string().email().required()\n});\n\nconst {error} = schema.validate(data);"
+        },
+        {
+          "id": "error-handling",
+          "title": "Error Handling",
+          "duration": "1h",
+          "content": "# Errors\n\n// Error middleware\napp.use((err, req, res, next) => {\n  console.error(err.stack);\n  res.status(500).json({error: err.message});\n});\n\n// Async errors\nconst asyncHandler = fn => (req, res, next) =>\n  Promise.resolve(fn(req, res, next)).catch(next);"
+        },
+        {
+          "id": "deployment",
+          "title": "Déploiement",
+          "duration": "1h30",
+          "content": "# Déploiement\n\n## Heroku\nheroku create\ngit push heroku main\n\n## PM2\nnpm install -g pm2\npm2 start server.js\npm2 logs\npm2 restart all"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "kubernetes",
+      "title": "Kubernetes (K8s)",
+      "description": "Orchestrez vos conteneurs avec Kubernetes : déploiements, services, scaling automatique.",
+      "level": "advanced",
+      "duration": "14h",
+      "category": "ship",
+      "keywords": [
+        "kubernetes",
+        "k8s",
+        "orchestration",
+        "containers",
+        "devops"
+      ],
+      "content": [
+        {
+          "id": "intro",
+          "title": "Introduction Kubernetes",
+          "duration": "1h",
+          "content": "# Kubernetes\n\nOrchestration de conteneurs.\n\n## Fonctionnalités\n- Auto-scaling\n- Self-healing\n- Load balancing\n- Rollouts\n- Service discovery"
+        },
+        {
+          "id": "architecture",
+          "title": "Architecture K8s",
+          "duration": "1h30",
+          "content": "# Architecture\n\n## Control Plane\n- API Server\n- Scheduler\n- Controller Manager\n- etcd\n\n## Worker Nodes\n- Kubelet\n- Kube-proxy\n- Container runtime"
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "duration": "45min",
+          "content": "# Installation\n\n## Minikube (local)\ncurl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64\nsudo install minikube-linux-amd64 /usr/local/bin/minikube\nminikube start\n\n## kubectl\ncurl -LO \"https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\"\nsudo install kubectl /usr/local/bin/"
+        },
+        {
+          "id": "pods",
+          "title": "Pods",
+          "duration": "1h30",
+          "content": "# Pods\n\nUnité de base K8s.\n\n## pod.yaml\napiVersion: v1\nkind: Pod\nmetadata:\n  name: nginx\nspec:\n  containers:\n  - name: nginx\n    image: nginx:latest\n    ports:\n    - containerPort: 80"
+        },
+        {
+          "id": "deployments",
+          "title": "Deployments",
+          "duration": "1h30",
+          "content": "# Deployments\n\nGérer réplicas.\n\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: nginx\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: nginx\n  template:\n    metadata:\n      labels:\n        app: nginx\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:1.19"
+        },
+        {
+          "id": "services",
+          "title": "Services",
+          "duration": "1h30",
+          "content": "# Services\n\nExposer applications.\n\n## Types\n- ClusterIP (défaut)\n- NodePort\n- LoadBalancer\n- ExternalName\n\napiVersion: v1\nkind: Service\nmetadata:\n  name: nginx\nspec:\n  selector:\n    app: nginx\n  ports:\n  - port: 80\n  type: LoadBalancer"
+        },
+        {
+          "id": "configmaps",
+          "title": "ConfigMaps & Secrets",
+          "duration": "1h30",
+          "content": "# ConfigMaps\n\nConfiguration externe.\n\napiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: config\ndata:\n  database_url: \"postgres://...\"\n\n# Secrets\napiVersion: v1\nkind: Secret\nmetadata:\n  name: secret\ntype: Opaque\ndata:\n  password: cGFzc3dvcmQ="
+        },
+        {
+          "id": "volumes",
+          "title": "Volumes Persistants",
+          "duration": "1h",
+          "content": "# Volumes\n\nStockage persistant.\n\n## Types\n- emptyDir\n- hostPath\n- PersistentVolume\n- PersistentVolumeClaim\n- StorageClass"
+        },
+        {
+          "id": "namespaces",
+          "title": "Namespaces",
+          "duration": "45min",
+          "content": "# Namespaces\n\nIsolation logique.\n\nkubectl create namespace dev\nkubectl get pods -n dev\n\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: production"
+        },
+        {
+          "id": "ingress",
+          "title": "Ingress",
+          "duration": "1h",
+          "content": "# Ingress\n\nRouting HTTP/S.\n\napiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: app-ingress\nspec:\n  rules:\n  - host: app.example.com\n    http:\n      paths:\n      - path: /\n        pathType: Prefix\n        backend:\n          service:\n            name: app\n            port:\n              number: 80"
+        },
+        {
+          "id": "scaling",
+          "title": "Auto-Scaling",
+          "duration": "1h",
+          "content": "# HPA\n\nHorizontal Pod Autoscaler.\n\napiVersion: autoscaling/v2\nkind: HorizontalPodAutoscaler\nmetadata:\n  name: app-hpa\nspec:\n  scaleTargetRef:\n    apiVersion: apps/v1\n    kind: Deployment\n    name: app\n  minReplicas: 2\n  maxReplicas: 10\n  metrics:\n  - type: Resource\n    resource:\n      name: cpu\n      target:\n        type: Utilization\n        averageUtilization: 70"
+        },
+        {
+          "id": "monitoring",
+          "title": "Monitoring & Logs",
+          "duration": "1h30",
+          "content": "# Monitoring\n\n## Tools\n- Prometheus\n- Grafana\n- ELK Stack\n- Datadog\n\nkubectl logs pod-name\nkubectl logs -f pod-name\nkubectl top nodes\nkubectl top pods"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "html-css-fundamentals",
+      "title": "HTML5 & CSS3 - Web Moderne",
+      "description": "Construisez des sites web modernes et responsives avec HTML5 sémantique, CSS Grid et Flexbox.",
+      "level": "beginner",
+      "duration": "10h",
+      "category": "forge",
+      "keywords": [
+        "html",
+        "css",
+        "web",
+        "frontend",
+        "responsive"
+      ],
+      "content": [
+        {
+          "id": "html-intro",
+          "title": "Structure HTML5",
+          "duration": "30min",
+          "content": "# HTML5\n\nLangage de balisage.\n\n## Structure\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Titre</title>\n  </head>\n  <body>\n    <h1>Hello</h1>\n  </body>\n</html>"
+        },
+        {
+          "id": "semantics",
+          "title": "Sémantique Web",
+          "duration": "45min",
+          "content": "# Sémantique\n\nUtiliser les bonnes balises.\n\n- <header> : en-tête\n- <nav> : navigation\n- <main> : contenu principal\n- <article> : article autonome\n- <footer> : pied de page"
+        },
+        {
+          "id": "forms",
+          "title": "Formulaires HTML",
+          "duration": "45min",
+          "content": "# Forms\n\n<form action=\"/submit\">\n  <label for=\"email\">Email:</label>\n  <input type=\"email\" id=\"email\" required>\n  <button type=\"submit\">Envoyer</button>\n</form>"
+        },
+        {
+          "id": "css-basics",
+          "title": "Bases CSS",
+          "duration": "1h",
+          "content": "# CSS\n\nCascading Style Sheets.\n\n## Sélecteurs\n- element (p)\n- class (.btn)\n- id (#header)\n- attribut ([type=\"text\"])"
+        },
+        {
+          "id": "box-model",
+          "title": "Box Model",
+          "duration": "1h",
+          "content": "# Box Model\n\nTout est une boîte.\n\n- Content\n- Padding (interne)\n- Border\n- Margin (externe)\n\n* {\n  box-sizing: border-box;\n}"
+        },
+        {
+          "id": "flexbox",
+          "title": "Flexbox Layout",
+          "duration": "1h30",
+          "content": "# Flexbox\n\nAlignement unidimensionnel.\n\n.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}"
+        },
+        {
+          "id": "grid",
+          "title": "CSS Grid",
+          "duration": "1h30",
+          "content": "# Grid Layout\n\nAlignement bidimensionnel.\n\n.grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n}"
+        },
+        {
+          "id": "responsive",
+          "title": "Responsive Design",
+          "duration": "1h",
+          "content": "# Responsive\n\nAdapter à tous les écrans.\n\n@media (max-width: 768px) {\n  .nav {\n    flex-direction: column;\n  }\n}"
+        },
+        {
+          "id": "typography",
+          "title": "Web Typography",
+          "duration": "45min",
+          "content": "# Typography\n\n- font-family\n- font-weight\n- line-height\n- letter-spacing\n\n@import url('https://fonts.googleapis.com...');"
+        },
+        {
+          "id": "colors",
+          "title": "Couleurs & Gradients",
+          "duration": "45min",
+          "content": "# Colors\n\n- Hex: #ff0000\n- RGB: rgb(255, 0, 0)\n- HSL: hsl(0, 100%, 50%)\n- Gradients: linear-gradient(to right, red, blue)"
+        },
+        {
+          "id": "animations",
+          "title": "Animations CSS",
+          "duration": "1h",
+          "content": "# Animations\n\n@keyframes slide {\n  from { transform: translateX(-100%); }\n  to { transform: translateX(0); }\n}\n\n.slide-in {\n  animation: slide 0.5s ease-out;\n}"
+        },
+        {
+          "id": "pseudo",
+          "title": "Pseudo-classes",
+          "duration": "45min",
+          "content": "# Pseudo-classes\n\n- :hover\n- :focus\n- :nth-child(2)\n- ::before\n- ::after"
+        },
+        {
+          "id": "variables",
+          "title": "Variables CSS",
+          "duration": "30min",
+          "content": "# CSS Variables\n\n:root {\n  --primary: #007bff;\n}\n\n.btn {\n  background: var(--primary);\n}"
+        },
+        {
+          "id": "architecture",
+          "title": "Architecture CSS",
+          "duration": "1h",
+          "content": "# Architecture\n\n- BEM (Block Element Modifier)\n- Tailwind (Utility-first)\n- SASS/SCSS\n- CSS Modules"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "self-hosting-pro",
+      "title": "Auto-hébergement Pro (Debian/Ubuntu)",
+      "description": "Montez un serveur souverain et sécurisé pour héberger Nextcloud, Vaultwarden et VPN personnel.",
+      "level": "intermediate",
+      "duration": "14h",
+      "category": "ship",
+      "keywords": [
+        "debian",
+        "ubuntu",
+        "self-hosting",
+        "nextcloud",
+        "vaultwarden",
+        "vpn",
+        "hardening"
+      ],
+      "content": [
+        {
+          "id": "base",
+          "title": "Base OS & SSH",
+          "duration": "2h",
+          "content": "# Serveur Souverain\n\n- Installation minimale Debian/Ubuntu\n- SSH par clés uniquement\n- Firewall UFW + fail2ban\n\nObjectif: une base propre, sans surface d'attaque inutile."
+        },
+        {
+          "id": "services",
+          "title": "Services Auto-hébergés",
+          "duration": "4h",
+          "content": "# Stack Privée\n\nDéployez:\n- Nextcloud\n- Vaultwarden\n- WireGuard\n\nAvec reverse proxy et TLS local."
+        },
+        {
+          "id": "ops",
+          "title": "Ops & Sauvegardes",
+          "duration": "3h",
+          "content": "# Exploitation Long Terme\n\n- Snapshots\n- Backups chiffrés\n- Monitoring\n- Procédures de reprise"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "proxmox-sovereign-cloud",
+      "title": "Virtualisation avec Proxmox",
+      "description": "Construisez votre cloud privé avec VMs, conteneurs LXC et segmentation réseau.",
+      "level": "advanced",
+      "duration": "12h",
+      "category": "ship",
+      "keywords": [
+        "proxmox",
+        "virtualisation",
+        "lxc",
+        "vm",
+        "cluster",
+        "souverain"
+      ],
+      "content": [
+        {
+          "id": "cluster",
+          "title": "Architecture Proxmox",
+          "duration": "2h",
+          "content": "# Cloud Privé\n\n- Nœuds Proxmox\n- Stockage local/NAS\n- Réseau de management\n\nDesign orienté résilience et contrôle."
+        },
+        {
+          "id": "vm-lxc",
+          "title": "VM & LXC",
+          "duration": "3h",
+          "content": "# Workloads Mixtes\n\n- VMs pour isolation forte\n- LXC pour densité\n- Templates reproductibles"
+        },
+        {
+          "id": "ha-backup",
+          "title": "HA, Snapshots, DR",
+          "duration": "2h",
+          "content": "# Continuité d'activité\n\n- Plan de reprise\n- Stratégie snapshot\n- Vérification restauration"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "mesh-networks-wireguard",
+      "title": "Réseaux Maillés: WireGuard, Tailscale, ZeroTier",
+      "description": "Créez un réseau privé chiffré entre plusieurs sites sans exposition publique directe.",
+      "level": "advanced",
+      "duration": "10h",
+      "category": "shield",
+      "keywords": [
+        "wireguard",
+        "tailscale",
+        "zerotier",
+        "mesh",
+        "vpn",
+        "s2s"
+      ],
+      "content": [
+        {
+          "id": "principles",
+          "title": "Principes du Mesh",
+          "duration": "2h",
+          "content": "# Mesh Privé\n\n- Chiffrement bout-à-bout\n- Topologies hub/spoke/full-mesh\n- Gestion des clés"
+        },
+        {
+          "id": "deployment",
+          "title": "Déploiement Multi-sites",
+          "duration": "3h",
+          "content": "# Interconnexion\n\n- Site A/B/C\n- ACL strictes\n- DNS privé"
+        },
+        {
+          "id": "observability",
+          "title": "Observabilité & Audit",
+          "duration": "2h",
+          "content": "# Contrôle\n\n- Journalisation des sessions\n- Détection d'anomalies\n- Revocation rapide"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "os-hardening-blue-team",
+      "title": "Durcissement d’OS (Blue Team)",
+      "description": "Durcissez Windows Pro et Linux contre les intrusions avec politiques strictes et minimisation de surface.",
+      "level": "advanced",
+      "duration": "16h",
+      "category": "shield",
+      "keywords": [
+        "hardening",
+        "windows",
+        "linux",
+        "gpo",
+        "security baseline",
+        "blue-team"
+      ],
+      "content": [
+        {
+          "id": "baseline",
+          "title": "Baselines de sécurité",
+          "duration": "3h",
+          "content": "# Hardening by Default\n\n- Désactivation services inutiles\n- Politiques de mot de passe\n- Restriction exécution"
+        },
+        {
+          "id": "windows",
+          "title": "Windows Pro sécurisé",
+          "duration": "4h",
+          "content": "# GPO & Surface Reduction\n\n- AppLocker\n- Defender ASR\n- Journalisation avancée"
+        },
+        {
+          "id": "linux",
+          "title": "Linux blindé",
+          "duration": "4h",
+          "content": "# Linux Security\n\n- SSH hardening\n- Sysctl\n- Auditing\n- Least privilege"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "wireshark-for-threat-detection",
+      "title": "Analyse de Flux Réseau avec Wireshark",
+      "description": "Détectez comportements suspects, exfiltration et erreurs de protocoles dans des captures réelles.",
+      "level": "advanced",
+      "duration": "11h",
+      "category": "shield",
+      "keywords": [
+        "wireshark",
+        "pcap",
+        "network forensics",
+        "dns",
+        "tls",
+        "exfiltration"
+      ],
+      "content": [
+        {
+          "id": "filters",
+          "title": "Filtres & Protocoles",
+          "duration": "2h",
+          "content": "# Méthode d'analyse\n\n- Filtres display/capture\n- DNS/TLS/HTTP\n- Décodage de sessions"
+        },
+        {
+          "id": "hunt",
+          "title": "Threat Hunting",
+          "duration": "3h",
+          "content": "# Chasse réseau\n\n- Beaconing\n- C2 patterns\n- Volumes anormaux"
+        },
+        {
+          "id": "reporting",
+          "title": "Rapport d’incident",
+          "duration": "2h",
+          "content": "# Restitution pro\n\n- Timeline\n- IOCs\n- Recommandations correctives"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "local-llm-deployment",
+      "title": "Déploiement de LLM Locaux",
+      "description": "Déployez Llama/Mistral en local avec Ollama ou LM Studio pour une IA privée et performante.",
+      "level": "intermediate",
+      "duration": "10h",
+      "category": "forge",
+      "keywords": [
+        "ollama",
+        "llama",
+        "mistral",
+        "local ai",
+        "privacy",
+        "inference"
+      ],
+      "content": [
+        {
+          "id": "hardware",
+          "title": "Sizing matériel",
+          "duration": "2h",
+          "content": "# Sizing\n\n- RAM/VRAM\n- Quantization\n- Latence vs qualité"
+        },
+        {
+          "id": "runtime",
+          "title": "Ollama/LM Studio",
+          "duration": "3h",
+          "content": "# Exécution locale\n\n- Gestion modèles\n- Prompting robuste\n- Monitoring perf"
+        },
+        {
+          "id": "integration",
+          "title": "Intégration app",
+          "duration": "2h",
+          "content": "# Intégration produit\n\n- API locale\n- Fallback\n- Politique de confidentialité"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "private-rag-systems",
+      "title": "RAG Privé pour Documents Internes",
+      "description": "Construisez une IA qui répond uniquement sur vos documents internes, sans fuite de données.",
+      "level": "advanced",
+      "duration": "13h",
+      "category": "forge",
+      "keywords": [
+        "rag",
+        "embeddings",
+        "vector",
+        "documents",
+        "private knowledge base"
+      ],
+      "content": [
+        {
+          "id": "pipeline",
+          "title": "Pipeline RAG",
+          "duration": "3h",
+          "content": "# Pipeline\n\n- Ingestion\n- Chunking\n- Embeddings\n- Retrieval"
+        },
+        {
+          "id": "evaluation",
+          "title": "Qualité & Hallucinations",
+          "duration": "3h",
+          "content": "# Évaluation\n\n- Precision@k\n- Guardrails\n- Tests de confiance"
+        },
+        {
+          "id": "security",
+          "title": "Gouvernance des données",
+          "duration": "2h",
+          "content": "# Gouvernance\n\n- ACL documentaires\n- Chiffrement\n- Rétention"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "duckdb-data-science-local",
+      "title": "Data Science Locale avec DuckDB",
+      "description": "Analysez des millions de lignes localement, vite, sans dépendre d’un entrepôt cloud.",
+      "level": "intermediate",
+      "duration": "9h",
+      "category": "forge",
+      "keywords": [
+        "duckdb",
+        "analytics",
+        "parquet",
+        "sql",
+        "local-first"
+      ],
+      "content": [
+        {
+          "id": "engine",
+          "title": "Moteur colonne",
+          "duration": "2h",
+          "content": "# DuckDB\n\n- Exécution vectorisée\n- Formats colonnes\n- Performance locale"
+        },
+        {
+          "id": "pipelines",
+          "title": "Pipelines analytiques",
+          "duration": "3h",
+          "content": "# Pipeline\n\n- CSV/Parquet\n- Joins massifs\n- Fenêtres analytiques"
+        },
+        {
+          "id": "notebooks",
+          "title": "Exploration reproductible",
+          "duration": "2h",
+          "content": "# Repro\n\n- Scripts SQL versionnés\n- Exports\n- QA des résultats"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "zfs-btrfs-integrity",
+      "title": "Systèmes de Fichiers Avancés: ZFS & Btrfs",
+      "description": "Protégez l’intégrité de vos données avec snapshots, scrubbing et stratégie de restauration.",
+      "level": "advanced",
+      "duration": "8h",
+      "category": "kernel",
+      "keywords": [
+        "zfs",
+        "btrfs",
+        "snapshot",
+        "integrity",
+        "filesystem",
+        "raid"
+      ],
+      "content": [
+        {
+          "id": "concepts",
+          "title": "Intégrité & checksums",
+          "duration": "2h",
+          "content": "# Data Integrity\n\n- Copy-on-write\n- Checksums bout-en-bout\n- Corruption silencieuse"
+        },
+        {
+          "id": "ops",
+          "title": "Snapshots & restauration",
+          "duration": "2h",
+          "content": "# Résilience\n\n- Politiques de snapshots\n- Rollback\n- Réplication"
+        },
+        {
+          "id": "runbook",
+          "title": "Runbook d’exploitation",
+          "duration": "2h",
+          "content": "# Exploitation\n\n- Scrub périodique\n- Alerting\n- Plan de capacité"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "docs-as-code-mermaid",
+      "title": "Documentation As Code (Markdown + Mermaid)",
+      "description": "Créez une documentation technique versionnée qui évolue en même temps que le code.",
+      "level": "intermediate",
+      "duration": "7h",
+      "category": "ship",
+      "keywords": [
+        "documentation",
+        "markdown",
+        "mermaid",
+        "adr",
+        "architecture"
+      ],
+      "content": [
+        {
+          "id": "principles",
+          "title": "Doc vivante",
+          "duration": "1h30",
+          "content": "# Documentation durable\n\n- Single source of truth\n- Lien code <-> doc\n- Revue en pull request"
+        },
+        {
+          "id": "diagrams",
+          "title": "Diagrammes Mermaid",
+          "duration": "2h",
+          "content": "# Visualisation\n\n- Flowcharts\n- Sequence diagrams\n- Archi map"
+        },
+        {
+          "id": "governance",
+          "title": "Processus équipe",
+          "duration": "1h30",
+          "content": "# Gouvernance\n\n- ADR\n- DoD documentaire\n- Automatisation qualité"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "git-advanced-workflows",
+      "title": "Git Avancé: Rebase, Cherry-pick & Historiques propres",
+      "description": "Passez au niveau pro avec des workflows Git robustes pour équipes exigeantes.",
+      "level": "advanced",
+      "duration": "8h",
+      "category": "ship",
+      "keywords": [
+        "git",
+        "rebase",
+        "cherry-pick",
+        "history",
+        "workflow"
+      ],
+      "content": [
+        {
+          "id": "history",
+          "title": "Hygiène d’historique",
+          "duration": "2h",
+          "content": "# Historique lisible\n\n- Commits atomiques\n- Message conventionnel\n- Squash intelligent"
+        },
+        {
+          "id": "advanced",
+          "title": "Rebase & Cherry-pick",
+          "duration": "3h",
+          "content": "# Opérations avancées\n\n- Rebase interactif\n- Cherry-pick sélectif\n- Résolution de conflits"
+        },
+        {
+          "id": "team",
+          "title": "Workflow équipe",
+          "duration": "2h",
+          "content": "# Collaboration\n\n- Trunk based\n- Hotfix propre\n- Release tags"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "unsafe-rust-memory-mastery",
+      "title": "Unsafe Rust: Maîtrise Absolue de la Mémoire",
+      "description": "Plongée dans les profondeurs d'unsafe Rust, gestion manuelle des pointeurs raw, transmutes, et FFI avancé.",
+      "level": "advanced",
+      "duration": "8h30",
+      "category": "kernel",
+      "keywords": [
+        "unsafe",
+        "rust",
+        "raw pointers",
+        "transmute",
+        "memory safety",
+        "ffi"
+      ],
+      "content": [
+        {
+          "id": "pointers",
+          "title": "Raw pointers & aliasing",
+          "duration": "2h30",
+          "content": "# Unsafe Foundations\n\n- *const/*mut\n- aliasing rules\n- invariants mémoire"
+        },
+        {
+          "id": "transmute",
+          "title": "Transmute & layout",
+          "duration": "3h",
+          "content": "# Layout Control\n\n- repr(C)\n- transmute sécurisé\n- UB patterns à éviter"
+        },
+        {
+          "id": "audit",
+          "title": "Audit de sécurité unsafe",
+          "duration": "2h",
+          "content": "# Revue experte\n\n- checklists\n- tests Miri\n- documentation des invariants"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "zero-copy-io-architecture",
+      "title": "Zero-Copy Architecture: I/O Sans Allocation",
+      "description": "Techniques avancées de zero-copy, vecteurs d'I/O, scatter-gather, et traitement de données en streaming.",
+      "level": "advanced",
+      "duration": "6h45",
+      "category": "kernel",
+      "keywords": [
+        "zero-copy",
+        "io_uring",
+        "scatter-gather",
+        "streaming",
+        "performance"
+      ],
+      "content": [
+        {
+          "id": "principles",
+          "title": "Principes zero-copy",
+          "duration": "2h",
+          "content": "# Data Path\n\n- éviter les copies\n- buffer reuse\n- pinning"
+        },
+        {
+          "id": "sg",
+          "title": "Scatter-gather I/O",
+          "duration": "2h15",
+          "content": "# Vecteurs I/O\n\n- readv/writev\n- framing binaire\n- batching"
+        },
+        {
+          "id": "profiling",
+          "title": "Profilage de pipeline",
+          "duration": "1h30",
+          "content": "# Mesure réelle\n\n- flamegraphs\n- perf counters\n- budget latence"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "lock-free-data-structures",
+      "title": "Structures de Données Lock-Free",
+      "description": "Queues MPSC/MPMC lock-free, hazard pointers, RCU, et algorithmes de consensus distribué.",
+      "level": "advanced",
+      "duration": "10h00",
+      "category": "kernel",
+      "keywords": [
+        "lock-free",
+        "mpsc",
+        "mpmc",
+        "hazard pointers",
+        "rcu",
+        "consensus"
+      ],
+      "content": [
+        {
+          "id": "queues",
+          "title": "MPSC/MPMC queues",
+          "duration": "3h30",
+          "content": "# Concurrency\n\n- CAS loops\n- contention\n- throughput"
+        },
+        {
+          "id": "memory-reclamation",
+          "title": "Hazard pointers & RCU",
+          "duration": "3h",
+          "content": "# Reclamation\n\n- ABA problem\n- epoch based GC\n- quiescent states"
+        },
+        {
+          "id": "validation",
+          "title": "Tests de correction",
+          "duration": "2h",
+          "content": "# Correctness\n\n- stress tests\n- model checking\n- linearizability"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "advanced-ffi-bindgen",
+      "title": "FFI Avancé et Bindgen Automatisé",
+      "description": "Création de bindings FFI sécurisés, utilisation de bindgen, et patterns de sécurité mémoire.",
+      "level": "advanced",
+      "duration": "7h15",
+      "category": "forge",
+      "keywords": [
+        "ffi",
+        "bindgen",
+        "c abi",
+        "unsafe boundary",
+        "rust"
+      ],
+      "content": [
+        {
+          "id": "abi",
+          "title": "ABI et frontières FFI",
+          "duration": "2h15",
+          "content": "# ABI Contracts\n\n- repr(C)\n- ownership crossing\n- panic safety"
+        },
+        {
+          "id": "bindgen",
+          "title": "Pipeline bindgen",
+          "duration": "2h30",
+          "content": "# Automatisation\n\n- génération headers\n- wrappers safe\n- CI validation"
+        },
+        {
+          "id": "hardening",
+          "title": "Hardening des bindings",
+          "duration": "2h",
+          "content": "# Sécurité\n\n- fuzzing\n- sanitizers\n- contrats explicites"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "tokio-runtime-from-scratch",
+      "title": "Runtime Asynchrone: Construire Tokio from Scratch",
+      "description": "Implémentation d'un runtime async from scratch, executors, wakers, et polling.",
+      "level": "advanced",
+      "duration": "12h00",
+      "category": "kernel",
+      "keywords": [
+        "tokio",
+        "runtime",
+        "waker",
+        "executor",
+        "polling",
+        "futures"
+      ],
+      "content": [
+        {
+          "id": "futures",
+          "title": "Futures & polling",
+          "duration": "4h",
+          "content": "# Async internals\n\n- state machine\n- Pin\n- Poll::Pending"
+        },
+        {
+          "id": "executor",
+          "title": "Executor et scheduler",
+          "duration": "4h",
+          "content": "# Runtime core\n\n- task queue\n- fairness\n- wake strategy"
+        },
+        {
+          "id": "io-loop",
+          "title": "Event loop I/O",
+          "duration": "3h",
+          "content": "# Intégration I/O\n\n- epoll/kqueue\n- timers\n- cancellation"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "procedural-macros-dsl-generation",
+      "title": "Procedural Macros: DSL et Code Generation",
+      "description": "Création de macros procédurales dérivées, attributs, et fonction pour DSL.",
+      "level": "advanced",
+      "duration": "8h00",
+      "category": "forge",
+      "keywords": [
+        "procedural macros",
+        "syn",
+        "quote",
+        "dsl",
+        "codegen"
+      ],
+      "content": [
+        {
+          "id": "derive",
+          "title": "Derive macros",
+          "duration": "2h30",
+          "content": "# Derive\n\n- parse AST\n- générer impl\n- diagnostics"
+        },
+        {
+          "id": "attributes",
+          "title": "Attribute macros",
+          "duration": "2h30",
+          "content": "# Attribute DSL\n\n- validation\n- transformations\n- ergonomie"
+        },
+        {
+          "id": "function-like",
+          "title": "Function-like macros",
+          "duration": "2h",
+          "content": "# Codegen avancé\n\n- mini DSL\n- erreurs lisibles\n- tests snapshot"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "shared-memory-mmap",
+      "title": "Mémoire Partagée et mmap",
+      "description": "Memory-mapped files, shared memory IPC, et synchronisation entre processus.",
+      "level": "advanced",
+      "duration": "6h30",
+      "category": "kernel",
+      "keywords": [
+        "mmap",
+        "shared memory",
+        "ipc",
+        "synchronisation",
+        "page cache"
+      ],
+      "content": [
+        {
+          "id": "mapped-files",
+          "title": "Memory-mapped files",
+          "duration": "2h",
+          "content": "# mmap\n\n- mapping modes\n- coherence\n- fsync"
+        },
+        {
+          "id": "ipc",
+          "title": "IPC mémoire partagée",
+          "duration": "2h15",
+          "content": "# Inter-process\n\n- ring buffers\n- lock discipline\n- failure modes"
+        },
+        {
+          "id": "consistency",
+          "title": "Cohérence & recovery",
+          "duration": "1h30",
+          "content": "# Robustesse\n\n- crash consistency\n- checksums\n- replay"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "simd-cpu-optimizations",
+      "title": "SIMD et Optimisations CPU",
+      "description": "Vectorisation SIMD avec std::simd, autovectorisation, et profilage.",
+      "level": "advanced",
+      "duration": "7h00",
+      "category": "kernel",
+      "keywords": [
+        "simd",
+        "cpu",
+        "autovectorization",
+        "profiling",
+        "cache"
+      ],
+      "content": [
+        {
+          "id": "simd-basics",
+          "title": "std::simd pratique",
+          "duration": "2h15",
+          "content": "# Vectorisation\n\n- lanes\n- alignment\n- fallback scalar"
+        },
+        {
+          "id": "compiler",
+          "title": "Autovectorisation",
+          "duration": "2h",
+          "content": "# Compiler hints\n\n- patterns optimisables\n- flags\n- pitfalls"
+        },
+        {
+          "id": "perf",
+          "title": "Profilage CPU",
+          "duration": "1h45",
+          "content": "# Performance\n\n- cache misses\n- branch prediction\n- benchmark rigoureux"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "ebpf-kernel-programming",
+      "title": "eBPF: Programmation Kernel-Space",
+      "description": "Écriture de programmes eBPF, instrumentation du kernel, et sécurité.",
+      "level": "advanced",
+      "duration": "9h30",
+      "category": "shield",
+      "keywords": [
+        "ebpf",
+        "kernel",
+        "xdp",
+        "tracing",
+        "security"
+      ],
+      "content": [
+        {
+          "id": "foundation",
+          "title": "Fondations eBPF",
+          "duration": "3h",
+          "content": "# eBPF model\n\n- verifier\n- maps\n- helpers"
+        },
+        {
+          "id": "observability",
+          "title": "Tracing & observabilité",
+          "duration": "3h",
+          "content": "# Instrumentation\n\n- uprobes/kprobes\n- latency maps\n- event streams"
+        },
+        {
+          "id": "security",
+          "title": "Use-cases sécurité",
+          "duration": "2h",
+          "content": "# Défense runtime\n\n- détection anomalies\n- policy enforcement\n- forensic"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "mini-wasmtime-runtime",
+      "title": "Runtime WebAssembly: Créer un Mini-Wasmtime",
+      "description": "Implémentation d'un runtime WASM, parsing des modules, et exécution.",
+      "level": "advanced",
+      "duration": "10h00",
+      "category": "forge",
+      "keywords": [
+        "wasm",
+        "runtime",
+        "bytecode",
+        "sandbox",
+        "jit"
+      ],
+      "content": [
+        {
+          "id": "format",
+          "title": "Format binaire WASM",
+          "duration": "3h",
+          "content": "# Module structure\n\n- sections\n- imports/exports\n- validation"
+        },
+        {
+          "id": "engine",
+          "title": "Interpréteur minimal",
+          "duration": "3h30",
+          "content": "# Execution engine\n\n- stack machine\n- memory model\n- traps"
+        },
+        {
+          "id": "host",
+          "title": "Host functions sécurisées",
+          "duration": "2h",
+          "content": "# Sandbox\n\n- capabilities\n- limits\n- resource governance"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "async-ipc-channels-streaming",
+      "title": "IPC Asynchrone: Channels et Streaming",
+      "description": "Communication bidirectionnelle avancée, streaming de données, channels multiplexés et gestion des backpressure.",
+      "level": "advanced",
+      "duration": "7h30",
+      "category": "ship",
+      "keywords": [
+        "ipc",
+        "async",
+        "channels",
+        "streaming",
+        "backpressure"
+      ],
+      "content": [
+        {
+          "id": "patterns",
+          "title": "Patterns IPC asynchrones",
+          "duration": "2h30",
+          "content": "# Communication\n\n- request/reply\n- pub/sub\n- bidi streams"
+        },
+        {
+          "id": "multiplex",
+          "title": "Multiplexage de channels",
+          "duration": "2h30",
+          "content": "# Routing\n\n- framing\n- priority\n- congestion control"
+        },
+        {
+          "id": "reliability",
+          "title": "Backpressure & fiabilité",
+          "duration": "1h30",
+          "content": "# Robustesse\n\n- flow control\n- retries\n- idempotence"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "sidecars-custom-protocol-handlers",
+      "title": "Sidecars et Custom Protocol Handlers",
+      "description": "Intégration de binaires externes, gestion de processus sidecar, et création de protocols URI personnalisés.",
+      "level": "advanced",
+      "duration": "6h00",
+      "category": "ship",
+      "keywords": [
+        "sidecar",
+        "protocol handlers",
+        "process management",
+        "uri"
+      ],
+      "content": [
+        {
+          "id": "sidecar-model",
+          "title": "Architecture sidecar",
+          "duration": "2h",
+          "content": "# Sidecar lifecycle\n\n- spawn\n- supervise\n- shutdown"
+        },
+        {
+          "id": "protocols",
+          "title": "Custom URI protocols",
+          "duration": "2h",
+          "content": "# Deep links\n\n- registration\n- security validation\n- routing"
+        },
+        {
+          "id": "ops",
+          "title": "Observabilité processus",
+          "duration": "1h30",
+          "content": "# Production\n\n- logs structurés\n- watchdog\n- auto-restart"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "custom-invocation-system",
+      "title": "Système d'Invocation Personnalisé",
+      "description": "Création d'un système de commandes avec middleware, validation, et gestion d'erreurs avancée.",
+      "level": "advanced",
+      "duration": "5h45",
+      "category": "forge",
+      "keywords": [
+        "invocation",
+        "middleware",
+        "validation",
+        "error handling",
+        "commands"
+      ],
+      "content": [
+        {
+          "id": "pipeline",
+          "title": "Pipeline de commande",
+          "duration": "2h",
+          "content": "# Invocation flow\n\n- parsing\n- context\n- middleware chain"
+        },
+        {
+          "id": "validation",
+          "title": "Validation stricte",
+          "duration": "2h",
+          "content": "# Input contracts\n\n- schema validation\n- typed errors\n- domain rules"
+        },
+        {
+          "id": "errors",
+          "title": "Gestion d'erreurs avancée",
+          "duration": "1h15",
+          "content": "# Failure handling\n\n- error taxonomy\n- retries\n- observability"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "filesystem-watcher-sync",
+      "title": "File System Watcher et Synchronisation",
+      "description": "Surveillance de fichiers en temps réel, synchronisation bidirectionnelle, et gestion des conflits.",
+      "level": "advanced",
+      "duration": "5h30",
+      "category": "ship",
+      "keywords": [
+        "filesystem watcher",
+        "synchronisation",
+        "conflicts",
+        "events"
+      ],
+      "content": [
+        {
+          "id": "watchers",
+          "title": "Watchers cross-platform",
+          "duration": "2h",
+          "content": "# Event streams\n\n- debouncing\n- coalescing\n- rename semantics"
+        },
+        {
+          "id": "sync",
+          "title": "Sync bidirectionnelle",
+          "duration": "2h",
+          "content": "# Sync engine\n\n- tombstones\n- merge policy\n- ordering"
+        },
+        {
+          "id": "conflicts",
+          "title": "Résolution de conflits",
+          "duration": "1h",
+          "content": "# Conflict strategy\n\n- LWW vs CRDT\n- preview diff\n- rollback"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "cross-platform-notification-system",
+      "title": "Système de Notifications Cross-Platform",
+      "description": "Notifications natives, badges, tray icons, et actions interactives.",
+      "level": "advanced",
+      "duration": "4h30",
+      "category": "ship",
+      "keywords": [
+        "notifications",
+        "tray",
+        "badges",
+        "desktop",
+        "cross-platform"
+      ],
+      "content": [
+        {
+          "id": "native",
+          "title": "Canaux natifs",
+          "duration": "1h30",
+          "content": "# Native notifications\n\n- Windows/macOS/Linux\n- permissions\n- UX timing"
+        },
+        {
+          "id": "actions",
+          "title": "Actions interactives",
+          "duration": "1h30",
+          "content": "# User actions\n\n- deep links\n- quick actions\n- click handling"
+        },
+        {
+          "id": "tray",
+          "title": "Tray, badges et état",
+          "duration": "1h",
+          "content": "# Presence model\n\n- tray menu\n- badge counters\n- lifecycle"
+        }
+      ],
+      "quiz": []
+    },
+    {
+      "id": "auto-update-system",
+      "title": "Système de Mise à Jour Automatique",
+      "description": "Mise à jour delta, rollback, canary releases, et signature de paquets.",
+      "level": "advanced",
+      "duration": "6h00",
+      "category": "ship",
+      "keywords": [
+        "auto update",
+        "delta",
+        "rollback",
+        "canary",
+        "signatures"
+      ],
+      "content": [
+        {
+          "id": "strategy",
+          "title": "Stratégie de release",
+          "duration": "2h",
+          "content": "# Delivery\n\n- channels\n- canary rollout\n- kill switch"
+        },
+        {
+          "id": "integrity",
+          "title": "Signature et intégrité",
+          "duration": "2h",
+          "content": "# Trust chain\n\n- package signing\n- verification\n- anti-tamper"
+        },
+        {
+          "id": "rollback",
+          "title": "Rollback automatique",
+          "duration": "1h30",
+          "content": "# Recovery\n\n- health checks\n- rollback policy\n- incident playbook"
+        }
+      ],
+      "quiz": []
+    }
+  ]
+}

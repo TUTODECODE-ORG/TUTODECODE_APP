@@ -1,0 +1,110 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Plateforme d'apprentissage TutoDecode v3.0" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | TutoDecode</title>
+        <!-- SEO & OpenGraph -->
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta name="twitter:card" content="summary_large_image" />
+	</head>
+    <body class="bg-slate-950 text-slate-50 h-screen overflow-hidden font-sans antialiased">
+        <div class="flex h-screen">
+            <!-- Sidebar (Centralisée) -->
+            <nav class="w-64 border-r border-slate-800 hidden md:block shrink-0 px-4 py-8">
+                <div class="mb-8 font-bold text-xl tracking-tighter bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                    TUTODECODE v3.0
+                </div>
+                <!-- Navigation Site -->
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a href="/" class="hover:text-blue-400 transition-colors flex items-center gap-2">Tableau de bord</a></li>
+                    <li><a href="/lab" class="hover:text-blue-400 transition-colors flex items-center gap-2">Laboratoire WASM</a></li>
+                </ul>
+
+                <!-- Bloc Cours -->
+                <div class="mt-8 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                    <p class="text-[11px] uppercase tracking-wide text-slate-500 mb-3">Bloc Cours</p>
+                    <ul class="space-y-3 text-sm text-slate-300">
+                        <li><a href="/courses" class="hover:text-blue-400 transition-colors flex items-center gap-2">Bibliothèque des cours</a></li>
+                        <li><a href="/app" class="hover:text-blue-400 transition-colors flex items-center gap-2">Application cours</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main id="site-main-scroll" tabindex="0" class="flex-1 h-screen overflow-y-auto focus:outline-none">
+                <header class="h-16 border-b border-slate-800 flex items-center px-8 justify-between sticky top-0 bg-slate-950/80 backdrop-blur-md z-40">
+                    <h1 class="font-semibold">{title}</h1>
+                    <div id="user-progress-island">
+                        <!-- Island Architecture: React Progress Indicator will mount here -->
+                    </div>
+                </header>
+                
+                <div class="p-8 max-w-5xl mx-auto">
+                    <slot />
+                </div>
+
+                <footer class="mt-auto border-t border-slate-800 p-8 text-center text-slate-500 text-xs">
+                    <p>© {new Date().getFullYear()} TutoDecode - 100% Statique. Zéro Serveur. 100% Libre.</p>
+                </footer>
+			</main>
+		</div>
+
+        <script>
+            const mainScroll = document.getElementById('site-main-scroll');
+            const isEditableTarget = (target) => {
+                if (!target || !(target instanceof HTMLElement)) return false;
+                const tag = target.tagName;
+                return target.isContentEditable || tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+            };
+
+            window.addEventListener('keydown', (event) => {
+                if (!mainScroll) return;
+                if (isEditableTarget(event.target)) return;
+
+                const lineStep = 56;
+                const pageStep = Math.max(220, Math.round(mainScroll.clientHeight * 0.8));
+
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    mainScroll.scrollBy({ top: lineStep, behavior: 'smooth' });
+                    return;
+                }
+
+                if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    mainScroll.scrollBy({ top: -lineStep, behavior: 'smooth' });
+                    return;
+                }
+
+                if (event.key === ' ') {
+                    event.preventDefault();
+                    mainScroll.scrollBy({ top: event.shiftKey ? -pageStep : pageStep, behavior: 'smooth' });
+                }
+            });
+        </script>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--accent: 59, 130, 246;
+	}
+	html {
+		font-family: 'Inter', system-ui, sans-serif;
+		scroll-behavior: smooth;
+	}
+</style>
