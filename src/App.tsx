@@ -35,7 +35,6 @@ import {
   BellRing
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -1460,34 +1459,6 @@ const App: React.FC = () => {
     }
   }, [canUseTauriInvoke, chapterContextText, isWebDemoPreview, ollamaModel]);
 
-  const submitQuiz = useCallback(async () => {
-    if (!quizPayload || !currentChapter) return;
-
-    const total = quizPayload.questions.length;
-    const answered = Object.keys(quizAnswers).length;
-    if (answered < total) {
-      toast.error('Répondez à toutes les questions avant de valider.');
-      return;
-    }
-
-    const correct = quizPayload.questions.reduce((count, question, questionIndex) => {
-      return quizAnswers[questionIndex] === question.answerIndex ? count + 1 : count;
-    }, 0);
-
-    const score = Math.round((correct / total) * 100);
-    const passScore = quizPayload.passScore ?? QUIZ_PASS_SCORE_DEFAULT;
-    const passed = score >= passScore;
-
-    setQuizResult({ score, total, passed, passScore });
-
-    if (passed) {
-      toast.success(`✅ QCM réussi (${score}%)`);
-      await handleCompleteChapter(currentChapter.id);
-    } else {
-      toast.error(`❌ QCM non réussi (${score}%). Il faut ${passScore}% minimum.`);
-    }
-  }, [quizPayload, currentChapter, quizAnswers, handleCompleteChapter]);
-
   const handleFinishCourse = useCallback(async (chapterId: string) => {
     const chapter = getChapterById(chapterId);
     if (!chapter) {
@@ -1613,6 +1584,34 @@ const App: React.FC = () => {
     }
   }, [completedChapters, userId, isWebDemoPreview]);
 
+  const submitQuiz = useCallback(async () => {
+    if (!quizPayload || !currentChapter) return;
+
+    const total = quizPayload.questions.length;
+    const answered = Object.keys(quizAnswers).length;
+    if (answered < total) {
+      toast.error('Répondez à toutes les questions avant de valider.');
+      return;
+    }
+
+    const correct = quizPayload.questions.reduce((count, question, questionIndex) => {
+      return quizAnswers[questionIndex] === question.answerIndex ? count + 1 : count;
+    }, 0);
+
+    const score = Math.round((correct / total) * 100);
+    const passScore = quizPayload.passScore ?? QUIZ_PASS_SCORE_DEFAULT;
+    const passed = score >= passScore;
+
+    setQuizResult({ score, total, passed, passScore });
+
+    if (passed) {
+      toast.success(`✅ QCM réussi (${score}%)`);
+      await handleCompleteChapter(currentChapter.id);
+    } else {
+      toast.error(`❌ QCM non réussi (${score}%). Il faut ${passScore}% minimum.`);
+    }
+  }, [quizPayload, currentChapter, quizAnswers, handleCompleteChapter]);
+
   const handleNextChapter = useCallback(async () => {
     const current = getChapterById(currentChapterId);
     if (current) {
@@ -1679,7 +1678,6 @@ const App: React.FC = () => {
 
           if (resolved.success && resolved.data) {
             setActiveTicket(resolved.data);
-            setTickets(prev => prev.map((ticket) => (ticket.id === resolved.data!.id ? resolved.data! : ticket)));
           }
         }
 
