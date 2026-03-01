@@ -796,9 +796,8 @@ const App: React.FC = () => {
     if (typeof window === 'undefined') return false;
     const host = window.location.hostname;
     const isLocalhost = host === 'localhost' || host === '127.0.0.1';
-    const isTauriApp = Boolean((window as unknown as { __TAURI__?: unknown }).__TAURI__);
-    return isTauriApp || isLocalhost;
-  }, []);
+    return canUseTauriInvoke || isLocalhost;
+  }, [canUseTauriInvoke]);
 
   const isWebDemoPreview = useMemo(() => {
     if (typeof window === 'undefined') return false;
