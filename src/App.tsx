@@ -262,6 +262,87 @@ const formatMinutesAsDuration = (minutes: number): string => {
   return `${hours}h${remainder.toString().padStart(2, '0')}`;
 };
 
+const explainCodeLines = (code: string): string[] => {
+  const lines = code
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .slice(0, 8);
+
+  return lines.map((line, index) => `- Étape ${index + 1}: \`${line}\` → ce que cette instruction vous apprend dans la pratique.`);
+};
+
+const buildDeepSectionLesson = (course: any, section: any, index: number): string => {
+  const title = typeof section?.title === 'string' ? section.title : `Bloc ${index + 1}`;
+  const duration = typeof section?.duration === 'string' && section.duration.trim() ? section.duration.trim() : 'durée libre';
+  const rawContent = typeof section?.content === 'string' ? section.content.trim() : '';
+  const contentPreview = rawContent || firstContentPreview(section, 2200) || 'Contenu à explorer de manière guidée.';
+  const objectives = Array.isArray(section?.terminalObjectives) ? section.terminalObjectives : [];
+  const firstCodeBlock = Array.isArray(section?.codeBlocks) ? section.codeBlocks[0] : undefined;
+  const code = typeof firstCodeBlock?.code === 'string' ? firstCodeBlock.code.trim() : '';
+  const codeLanguage = typeof firstCodeBlock?.language === 'string' ? firstCodeBlock.language : 'bash';
+  const keywords = Array.isArray(course?.keywords) ? course.keywords.filter(Boolean) : [];
+  const keyA = keywords[0] || 'concept principal';
+  const keyB = keywords[1] || 'mise en pratique';
+
+  const commandPlan = objectives.length > 0
+    ? objectives.slice(0, 3).map((item: any, itemIndex: number) => {
+        const cmd = item?.cmd || 'commande';
+        const desc = item?.description || 'objectif opérationnel';
+        return `${itemIndex + 1}. \`${cmd}\` — ${desc}`;
+      })
+    : [
+        `1. Identifier l’objectif technique de ce bloc (${title}).`,
+        `2. Tester une première implémentation orientée ${keyA}.`,
+        `3. Mesurer/observer le résultat et ajuster jusqu’à stabilité.`,
+      ];
+
+  const codeExplanation = code
+    ? [
+        `### Décryptage du code (${codeLanguage})`,
+        '```' + codeLanguage,
+        code,
+        '```',
+        ...explainCodeLines(code),
+      ].join('\n')
+    : [
+        '### Décryptage guidé',
+        '- Ce bloc doit être pratiqué avec une commande ou un snippet concret.',
+        '- Reproduisez le scénario, observez la sortie, puis expliquez le pourquoi.',
+      ].join('\n');
+
+  return [
+    `## Bloc ${index + 1} — ${title} (${duration})`,
+    '',
+    '### Pourquoi ce bloc est important',
+    `Ce bloc vous fait passer de la compréhension théorique à la compétence opérationnelle sur **${keyA}** et **${keyB}**.`,
+    'L’objectif est de savoir non seulement “faire fonctionner”, mais aussi **expliquer**, **déboguer** et **améliorer**.',
+    '',
+    '### Cours détaillé',
+    contentPreview,
+    '',
+    '### Plan d’action pas à pas',
+    ...commandPlan,
+    '',
+    codeExplanation,
+    '',
+    '### Erreurs fréquentes à éviter',
+    '- Aller trop vite et modifier plusieurs choses en même temps.',
+    '- Ne pas lire la sortie complète des erreurs (stdout/stderr).',
+    '- Valider une solution sans test de régression minimal.',
+    '',
+    '### Mini-lab (20 à 40 min)',
+    `- Reproduisez un cas de base lié à **${title}**.`,
+    '- Introduisez volontairement une erreur contrôlée et corrigez-la.',
+    '- Documentez votre correction en 3 lignes: cause, action, résultat.',
+    '',
+    '### Critères de maîtrise',
+    '- Vous savez refaire ce bloc sans copier-coller.',
+    '- Vous pouvez expliquer le “pourquoi” derrière chaque commande ou choix.',
+    '- Vous êtes capable de diagnostiquer un échec courant en autonomie.',
+  ].join('\n');
+};
+
 const buildLearningObjectives = (course: any): string[] => {
   const keywords = Array.isArray(course?.keywords) ? course.keywords.filter(Boolean) : [];
   const first = keywords[0] || 'les fondamentaux du module';
@@ -302,24 +383,7 @@ const buildCourseTheory = (course: any): string => {
 
   const sectionDeepDives = sections
     .slice(0, 10)
-    .map((section: any, index) => {
-      const title = typeof section?.title === 'string' ? section.title : `Bloc ${index + 1}`;
-      const duration = typeof section?.duration === 'string' && section.duration.trim() ? section.duration.trim() : 'durée libre';
-      const rawContent = typeof section?.content === 'string' ? section.content.trim() : '';
-      const preview = rawContent || firstContentPreview(section, 1800);
-      const sectionObjectives = Array.isArray(section?.terminalObjectives) ? section.terminalObjectives : [];
-      const sectionObjectiveLine = sectionObjectives.length
-        ? `\n\nObjectif pratique: ${sectionObjectives.slice(0, 3).map((item: any) => `${item?.cmd || 'commande'} (${item?.description || 'objectif'})`).join(' · ')}`
-        : '';
-
-      const sectionExercise = `\n\nExercice guidé:\n- Reproduisez l’exemple principal de ce bloc.\n- Modifiez-le avec votre propre variante.\n- Vérifiez le résultat et notez ce qui a changé.`;
-
-      if (!preview) {
-        return `## Bloc ${index + 1} — ${title} (${duration})\nContenu guidé à pratiquer étape par étape.${sectionObjectiveLine}${sectionExercise}`;
-      }
-
-      return `## Bloc ${index + 1} — ${title} (${duration})\n${preview}${sectionObjectiveLine}${sectionExercise}`;
-    })
+    .map((section: any, index) => buildDeepSectionLesson(course, section, index))
     .filter(Boolean);
 
   const masteryTargets = [
