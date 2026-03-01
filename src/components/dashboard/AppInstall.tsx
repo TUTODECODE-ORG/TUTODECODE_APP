@@ -14,7 +14,10 @@ import {
   Sparkles,
   FolderOpen,
   Bot,
-  RefreshCw
+  RefreshCw,
+  Code2,
+  FileCode,
+  Info
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -99,20 +102,29 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
 
         {/* Trust Bar */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="rounded-xl border border-[var(--td-border)] bg-[var(--td-surface)] p-4">
-            <p className="text-xs uppercase tracking-wide text-[var(--td-text-tertiary)] mb-1">Confiance</p>
-            <p className="text-sm text-[var(--td-text-primary)] font-medium">Code source public et vérifiable</p>
-            <p className="text-xs text-[var(--td-text-secondary)] mt-1">Releases publiées sur GitHub + installateur MSI officiel.</p>
+          <div className="rounded-xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-emerald-600/5 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Code2 className="w-4 h-4 text-emerald-400" />
+              <p className="text-xs uppercase tracking-wide text-emerald-400 font-medium">Open Source</p>
+            </div>
+            <p className="text-sm text-[var(--td-text-primary)] font-medium">100% du code est public</p>
+            <p className="text-xs text-[var(--td-text-secondary)] mt-1">Vérifiez vous-même sur GitHub. Aucun code caché.</p>
           </div>
-          <div className="rounded-xl border border-[var(--td-border)] bg-[var(--td-surface)] p-4">
-            <p className="text-xs uppercase tracking-wide text-[var(--td-text-tertiary)] mb-1">Vie privée</p>
-            <p className="text-sm text-[var(--td-text-primary)] font-medium">Aucune donnée perso récupérée</p>
-            <p className="text-xs text-[var(--td-text-secondary)] mt-1">Pas de trackers. La synchro récupère uniquement des contenus publics.</p>
+          <div className="rounded-xl border border-blue-500/30 bg-gradient-to-br from-blue-500/5 to-blue-600/5 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <FileCode className="w-4 h-4 text-blue-400" />
+              <p className="text-xs uppercase tracking-wide text-blue-400 font-medium">Tauri Framework</p>
+            </div>
+            <p className="text-sm text-[var(--td-text-primary)] font-medium">Technologie moderne et sécurisée</p>
+            <p className="text-xs text-[var(--td-text-secondary)] mt-1">Même techno que 1Password, Codeium, et autres apps pros.</p>
           </div>
-          <div className="rounded-xl border border-[var(--td-border)] bg-[var(--td-surface)] p-4">
-            <p className="text-xs uppercase tracking-wide text-[var(--td-text-tertiary)] mb-1">Fonctionnel aujourd'hui</p>
-            <p className="text-sm text-[var(--td-text-primary)] font-medium">Workflow ticket IA complet</p>
-            <p className="text-xs text-[var(--td-text-secondary)] mt-1">"J'ai fini" → ticket → "Je pense avoir fini" → validation/feedback.</p>
+          <div className="rounded-xl border border-purple-500/30 bg-gradient-to-br from-purple-500/5 to-purple-600/5 p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Shield className="w-4 h-4 text-purple-400" />
+              <p className="text-xs uppercase tracking-wide text-purple-400 font-medium">Vie Privée</p>
+            </div>
+            <p className="text-sm text-[var(--td-text-primary)] font-medium">Zéro données personnelles</p>
+            <p className="text-xs text-[var(--td-text-secondary)] mt-1">Pas de compte, pas de trackers, tout reste local.</p>
           </div>
         </div>
 
@@ -176,8 +188,19 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
                     Installer maintenant — Gratuit
                   </Button>
                   <p className="text-xs text-[var(--td-text-secondary)] mt-3 text-center">
-                    Installateur MSI officiel • ~50 MB • Installation en 1 clic
+                    Installateur MSI officiel • ~50 MB • Licence AGPL-3.0
                   </p>
+                  
+                  {/* SmartScreen Info */}
+                  <div className="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                    <div className="flex items-start gap-2">
+                      <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <div className="text-xs text-amber-200/80">
+                        <p className="font-medium text-amber-300 mb-1">Windows SmartScreen</p>
+                        <p>L'app n'est pas signée (coût de 400€/an). Si Windows affiche un avertissement, cliquez « Plus d'infos » → « Exécuter quand même ». Le code source est vérifiable sur GitHub.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* GitHub Releases */}
