@@ -226,27 +226,27 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
           <div className="rounded-2xl border border-[var(--td-border)] bg-[var(--td-surface)] p-5">
             <h4 className="text-sm font-semibold text-[var(--td-text-primary)] mb-3 flex items-center gap-2">
               <Bot className="w-4 h-4 text-[var(--td-primary)]" />
-              Ce que fait l'IA (Ollama)
+              IA locale (optionnelle)
             </h4>
             <ul className="space-y-2 text-xs text-[var(--td-text-secondary)]">
-              <li>• Répond à vos questions sur le code via chat.</li>
-              <li>• Analyse les erreurs terminal et donne des indices.</li>
-              <li>• Guide sans donner les réponses directement.</li>
-              <li>• Fonctionne 100% en local (aucune donnée envoyée).</li>
+              <li>• <strong>Chat avec l'IA</strong> — posez des questions sur le code, elle répond.</li>
+              <li>• <strong>Analyse d'erreurs</strong> — elle lit vos erreurs terminal et explique.</li>
+              <li>• <strong>Pas de cloud</strong> — Ollama tourne sur votre PC, rien n'est envoyé.</li>
             </ul>
+            <p className="text-[10px] text-[var(--td-text-tertiary)] mt-3 italic">Nécessite d'installer Ollama séparément (~4 GB pour le modèle).</p>
           </div>
 
           <div className="rounded-2xl border border-[var(--td-border)] bg-[var(--td-surface)] p-5">
             <h4 className="text-sm font-semibold text-[var(--td-text-primary)] mb-3 flex items-center gap-2">
               <FolderOpen className="w-4 h-4 text-[var(--td-primary)]" />
-              Ce que l'app stocke localement
+              Données stockées
             </h4>
             <ul className="space-y-2 text-xs text-[var(--td-text-secondary)]">
-              <li>• Progression des cours (chapitres terminés).</li>
-              <li>• Résultats des QCM.</li>
-              <li>• Préférences utilisateur.</li>
-              <li>• Cache des cours synchronisés.</li>
+              <li>• <strong>Chapitres terminés</strong> — pour reprendre où vous en étiez.</li>
+              <li>• <strong>Résultats QCM</strong> — score et réponses de chaque quiz.</li>
+              <li>• <strong>Cache des cours</strong> — pour fonctionner hors-ligne.</li>
             </ul>
+            <p className="text-[10px] text-[var(--td-text-tertiary)] mt-3 italic">Tout est sur votre machine, aucun compte requis.</p>
           </div>
 
           <div className="rounded-2xl border border-[var(--td-border)] bg-[var(--td-surface)] p-5">
@@ -255,10 +255,13 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
               Mises à jour des cours
             </h4>
             <ul className="space-y-2 text-xs text-[var(--td-text-secondary)]">
-              <li>• Sync des nouveaux cours depuis l'API.</li>
-              <li>• Cache local pour éviter re-téléchargements.</li>
-              <li>• Mode hors-ligne si pas de connexion.</li>
-              <li>• Aucune donnée personnelle envoyée.</li>
+              <li>• <strong>Sync automatique</strong> — nouveaux cours téléchargés au démarrage.</li>
+              <li>• <strong>Mode hors-ligne</strong> — fonctionne sans internet après 1ère sync.</li>
+              <li>• <strong>Pas de tracking</strong> — seuls les cours publics sont récupérés.</li>
+            </ul>
+            <p className="text-[10px] text-[var(--td-text-tertiary)] mt-3 italic">L'app envoie 0 donnée personnelle.</p>
+          </div>
+        </div>
             </ul>
           </div>
         </div>
