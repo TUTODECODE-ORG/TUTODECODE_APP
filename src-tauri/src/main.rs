@@ -54,6 +54,12 @@ struct OllamaTagsResponse {
     models: Option<Vec<OllamaModelInfo>>,
 }
 
+#[derive(Deserialize)]
+struct AiChatTurn {
+    role: String,
+    content: String,
+}
+
 // ============================================
 // TYPES ET STRUCTURES
 // ============================================
@@ -279,7 +285,76 @@ async fn ask_local_ai(prompt: String) -> CommandResult<String> {
         return CommandResult::err("Prompt vide");
     }
 
-    let model = local_ai_model();
+    let session_id: Option<String> = None;
+    let context: Option<String> = None;
+    let conversation: Option<Vec<AiChatTurn>> = None;
+    let model_override: Option<String> = None;
+
+    ask_local_ai_with_context(prompt, session_id, context, conversation, model_override).await
+}
+
+#[tauri::command]
+async fn ask_local_ai_with_context(
+    prompt: String,
+    session_id: Option<String>,
+    context: Option<String>,
+    conversation: Option<Vec<AiChatTurn>>,
+    model_override: Option<String>,
+) -> CommandResult<String> {
+    if prompt.trim().is_empty() {
+        return CommandResult::err("Prompt vide");
+    }
+
+    let mut bridged_prompt = String::new();
+
+    bridged_prompt.push_str("Tu es un mentor technique dans TutoDeCode. ");
+    bridged_prompt.push_str("Tu dois garder le contexte de la conversation, répondre en français, ");
+    bridged_prompt.push_str("et guider sans donner la solution finale complète.\n\n");
+
+    if let Some(session) = session_id
+        .as_ref()
+        .map(|value| value.trim())
+        .filter(|value| !value.is_empty())
+    {
+        bridged_prompt.push_str("Session:\n");
+        bridged_prompt.push_str(session);
+        bridged_prompt.push_str("\n\n");
+    }
+
+    if let Some(ctx) = context
+        .as_ref()
+        .map(|value| value.trim())
+        .filter(|value| !value.is_empty())
+    {
+        bridged_prompt.push_str("Contexte de l'app:\n");
+        bridged_prompt.push_str(ctx);
+        bridged_prompt.push_str("\n\n");
+    }
+
+    if let Some(history) = conversation.as_ref() {
+        let recent: Vec<&AiChatTurn> = history.iter().rev().take(10).collect();
+        if !recent.is_empty() {
+            bridged_prompt.push_str("Historique récent:\n");
+            for turn in recent.iter().rev() {
+                let role = turn.role.trim().to_lowercase();
+                let normalized_role = if role == "assistant" { "Assistant" } else { "Utilisateur" };
+                let content = turn.content.trim();
+                if !content.is_empty() {
+                    bridged_prompt.push_str(&format!("- {}: {}\n", normalized_role, content));
+                }
+            }
+            bridged_prompt.push_str("\n");
+        }
+    }
+
+    bridged_prompt.push_str("Question actuelle:\n");
+    bridged_prompt.push_str(prompt.trim());
+
+    let model = model_override
+        .as_ref()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .unwrap_or_else(local_ai_model);
     let client = reqwest::Client::builder()
         .timeout(Duration::from_secs(60))
         .build();
@@ -292,7 +367,7 @@ async fn ask_local_ai(prompt: String) -> CommandResult<String> {
     let send_generate = |model_name: &str| {
         let payload = serde_json::json!({
             "model": model_name,
-            "prompt": prompt,
+            "prompt": bridged_prompt,
             "stream": false
         });
 
@@ -1960,6 +2035,7 @@ fn main() {
             load_progress,
             check_local_ai_status,
             ask_local_ai,
+            ask_local_ai_with_context,
             set_course_lab_workspace,
             get_course_lab_workspace,
             open_course_lab_path,

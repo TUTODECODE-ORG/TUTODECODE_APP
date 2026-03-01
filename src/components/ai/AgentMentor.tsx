@@ -4,6 +4,7 @@
 // ============================================
 
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
+import { invoke } from '@tauri-apps/api/core';
 import { 
   Bot, 
   Sparkles, 
@@ -47,6 +48,12 @@ interface OllamaStatus {
   connected: boolean;
   model: string | null;
   availableModels: string[];
+}
+
+interface BackendResult<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
 }
 
 // ============================================
@@ -293,6 +300,7 @@ export const AgentMentor = memo<AgentMentorProps>(({
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [showTopShadow, setShowTopShadow] = useState(false);
   const [showBottomShadow, setShowBottomShadow] = useState(false);
+  const canUseTauriInvoke = typeof window !== 'undefined' && Boolean((window as any).__TAURI_INTERNALS__ || (window as any).__TAURI__);
 
   // Vérifier la connexion Ollama au montage et régulièrement
   const checkConnection = useCallback(async () => {
@@ -437,19 +445,64 @@ export const AgentMentor = memo<AgentMentorProps>(({
 
     const userMessage: AgentMessage = {
       id: Date.now().toString(),
-      type: 'info',
+      type: 'user',
       content: userInput,
       timestamp: Date.now()
     };
 
     setMessages(prev => [...prev, userMessage]);
     const prompt = userInput;
+    const conversationSeed = [...messages, userMessage];
+    const conversation = conversationSeed
+      .slice(-10)
+      .filter((message) => message.content.trim().length > 0)
+      .map((message) => ({
+        role: message.type === 'user' ? 'user' : 'assistant',
+        content: message.content,
+      }));
+
+    const recentTerminalContext = terminalOutput
+      .slice(-6)
+      .map((entry) => `${entry.type}: ${entry.content}`)
+      .join('\n');
+
+    const appContext = [
+      currentChapter ? `Chapitre en cours: ${currentChapter}` : '',
+      recentTerminalContext ? `Sortie terminal récente:\n${recentTerminalContext}` : '',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+
     setUserInput('');
 
     // Réponse via Ollama (pont direct)
     setIsTyping(true);
 
     try {
+      if (canUseTauriInvoke) {
+        const response = await invoke<BackendResult<string>>('ask_local_ai_with_context', {
+          prompt,
+          sessionId: `mentor-${currentChapter || 'global'}`,
+          context: appContext,
+          conversation,
+          modelOverride: selectedModel || undefined,
+        });
+
+        if (!response.success || !response.data) {
+          throw new Error(response.error || 'Réponse IA indisponible');
+        }
+
+        const agentResponse: AgentMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'info',
+          content: response.data,
+          timestamp: Date.now()
+        };
+
+        setMessages(prev => [...prev, agentResponse]);
+        return;
+      }
+
       if (ollamaStatus.connected && selectedModel) {
         const response = await askOllama(selectedModel, prompt);
 
@@ -498,7 +551,7 @@ export const AgentMentor = memo<AgentMentorProps>(({
     } finally {
       setIsTyping(false);
     }
-  }, [userInput, ollamaStatus.connected, selectedModel]);
+  }, [userInput, messages, terminalOutput, currentChapter, canUseTauriInvoke, ollamaStatus.connected, selectedModel]);
 
   // ============================================
   // DEMANDE D'INDICE
