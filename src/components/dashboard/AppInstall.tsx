@@ -201,6 +201,17 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Winget Info */}
+                  <div className="mt-3 p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
+                      <div className="text-xs text-cyan-200/80">
+                        <p className="font-medium text-cyan-300 mb-1">Bientôt sur Winget</p>
+                        <p>Nous sommes en cours de soumission au <a href="https://github.com/microsoft/winget-pkgs" target="_blank" rel="noopener noreferrer" className="underline hover:text-cyan-300">Windows Package Manager</a> (le « apt » de Windows). Une fois validé par Microsoft, l'app sera reconnue comme partenaire officiel et installable via <code className="px-1 py-0.5 bg-cyan-500/20 rounded text-cyan-300">winget install TutoDeCode</code>.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* GitHub Releases */}
