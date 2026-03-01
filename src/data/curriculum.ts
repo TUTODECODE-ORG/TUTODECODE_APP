@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Curriculum "Mastering Tauri v3 & Rust Systems"
+// TutoDeCode - Curriculum "Mastering Tauri v3 & Rust Systems"
 // 10 Chapitres complets avec théorie, code et challenges
 // ============================================
 

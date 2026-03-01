@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Ollama AI Bridge Setup
+// TutoDeCode - Ollama AI Bridge Setup
 // Permet à l'utilisateur de configurer son IA locale
 // ============================================
 
@@ -125,7 +125,7 @@ export default function OllamaSetup({ onModelReady, onCreateCourse }: OllamaSetu
             Configuration IA Locale
           </h1>
           <p className="text-lg text-[var(--td-text-secondary)] max-w-2xl mx-auto">
-            Connectez votre IA locale Ollama à TutoDeCode Pro pour créer des cours personnalisés et obtenir de l'aide en temps réel.
+            Connectez votre IA locale Ollama à TutoDeCode pour créer des cours personnalisés et obtenir de l'aide en temps réel.
           </p>
         </div>
 

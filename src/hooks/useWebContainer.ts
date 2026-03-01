@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - WebContainer Hook
+// TutoDeCode - WebContainer Hook
 // Environnement Node.js/Linux dans le navigateur
 // ============================================
 

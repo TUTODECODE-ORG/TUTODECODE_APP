@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - AI Chat Component
+// TutoDeCode - AI Chat Component
 // Interface de discussion avec l'agent IA mentor
 // ============================================
 

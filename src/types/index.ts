@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Type Definitions
+// TutoDeCode - Type Definitions
 // ============================================
 
 // Hardware Diagnostics Types

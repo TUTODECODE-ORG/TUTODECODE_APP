@@ -1,4 +1,4 @@
-// TutoDeCode Pro - Hardware Diagnostics Module
+// TutoDeCode - Hardware Diagnostics Module
 // Détecte CPU, GPU, RAM et recommande des modèles LLM adaptés
 
 use serde::{Deserialize, Serialize};

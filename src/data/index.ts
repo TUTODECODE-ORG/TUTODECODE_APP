@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Data Exports
+// TutoDeCode - Data Exports
 // ============================================
 
 export {

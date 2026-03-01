@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // ============================================
-// TutoDeCode Pro - Backend Rust Tauri v3
+// TutoDeCode - Backend Rust Tauri v3
 // Architecture sécurisée avec AppStats et commandes sandboxed
 // ============================================
 

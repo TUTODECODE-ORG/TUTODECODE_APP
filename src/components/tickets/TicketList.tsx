@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Ticket List Component
+// TutoDeCode - Ticket List Component
 // Liste des tickets avec filtres et recherche
 // ============================================
 

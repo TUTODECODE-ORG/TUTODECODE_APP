@@ -1,4 +1,4 @@
-// TutoDeCode Pro - PTY Terminal Module
+// TutoDeCode - PTY Terminal Module
 // Fournit un terminal réel via Pseudoterminal (PTY)
 
 use portable_pty::{CommandBuilder, NativePtySystem, PtyPair, PtySize, PtySystem};

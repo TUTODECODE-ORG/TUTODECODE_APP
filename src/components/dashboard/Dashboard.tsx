@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Main Dashboard Component
+// TutoDeCode - Main Dashboard Component
 // Vue principale avec diagnostic et tickets
 // ============================================
 
@@ -314,7 +314,7 @@ export function Dashboard({ className = '' }: DashboardProps) {
               {/* Welcome */}
               <div>
                 <h1 className="text-2xl font-semibold text-[var(--td-text-primary)]">
-                  Bienvenue sur TutoDeCode Pro
+                  Bienvenue sur TutoDeCode
                 </h1>
                 <p className="text-[var(--td-text-secondary)] mt-1">
                   Votre laboratoire DevOps interactif avec terminal réel et agent IA.

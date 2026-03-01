@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - CourseEngine
+// TutoDeCode - CourseEngine
 // Visualiseur de cours avec parsing Markdown et mode Focus
 // ============================================
 

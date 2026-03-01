@@ -1,7 +1,7 @@
 [package]
 name = "tutodecode-pro"
 version = "1.0.0"
-description = "TutoDeCode Pro - Plateforme LMS interactive pour maîtriser Tauri v3 et Rust"
+description = "TutoDeCode - Plateforme LMS interactive pour maîtriser Tauri v3 et Rust"
 authors = ["TutoDeCode Team <team@tutodecode.com>"]
 license = "MIT"
 repository = "https://github.com/tutodecode/tutodecode-pro"

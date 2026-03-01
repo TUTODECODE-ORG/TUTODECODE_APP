@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Hardware Scan Hook
+// TutoDeCode - Hardware Scan Hook
 // Détecte le matériel et recommande des modèles LLM
 // ============================================
 

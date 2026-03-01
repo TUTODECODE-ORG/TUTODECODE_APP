@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - App Installation Section
+// TutoDeCode - App Installation Section
 // Guide d'installation de l'application Tauri
 // ============================================
 
@@ -87,7 +87,7 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
             Application Desktop Gratuite
           </Badge>
           <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[var(--td-text-primary)] via-blue-400 to-indigo-400 bg-clip-text text-transparent mb-6">
-            Devenez développeur avec TutoDeCode Pro
+            Devenez développeur avec TutoDeCode
           </h2>
           <p className="text-lg text-[var(--td-text-secondary)] max-w-2xl mx-auto leading-relaxed">
             Apprenez à coder avec des <span className="text-[var(--td-primary)] font-medium">cours structurés</span>, des <span className="text-[var(--td-primary)] font-medium">QCM intégrés</span>, et une <span className="text-[var(--td-primary)] font-medium">IA mentor locale</span> (Ollama) pour vous aider sans envoyer vos données sur le cloud.
@@ -138,7 +138,7 @@ export default function AppInstall({ onContinueWeb, allowContinueWeb = true }: A
                   <img src="/logo.png" alt="TDC" className="w-10 h-10" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-[var(--td-text-primary)]">TutoDeCode Pro</h3>
+                  <h3 className="text-2xl font-bold text-[var(--td-text-primary)]">TutoDeCode</h3>
                   <p className="text-sm text-[var(--td-text-secondary)]">Version Desktop Tauri</p>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Terminal Component
+// TutoDeCode - Terminal Component
 // Terminal intégré avec Xterm.js
 // ============================================
 
@@ -100,7 +100,7 @@ export function Terminal({ isDesktop = false, className = '' }: TerminalProps) {
 
     // Message de bienvenue
     term.writeln('\x1b[1;34m╔══════════════════════════════════════════════════════════════╗\x1b[0m');
-    term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTutoDeCode Pro\x1b[0m - Terminal Intégré                      \x1b[1;34m║\x1b[0m');
+    term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTutoDeCode\x1b[0m - Terminal Intégré                      \x1b[1;34m║\x1b[0m');
     term.writeln('\x1b[1;34m║\x1b[0m                                                              \x1b[1;34m║\x1b[0m');
     term.writeln('\x1b[1;34m║\x1b[0m  \x1b[90mTapez \x1b[33mhelp\x1b[90m pour voir les commandes disponibles\x1b[0m          \x1b[1;34m║\x1b[0m');
     term.writeln('\x1b[1;34m╚══════════════════════════════════════════════════════════════╝\x1b[0m');

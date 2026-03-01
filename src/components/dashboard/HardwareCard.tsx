@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Hardware Diagnostic Card
+// TutoDeCode - Hardware Diagnostic Card
 // Affiche les specs système et recommandations
 // ============================================
 

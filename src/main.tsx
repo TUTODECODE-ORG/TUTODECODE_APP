@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Entry Point
+// TutoDeCode - Entry Point
 // ============================================
 
 import { StrictMode } from 'react';

@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Ticket Card Component
+// TutoDeCode - Ticket Card Component
 // Affiche un ticket de résolution d'incident
 // ============================================
 

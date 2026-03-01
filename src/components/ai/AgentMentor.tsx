@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - AgentMentor
+// TutoDeCode - AgentMentor
 // Agent IA connecté à Ollama local
 // ============================================
 
@@ -85,7 +85,7 @@ async function askOllama(model: string, prompt: string, systemPrompt?: string): 
   const buildBody = (modelName: string) => JSON.stringify({
     model: modelName,
     prompt,
-    system: systemPrompt || `Tu es un mentor de programmation pour TutoDeCode Pro. 
+    system: systemPrompt || `Tu es un mentor de programmation pour TutoDeCode. 
 Tu aides les étudiants à apprendre Rust et Tauri.
 - Ne donne JAMAIS la réponse directement
 - Guide l'étudiant avec des indices

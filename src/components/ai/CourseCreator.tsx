@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Course Creator with AI
+// TutoDeCode - Course Creator with AI
 // Permet à l'utilisateur de créer des cours personnalisés
 // ============================================
 

@@ -48,7 +48,7 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // TutoDeCode Pro custom colors
+        // TutoDeCode custom colors
         td: {
           bg: {
             primary: '#0A0C12',

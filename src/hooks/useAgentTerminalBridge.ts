@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Agent Terminal Bridge Hook
+// TutoDeCode - Agent Terminal Bridge Hook
 // Lie le terminal à l'analyse IA en temps réel
 // ============================================
 

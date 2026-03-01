@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - useTerminal Hook
+// TutoDeCode - useTerminal Hook
 // Terminal interactif avec xterm.js et bridge Tauri
 // ============================================
 
@@ -119,7 +119,7 @@ edition = "2021"
 
 [dependencies]
 tauri = { version = "2.0", features = [] }`,
-        'README.md': '# TutoDeCode Pro\n\nVotre laboratoire DevOps interactif.',
+        'README.md': '# TutoDeCode\n\nVotre laboratoire DevOps interactif.',
         '.bashrc': '# ~/.bashrc\nexport PATH="$HOME/.cargo/bin:$PATH"'
       };
       
@@ -471,7 +471,7 @@ export function useTerminal(options: UseTerminalOptions = {}): UseTerminalReturn
 
     // Message de bienvenue
     term.writeln('\x1b[1;34m╔══════════════════════════════════════════════════════════════╗\x1b[0m');
-    term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTutoDeCode Pro\x1b[0m - Terminal Intégré                      \x1b[1;34m║\x1b[0m');
+    term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTutoDeCode\x1b[0m - Terminal Intégré                      \x1b[1;34m║\x1b[0m');
     term.writeln('\x1b[1;34m║\x1b[0m                                                              \x1b[1;34m║\x1b[0m');
     term.writeln('\x1b[1;34m║\x1b[0m  \x1b[90mTapez \x1b[33mhelp\x1b[90m pour voir les commandes disponibles\x1b[0m          \x1b[1;34m║\x1b[0m');
     term.writeln('\x1b[1;34m╚══════════════════════════════════════════════════════════════╝\x1b[0m');

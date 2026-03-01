@@ -71,7 +71,7 @@ export function Dashboard() {
                         <LayoutGrid className="w-8 h-8 text-indigo-500" />
                         Workspace
                     </h1>
-                    <p className="text-sm text-slate-500 mt-1">Système d'Exploitation Pédagogique - TutoDeCode Pro</p>
+                    <p className="text-sm text-slate-500 mt-1">Système d'Exploitation Pédagogique - TutoDeCode</p>
                 </div>
                 <div className="flex items-center gap-3 bg-[#161B22] border border-slate-800 rounded-full px-4 py-2 hover:border-indigo-500/50 transition-colors cursor-pointer group shadow-sm">
                     <Bot className="w-4 h-4 text-amber-500 group-hover:scale-110 transition-transform" />

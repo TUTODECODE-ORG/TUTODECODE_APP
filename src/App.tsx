@@ -1,5 +1,5 @@
 // ============================================
-// TutoDeCode Pro - Application Principale
+// TutoDeCode - Application Principale
 // Architecture optimisée avec lazy-loading et memo
 // ============================================
 
@@ -820,7 +820,7 @@ const HomePage = memo<HomePageProps>(({ chapters, completedChapters, onSelectCha
             <img src="/logo.png" alt="TutoDeCode" className="w-11 h-11" />
             <div>
               <h1 className="text-xl font-semibold text-[var(--td-text-primary)]">
-                TutoDeCode Pro
+                TutoDeCode
               </h1>
               <p className="text-sm text-[var(--td-text-secondary)] mt-0.5">
                 Plateforme d'apprentissage informatique complète
@@ -1226,7 +1226,7 @@ const TerminalPanel = memo<TerminalPanelProps>(({ isOpen, onClose, onOutput }) =
       term.focus();
 
       term.writeln('\x1b[1;34m╔══════════════════════════════════════════════════════════════╗\x1b[0m');
-      term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTerminal TutoDeCode Pro\x1b[0m                              \x1b[1;34m║\x1b[0m');
+      term.writeln('\x1b[1;34m║\x1b[0m  \x1b[1;36mTerminal TutoDeCode\x1b[0m                              \x1b[1;34m║\x1b[0m');
       term.writeln('\x1b[1;34m║\x1b[0m  \x1b[90mTapez \x1b[33mhelp\x1b[90m pour les commandes disponibles\x1b[0m              \x1b[1;34m║\x1b[0m');
       term.writeln('\x1b[1;34m╚══════════════════════════════════════════════════════════════╝\x1b[0m');
       term.writeln('');
@@ -2194,7 +2194,7 @@ const App: React.FC = () => {
             <img src="/logo.png" alt="TutoDeCode" className="w-full h-full" />
           </div>
           <h1 className="text-xl font-semibold text-[var(--td-text-primary)]">
-            TutoDeCode Pro
+            TutoDeCode
           </h1>
           <p className="text-sm text-[var(--td-text-secondary)] mt-2">
             Chargement...
@@ -2295,7 +2295,7 @@ const App: React.FC = () => {
             <div className="flex flex-col items-center justify-center h-full py-8 text-center">
               <img src="/logo.png" alt="TutoDeCode" className="w-12 h-12 mb-4" />
               <h3 className="text-sm font-semibold text-[var(--td-text-primary)] mb-1">
-                TutoDeCode Pro
+                TutoDeCode
               </h3>
               <p className="text-xs text-[var(--td-text-tertiary)] mb-6">
                 Plateforme d'apprentissage
