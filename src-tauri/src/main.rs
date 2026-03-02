@@ -8,16 +8,15 @@
 
 use std::collections::HashMap;
 use std::fs;
-use std::io::{self, Write};
+use std::io;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use serde::{Deserialize, Serialize};
-use tauri::{AppHandle, Manager, State, Window};
-use tokio::sync::{mpsc, oneshot};
+use tauri::{AppHandle, Manager, State};
 use uuid::Uuid;
 
 #[derive(Serialize)]
@@ -2031,6 +2030,7 @@ fn main() {
         
         // Handlers de commandes
         .invoke_handler(tauri::generate_handler![
+            create_scenario_files,
             save_progress,
             load_progress,
             check_local_ai_status,
