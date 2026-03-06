@@ -1,0 +1,65 @@
+name: tutodecode
+description: "TUTODECODE - Platforme d'apprentissage locale"
+publish_to: 'none'
+version: 0.1.0+1
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.5
+  shared_preferences: ^2.0.15
+  flutter_markdown: ^0.7.5
+  flutter_highlight: ^0.7.0
+  http: ^1.2.0
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.7
+  msix: ^3.6.4
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/courses.json
+    - assets/manifest.json
+    - assets/logo.png
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  web:
+    generate: true
+    image_path: "assets/logo.png"
+  windows:
+    generate: true
+    image_path: "assets/logo.png"
+  macos:
+    generate: true
+    image_path: "assets/logo.png"
+  image_path: "assets/logo.png"
+  adaptive_icon_background: "#12121A"
+  adaptive_icon_foreground: "assets/logo.png"
+
+flutter_native_splash:
+  color: "#12121A"
+  image: "assets/logo.png"
+  android: true
+  ios: true
+  fullscreen: true
+
+msix_config:
+  display_name: TUTODECODE
+  publisher_display_name: TutoDeCode
+  publisher: "CN=TutoDeCode, O=TutoDeCode, C=FR"
+  identity_name: com.tutodecode.app
+  msix_version: 1.0.1.0
+  logo_path: assets/logo.png
+  capabilities: internetClient
+  certificate_path: windows\tutodecode-codesign.pfx
+  certificate_password: d3uF^^cw$4wlQZy
+  install_certificate: true
