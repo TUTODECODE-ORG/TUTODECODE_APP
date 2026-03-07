@@ -1,0 +1,42 @@
+name: Build Official Release (Transparent build)
+
+on:
+  release:
+    types: [published] # Se déclenche uniquement quand l'admin publie une vraie "Release" depuis GitHub
+
+jobs:
+  build_android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout du code (Lecture seule)
+        uses: actions/checkout@v4
+      
+      - name: Configuration de Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - name: Configuration de Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          
+      - name: Installation des dépendances
+        run: flutter pub get
+        
+      # C'est ici que l'APK est généré de manière publique, par GitHub. 
+      # (Dans ce script on le génère en split-per-abi pour optimisation ou en normal)
+      - name: Compilation de l'APK (Release)
+        run: flutter build apk --release --obfuscate --split-debug-info=./obfuscation_info
+        
+      - name: Uploader l'APK sur la Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/app/outputs/flutter-apk/app-release.apk
+          name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
