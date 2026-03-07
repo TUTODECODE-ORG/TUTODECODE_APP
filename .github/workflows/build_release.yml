@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-java@v3
         with: { distribution: 'zulu', java-version: '17' }
       - uses: subosito/flutter-action@v2
-        with: { flutter-version: '3.24.3', channel: 'stable' }
+        with: { flutter-version: '3.41.4', channel: 'stable' }
       - run: flutter pub get
       - name: Compilation APK
         run: flutter build apk --release --obfuscate --split-debug-info=./obfuscation_info
@@ -33,7 +33,7 @@ jobs:
       - name: Installation dépendances Linux
         run: sudo apt-get update -y && sudo apt-get install -y clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
       - uses: subosito/flutter-action@v2
-        with: { flutter-version: '3.24.3', channel: 'stable' }
+        with: { flutter-version: '3.41.4', channel: 'stable' }
       - run: flutter pub get
       - name: Compilation Linux
         run: flutter build linux --release
@@ -50,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { flutter-version: '3.24.3', channel: 'stable' }
+        with: { flutter-version: '3.41.4', channel: 'stable' }
       - run: flutter pub get
       - name: Compilation macOS
         run: flutter build macos --release
@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { flutter-version: '3.24.3', channel: 'stable' }
+        with: { flutter-version: '3.41.4', channel: 'stable' }
       - run: flutter pub get
       - name: Compilation iOS
         run: flutter build ios --release --no-codesign
@@ -87,7 +87,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { flutter-version: '3.24.3', channel: 'stable' }
+        with: { flutter-version: '3.41.4', channel: 'stable' }
       - run: flutter pub get
       - name: Compilation Windows
         run: flutter build windows --release
