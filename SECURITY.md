@@ -19,7 +19,7 @@ Le projet TUTODECODE étant développé par une association à but non lucratif,
 
 Si vous identifiez une faille de sécurité, ou un problème lié au certificat d'installation :
 
-1. **Signalez-le de manière privée** via les outils sécurisés de GitHub (*Security Advisory* privé) ou envoyez directement un message privé à l'équipe encadrante.
+1. **Signalez-le de manière privée** via les outils sécurisés de GitHub (*Security Advisory* privé) ou envoyez directement un message à **contact@tutodecode.org**.
 2. **Délai de réponse** : L'association accusera réception de votre signalement sous 72 heures.
 3. **Transparence après la correction** : Dès le correctif appliqué, nous publierons une nouvelle "Release" et fournirons un rapport post-mortem avec les crédits au chercheur ayant découvert la faille.
 
