@@ -73,9 +73,17 @@ Nous concevons TUTODECODE comme un outil robuste. Afin de garantir l'authenticit
 ## 🚀 Guide d'Installation Rapide
 
 ### Windows (Recommandé)
+Pour utiliser le format d'application Windows `.msix` moderne, l'OS exige que l'application soit signée. Notre projet étant 100% gratuit et open source, nous utilisons un **certificat auto-signé** (plutôt qu'un certificat commercial très onéreux). C'est pourquoi vous devez l'installer manuellement :
+
 1. Téléchargez `TUTODECODE-Public.cer` et `TUTODECODE.msix`.
 2. **Installez le certificat** : Double-cliquez sur le fichier `.cer` -> *Installer le certificat* -> *Machine locale* -> *Placer dans* -> **Autorités de certification racines de confiance**.
 3. Lancez l'installation de l'application via le fichier `.msix`.
+
+> [!TIP]
+> **Vérifier l'authenticité de l'application :** 
+> Si vous souhaitez vous assurer que le fichier que vous téléchargez est bien l'original, ouvrez PowerShell et tapez : 
+> `certutil -hashfile \chemin\vers\TUTODECODE-Public.cer SHA256`
+> Le résultat doit être identique à l'empreinte affichée plus haut dans la section sécurité.
 
 ### Android
 1. Téléchargez le fichier `TUTODECODE.apk`.

@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../service/ollama_service.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/theme/premium_ui.dart';
 import '../../../core/responsive/responsive.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:glass_kit/glass_kit.dart';
 
 // ─── Prompt système ──────────────────────────────────────────────────────────
 const _kSystem = '''Tu es Ghost, assistant technique de TutoDeCode. Regles strictes :
@@ -155,14 +158,36 @@ class _AIChatPageState extends State<AIChatPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Récupérer le contexte optionnel passé en argument
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final courseContent = args?['content'] as String?;
+    final courseTitle   = args?['title'] as String?;
+
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D14),
-      body: Column(children: [
-        _buildHeader(context),
-        if (_checking) LinearProgressIndicator(color: TdcColors.accent, backgroundColor: TdcColors.surfaceAlt, minHeight: TdcAdaptive.space(context, 2)),
-        Expanded(child: _msgs.isEmpty ? _buildEmpty(context) : _buildMessages(context)),
-        if (_streaming) _buildStreamingBar(context),
-        _buildInput(context),
+      backgroundColor: TdcColors.bg,
+      body: TdcPremium.animatedBackground(
+        child: Column(children: [
+          _buildHeader(context, title: courseTitle),
+          if (_checking) LinearProgressIndicator(color: TdcColors.accent, backgroundColor: TdcColors.surfaceAlt, minHeight: 1),
+          if (courseTitle != null) _buildContextBadge(context, courseTitle),
+          Expanded(child: _msgs.isEmpty ? _buildEmpty(context) : _buildMessages(context)),
+          if (_streaming) _buildStreamingBar(context),
+          _buildInput(context, contextData: courseContent),
+        ]),
+      ),
+    );
+  }
+
+  Widget _buildContextBadge(BuildContext context, String title) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: TdcColors.accent.withOpacity(0.1),
+      child: Row(children: [
+        Icon(Icons.auto_stories, size: 14, color: TdcColors.accent),
+        const SizedBox(width: 8),
+        Text('FOCUS SUR : ', style: TextStyle(color: TdcColors.accent, fontSize: 10, fontWeight: FontWeight.bold)),
+        Expanded(child: Text(title, style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 10, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis)),
       ]),
     );
   }
@@ -173,13 +198,12 @@ class _AIChatPageState extends State<AIChatPage> with TickerProviderStateMixin {
     return Container(
       padding: EdgeInsets.fromLTRB(
         TdcAdaptive.padding(context, 16), 
-        TdcAdaptive.padding(context, 12), 
+        TdcAdaptive.padding(context, 20), 
         TdcAdaptive.padding(context, 16), 
-        TdcAdaptive.padding(context, 12)),
+        TdcAdaptive.padding(context, 16)),
       decoration: BoxDecoration(
-        color: const Color(0xFF13131F),
-        border: Border(bottom: BorderSide(color: TdcColors.border.withOpacity(0.5))),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 12)],
+        color: TdcColors.surface.withOpacity(0.5),
+        border: Border(bottom: BorderSide(color: TdcColors.border.withOpacity(0.3))),
       ),
       child: Row(children: [
         // Back
@@ -187,43 +211,46 @@ class _AIChatPageState extends State<AIChatPage> with TickerProviderStateMixin {
         SizedBox(width: TdcAdaptive.space(context, 12)),
         // Avatar IA
         Container(
-          padding: EdgeInsets.all(TdcAdaptive.padding(context, 8)),
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF6C3DE8), Color(0xFF3D1CB3)],
+            gradient: LinearGradient(
+              colors: [TdcColors.accent, TdcColors.info],
               begin: Alignment.topLeft, end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [BoxShadow(color: const Color(0xFF6C3DE8).withOpacity(0.4), blurRadius: 8)],
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [BoxShadow(color: TdcColors.accent.withOpacity(0.3), blurRadius: 10)],
           ),
-          child: Icon(Icons.auto_awesome, color: Colors.white, size: TdcAdaptive.icon(context, 20)),
-        ),
-        SizedBox(width: TdcAdaptive.space(context, 12)),
+          child: Icon(Icons.auto_awesome, color: Colors.white, size: 18),
+        ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 3.seconds),
+        SizedBox(width: 12),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Ghost AI', 
+          Text('GHOST AI', 
             style: TextStyle(
               color: Colors.white, 
-              fontWeight: FontWeight.bold, 
-              fontSize: TdcText.bodyLarge(context))),
+              fontWeight: FontWeight.black, 
+              letterSpacing: 1,
+              fontSize: 14)),
           Row(children: [
             Container(
-              width: TdcAdaptive.space(context, 7), 
-              height: TdcAdaptive.space(context, 7),
+              width: 6, 
+              height: 6,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: running ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                color: running ? TdcColors.success : TdcColors.danger,
                 boxShadow: [BoxShadow(
-                  color: (running ? const Color(0xFF10B981) : const Color(0xFFEF4444)).withOpacity(0.6),
-                  blurRadius: 6,
+                  color: (running ? TdcColors.success : TdcColors.danger).withOpacity(0.5),
+                  blurRadius: 4,
                 )],
               ),
             ),
-            SizedBox(width: TdcAdaptive.space(context, 6)),
+            SizedBox(width: 6),
             Text(
-              running ? 'Ollama actif' : 'Ollama hors-ligne',
+              running ? 'PROCESSUS ACTIF' : 'MOTEUR DÉCONNECTÉ',
               style: TextStyle(
-                color: running ? const Color(0xFF10B981) : const Color(0xFFEF4444),
-                fontSize: TdcText.caption(context),
+                color: running ? TdcColors.success : TdcColors.danger,
+                fontSize: 9,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
               ),
             ),
           ]),
@@ -232,9 +259,8 @@ class _AIChatPageState extends State<AIChatPage> with TickerProviderStateMixin {
         // Sélecteur de modèle
         if (running && (_status?.models.isNotEmpty ?? false))
           _buildModelPicker(context),
-        SizedBox(width: TdcAdaptive.space(context, 8)),
+        SizedBox(width: 8),
         if (_msgs.isNotEmpty) _iconBtn(context, Icons.delete_sweep_outlined, _clear, tooltip: 'Effacer'),
-        _iconBtn(context, Icons.settings_outlined, () => Navigator.pushNamed(context, '/ai-config'), tooltip: 'Configurer'),
       ]),
     );
   }
