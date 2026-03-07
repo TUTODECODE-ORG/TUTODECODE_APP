@@ -10,9 +10,14 @@
 
 ---
 
+## 🏢 À propos de l'Association TUTODECODE
+
+> **Notre Mission Officielle :**
+> *« Promouvoir l'apprentissage de l'informatique et du numérique sous toutes ses formes, créer et diffuser des contenus pédagogiques, tutoriels et documentations techniques accessibles à tous, gérer et administrer la plateforme internet dédiée à ces activités et favoriser l'entraide ainsi que le partage de connaissances entre passionnés et débutants. »*
+
 ## 💡 L'Apprentissage Repensé
 
-TUTODECODE est une plateforme d'apprentissage technique conçue pour vous offrir un environnement riche, fluide et totalement indépendant du cloud. Montez en compétence sur les technologies d'aujourd'hui (Linux, Docker, Python, SQL) sans jamais dépendre d'une connexion internet ou sacrifier vos données personnelles.
+TUTODECODE est une plateforme d'apprentissage technique portée par notre association à but non lucratif. Elle est conçue pour vous offrir un environnement riche, fluide et totalement indépendant du cloud. Montez en compétence sur les technologies d'aujourd'hui (Linux, Docker, Python, SQL) sans jamais dépendre d'une connexion internet ou sacrifier vos données personnelles.
 
 ### Pourquoi choisir TUTODECODE ?
 
