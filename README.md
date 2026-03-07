@@ -1,8 +1,8 @@
 # <img src="assets/logo.png" width="48" height="48" valign="middle" /> TUTODECODE
 
-**Plateforme d'apprentissage IT nouvelle génération : locale, souveraine et haute performance.**
+**Votre académie IT personnelle : 100% locale, performante et boostée à l'IA.**
 
-[![Static Badge](https://img.shields.io/badge/Status-Stable-success)](#)
+[![Static Badge](https://img.shields.io/badge/Status-Active-success)](#)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Framework: Flutter](https://img.shields.io/badge/Framework-Flutter-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Local AI](https://img.shields.io/badge/AI-Local_Ollama-white?logo=smartthings&logoColor=black)](https://ollama.com)
@@ -10,85 +10,90 @@
 
 ---
 
-## 💡 L'Apprentissage sans compromis
+## 💡 L'Apprentissage Repensé
 
-TUTODECODE redéfinit la formation technique en plaçant la **vie privée** et l'**accessibilité** au cœur de son architecture. Conçue pour fonctionner intégralement sans connexion internet, l'application offre un environnement stable et sécurisé pour forger vos compétences de demain.
+TUTODECODE est une plateforme d'apprentissage technique conçue pour vous offrir un environnement riche, fluide et totalement indépendant du cloud. Montez en compétence sur les technologies d'aujourd'hui (Linux, Docker, Python, SQL) sans jamais dépendre d'une connexion internet ou sacrifier vos données personnelles.
 
 ### Pourquoi choisir TUTODECODE ?
 
-*   **Confidentialité Totale** : Vos notes, vos progressions et vos échanges avec l'IA ne quittent jamais votre machine.
-*   **Performance Native** : Une interface fluide développée avec Flutter pour une expérience utilisateur premium.
-*   **Écosystème Ouvert** : Un projet transparent sous licence AGPL-3.0, garantissant votre liberté.
+*   **Privacy-First (100% Local)** : Vos cours, vos progressions et vos échanges avec l'IA ne quittent jamais votre machine.
+*   **Performances Natives** : Une interface soignée, réactive et optimisée, développée avec Flutter pour tous vos écrans.
+*   **Open Source** : Un projet transparent sous licence AGPL-3.0, garantissant que le code source reste librement consultable.
 
 ---
 
 ## ✨ Fonctionnalités Clés
 
 ### 🎓 Parcours Pédagogiques
-Accédez à des catalogues de cours interactifs couvrant le développement, l'administration système et la sécurité offensive/défensive.
+Accédez à une bibliothèque de cours interactifs et structurés couvrant le développement, l'administration système et les fondamentaux de l'informatique.
 
-### 💻 Simulateurs intégrés
-Pratiquez directement dans l'application grâce à nos laboratoires virtuels optimisés pour chaque plateforme.
+### 💻 Laboratoires et Simulateurs
+Pratiquez directement dans l'application. Nos interfaces simulent des terminaux et des environnements de configuration pour tester vos connaissances en temps réel, sans risque de casser votre système.
 
-### 🧠 Ghost AI : Votre tuteur local
-Profitez d'un assistant intelligent alimenté par **Ollama**. Il vous guide dans vos exercices et répond à vos questions techniques à 100% hors-ligne.
+### 🧠 Ghost AI : Votre tuteur de poche
+Bloqué sur un concept complexe ? **Ghost AI** est intégré directement à la plateforme. Propulsé localement par le moteur **Ollama**, il vous guide pas à pas et répond à vos questions techniques sans aucun appel réseau vers des serveurs externes.
 
 ---
 
-## 🛡️ Intégrité et Sécurité
+## 🔒 Philosophie : La Souveraineté Numérique Expliquée
 
-La sécurité de nos utilisateurs est une ligne directrice. Nous signons chaque release pour garantir son origine officielle.
+Souvent perçue comme un mot-valise ou réservée aux institutions d'État, la **souveraineté numérique** prend ici tout son sens pratique pour vous, en tant qu'utilisateur. Dans le contexte de TUTODECODE, cela se traduit par 3 garanties concrètes :
 
-**Empreinte de hachage SHA-256 (Certificat racine) :**  
-`AECDCE889EBA76FD10672FCFE79B32FE8BB29D75`
+1. **Vous possédez vos données** : L'application ne contient aucun outil de pistage (tracker), n'envoie rien vers un cloud externe et ne collecte aucune de vos métriques d'apprentissage.
+2. **Indépendance totale** : Vous n'avez besoin d'aucun compte en ligne (Google, Microsoft, AWS) pour utiliser nos simulateurs. Même notre Intelligence Artificielle (Ghost AI) tourne directement sur le processeur ou la carte graphique de *votre* propre ordinateur.
+3. **Pérennité (Anti-obsolescence)** : Si les serveurs de TUTODECODE venaient à fermer demain, votre application continuerait de fonctionner parfaitement et à vie, car elle est conçue pour être 100% autonome.
 
-> [!CAUTION]  
-> **Clause de Non-Collaboration et Protection de l'Intégrité :**
-> Afin de préserver l'étanchéité de la chaîne de confiance et d’éliminer tout risque d'usurpation ou d'injection de code tiers malveillant, ce dépôt est configuré en mode **Source-Only/Protected**. 
+En résumé : **Être souverain avec TUTODECODE, c'est garder le contrôle absolu sur ses outils et sa vie privée, sans compromis sur la technologie.**
+
+### Vérification de l'intégrité
+
+Nous concevons TUTODECODE comme un outil robuste. Afin de garantir l'authenticité de nos versions (particulièrement sur l'écosystème Windows), nous signons nos exécutables avec un certificat d'édition officiel.  
+*Empreinte SHA-256 du certificat racine :* `AECDCE889EBA76FD10672FCFE79B32FE8BB29D75`
+
+> [!NOTE]  
+> **Transparence et Intégrité du Code**
+> TUTODECODE est développé autour d'un noyau centralisé pour garantir une stabilité et une sécurité maximales de l'environnement d'apprentissage. 
+> Bien que le code source soit auditable librement, l'intégration de nouvelles fonctionnalités au cœur du système (Pull Requests) n'est actuellement pas ouverte au public, afin de préserver la chaîne de confiance de l'application. 
 > 
-> **Aucune contribution externe (Pull Request/Braquage de code)** ne sera fusionnée dans la branche maîtresse. Le développement noyau est exclusivement réservé à l'équipe officielle de TUTODECODE. Toute version distribuée hors de ce dépôt officiel ou ne correspondant pas à l'empreinte SHA-256 susmentionnée doit être considérée comme compromise. 
-
-<!-- 🛡️ ATTENTION : PROPRIÉTÉ EXCLUSIVE DE L'ASSOCIATION TUTODECODE. TOUTE REPRODUCTION DU CODE SOURCE SANS MENTION DE L'AUTEUR ORIGINAL EST UNE VIOLATION DES TERMES AGPL-3.0. FINGERPRINT_VERIFICATION_ID: TDC-2026-WINANCHER-SECURE-KEY-889EBA76FD10672 🛡️ -->
+> Vous pouvez néanmoins fourcher (fork) le projet selon les termes de la licence AGPL-3.0, ou ouvrir une *Issue* pour toute suggestion !
 
 ---
 
-## 📥 Espace Téléchargements
+## 📥 Téléchargements
 
-| Plateforme | Fichier | Usage |
+| Plateforme | Fichier | Type |
 | :--- | :--- | :--- |
 | **Android** | `TUTODECODE.apk` | Application mobile & tablette |
-| **Windows** | `TUTODECODE.msix` | Application Desktop (Installateur) |
-| **Windows** | `TUTODECODE-Public.cer` | Certificat de confiance racine |
-| **Windows** | `TUTODECODE-CourseEditor.exe` | Éditeur de cours (Portable) |
+| **Windows** | `TUTODECODE.msix` | Application Desktop (Installation native) |
+| **Windows** | `TUTODECODE-Public.cer` | Certificat racine (Requis pour l'installation MSIX) |
 | **Linux** | `TUTODECODE.tar.gz` | Archive binaire compilée |
 
 ---
 
-## 🚀 Guide d'Installation
+## 🚀 Guide d'Installation Rapide
+
+### Windows (Recommandé)
+1. Téléchargez `TUTODECODE-Public.cer` et `TUTODECODE.msix`.
+2. **Installez le certificat** : Double-cliquez sur le fichier `.cer` -> *Installer le certificat* -> *Machine locale* -> *Placer dans* -> **Autorités de certification racines de confiance**.
+3. Lancez l'installation de l'application via le fichier `.msix`.
 
 ### Android
-1. Téléchargez `TUTODECODE.apk`.
-2. Autorisez l'installation d'applications tierces et lancez le fichier.
+1. Téléchargez le fichier `TUTODECODE.apk`.
+2. Autorisez temporairement l'installation d'applications de sources inconnues dans vos paramètres de sécurité.
+3. Installez et lancez TUTODECODE.
 
-### Windows (Standard MSIX)
-Pour garantir une installation sans avertissement système :
-1. Téléchargez `TUTODECODE-Public.cer` et `TUTODECODE.msix`.
-2. **Importez le certificat** : Double-cliquez sur `.cer` -> *Installer le certificat* -> *Machine locale* -> *Placer dans* -> **Autorités de certification racines de confiance**.
-3. Lancez l'installation du fichier `.msix`.
-
-### IA Ghost (Ollama)
-Pour activer l'intelligence artificielle locale :
-1. Installez [Ollama](https://ollama.com).
-2. Téléchargez le modèle via terminal : `ollama pull llama3.2`.
-3. TUTODECODE synchronisera automatiquement l'agent au lancement.
+### Activer Ghost AI (Ollama)
+Pour débloquer l'assistant IA local :
+1. Installez le moteur [Ollama](https://ollama.com).
+2. Ouvrez un terminal et téléchargez un modèle léger et performant (ex: `ollama pull qwen2.5:1.5b` ou `ollama pull phi3`).
+3. Relancez TUTODECODE : la plateforme détectera automatiquement votre modèle au démarrage.
 
 ---
 
 ## 📄 Licence
 Ce projet est distribué sous licence **GNU Affero General Public License v3.0 (AGPL-3.0)**. 
-Un exemplaire de la licence est disponible dans le fichier `LICENSE` à la racine du projet.
+Un exemplaire détaillé est disponible dans le fichier `LICENSE` à la racine du projet.
 
 ---
 © 2026 Association TUTODECODE  
-*L'innovation pédagogique, la souveraineté en plus.*
-<!-- INTERNAL_META: AUTHOR=WINANCHER; STATUS=PROTECTED; SIG_AUTH=AECDCE889EBA76FD10672FCFE79B32FE8BB29D75 -->
+*Apprenez en toute liberté.*
