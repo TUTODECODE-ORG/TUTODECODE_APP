@@ -6,7 +6,11 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Framework: Flutter](https://img.shields.io/badge/Framework-Flutter-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Local AI](https://img.shields.io/badge/AI-Local_Ollama-white?logo=smartthings&logoColor=black)](https://ollama.com)
+[![Website](https://img.shields.io/badge/Website-tutodecode.org-02569B)](https://tutodecode.org)
 [![Platform support](https://img.shields.io/badge/Platforms-Android_|_Windows_|_Linux-lightgrey)](#)
+
+> [!IMPORTANT]
+> **Suivez notre avancement :** Retrouvez toutes les actualités, les dernières versions et les jalons du projet directement sur notre site officiel : **[tutodecode.org](https://tutodecode.org)**.
 
 ---
 
@@ -112,5 +116,5 @@ Ce projet est distribué sous licence **GNU Affero General Public License v3.0 (
 Un exemplaire détaillé est disponible dans le fichier `LICENSE` à la racine du projet.
 
 ---
-© 2026 Association TUTODECODE  
+© 2026 Association TUTODECODE — [tutodecode.org](https://tutodecode.org)  
 *Apprenez en toute liberté.*
