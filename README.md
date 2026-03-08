@@ -73,8 +73,9 @@ Avant d'installer l'application, vous pouvez vérifier l'authenticité du certif
 ### 🛡️ Plan de Réaction et Sécurité (Worst-Case Scenario)
 Parce qu'une sécurité sérieuse consiste à tout prévoir, l'association **TUTODECODE** s'engage à une transparence totale en cas d'incident :
 *   **Réactivité face au piratage** : Si une faille majeure ou une compromission de nos clés de signature devait survenir, une alerte critique sera immédiatement publiée sur **[tutodecode.org](https://tutodecode.org)**.
-*   **Protection des utilisateurs** : Dans un tel scénario, nous fournirons des outils et des procédures pas-à-pas pour identifier, désinstaller et éliminer toute menace ou fichier compromis.
-*   **Continuité de confiance** : Nous révoquerons les certificats par les voies officielles et publierons de nouvelles versions saines dès que la menace sera neutralisée.
+*   **Protection des utilisateurs** : Dans un tel scénario, les **procédures détaillées** pour identifier, désinstaller et éliminer les fichiers compromis seront publiées en priorité sur notre site officiel.
+*   **Rétablissement de la chaîne de confiance** : Toute nouvelle clé de signature, certificat sain ou correctif de sécurité sera déployé ici même sur **GitHub**. Les utilisateurs n'auront qu'à suivre les instructions du site pour télécharger les nouveaux fichiers officiels sécurisés.
+*   **Continuité** : Nous révoquerons les certificats compromis par les voies officielles pour neutraliser la menace à la racine.
 
 ---
 
