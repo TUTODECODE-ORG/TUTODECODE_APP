@@ -40,27 +40,28 @@ Bloqué sur un concept complexe ? **Ghost AI** est intégré directement à la p
 
 ---
 
-## 🔒 Philosophie : La Souveraineté Numérique Expliquée
+## 🔒 Sécurité et Chaîne de Confiance
 
-Souvent perçue comme un mot-valise ou réservée aux institutions d'État, la **souveraineté numérique** prend ici tout son sens pratique pour vous, en tant qu'utilisateur. Dans le contexte de TUTODECODE, cela se traduit par 3 garanties concrètes :
+La sécurité de nos utilisateurs est la priorité absolue de l'association **TUTODECODE**. Pour garantir que l'application que vous installez n'a pas été altérée par un tiers, nous appliquons des standards de signature numérique rigoureux.
 
-1. **Vous possédez vos données** : L'application ne contient aucun outil de pistage (tracker), n'envoie rien vers un cloud externe et ne collecte aucune de vos métriques d'apprentissage.
-2. **Indépendance totale** : Vous n'avez besoin d'aucun compte en ligne (Google, Microsoft, AWS) pour utiliser nos simulateurs. Même notre Intelligence Artificielle (Ghost AI) tourne directement sur le processeur ou la carte graphique de *votre* propre ordinateur.
-3. **Pérennité (Anti-obsolescence)** : Si les serveurs de TUTODECODE venaient à fermer demain, votre application continuerait de fonctionner parfaitement et à vie, car elle est conçue pour être 100% autonome.
+### Pourquoi un certificat ?
+Sur Windows, le format d'installation moderne (`.msix`) nécessite une signature numérique pour prouver l'identité de l'éditeur. En tant qu'organisation à but non lucratif et projet 100% Open Source, nous avons choisi d'utiliser un **certificat auto-signé propre à l'association** plutôt que de financer des certificats commerciaux onéreux, conformément à notre éthique de gestion bénévole.
 
-En résumé : **Être souverain avec TUTODECODE, c'est garder le contrôle absolu sur ses outils et sa vie privée, sans compromis sur la technologie.**
+### 🛡️ Source Officielle Unique
+Pour votre sécurité, téléchargez **uniquement** les versions publiées sur nos espaces officiels :
+*   **Organisation GitHub :** [github.com/TUTODECODE-ORG](https://github.com/TUTODECODE-ORG)
+*   **Dépôt Officiel :** [github.com/TUTODECODE-ORG/TUTODECODE_APP](https://github.com/TUTODECODE-ORG/TUTODECODE_APP)
 
-### Vérification de l'intégrité
+> [!CAUTION]
+> **N'installez jamais de version provenant d'un autre site ou d'un dépôt tiers.** Seuls les fichiers présents ici sont signés par nos clés privées sécurisées.
 
-Nous concevons TUTODECODE comme un outil robuste. Afin de garantir l'authenticité de nos versions (particulièrement sur l'écosystème Windows), nous signons nos exécutables avec un certificat d'édition officiel.  
-*Empreinte SHA-256 du certificat racine :* `AECDCE889EBA76FD10672FCFE79B32FE8BB29D75`
+### Vérification de l'empreinte numérique
+Avant d'installer l'application, vous pouvez vérifier l'authenticité du certificat racine (`TUTODECODE-Public.cer`) :
+*   **Empreinte SHA-256 (Thumbprint) :** `AECDCE889EBA76FD10672FCFE79B32FE8BB29D75`
 
 > [!NOTE]  
 > **Transparence et Intégrité du Code**
-> TUTODECODE est développé autour d'un noyau centralisé pour garantir une stabilité et une sécurité maximales de l'environnement d'apprentissage. 
-> Bien que le code source soit auditable librement, l'intégration de nouvelles fonctionnalités au cœur du système (Pull Requests) n'est actuellement pas ouverte au public, afin de préserver la chaîne de confiance de l'application. 
-> 
-> Vous pouvez néanmoins fourcher (fork) le projet selon les termes de la licence AGPL-3.0, ou ouvrir une *Issue* pour toute suggestion !
+> Bien que le code source soit auditable librement sous licence AGPL-3.0, la signature officielle des packages est centralisée pour préserver la confiance absolue envers l'exécutable final.
 
 ---
 
@@ -80,13 +81,13 @@ Nous concevons TUTODECODE comme un outil robuste. Afin de garantir l'authenticit
 ### Windows (Recommandé)
 Pour utiliser le format d'application Windows `.msix` moderne, l'OS exige que l'application soit signée. Notre projet étant 100% gratuit et open source, nous utilisons un **certificat auto-signé** (plutôt qu'un certificat commercial très onéreux). C'est pourquoi vous devez l'installer manuellement :
 
-1. Téléchargez `TUTODECODE-Public.cer` et `TUTODECODE.msix`.
+1. Téléchargez `TUTODECODE-Public.cer` et `TUTODECODE.msix` depuis la section [Releases officielle](https://github.com/TUTODECODE-ORG/TUTODECODE_APP/releases).
 2. **Installez le certificat** : Double-cliquez sur le fichier `.cer` -> *Installer le certificat* -> *Machine locale* -> *Placer dans* -> **Autorités de certification racines de confiance**.
-3. Lancez l'installation de l'application via le fichier `.msix`.
+3. Lancez l'installation via le fichier `.msix`. Windows reconnaîtra alors l'éditeur "Association TUTODECODE".
 
 > [!TIP]
-> **Vérifier l'authenticité de l'application :** 
-> Si vous souhaitez vous assurer que le fichier que vous téléchargez est bien l'original, ouvrez PowerShell et tapez : 
+> **Vérifier vous-même :** 
+> Ouvrez PowerShell et tapez : 
 > `certutil -hashfile \chemin\vers\TUTODECODE-Public.cer SHA256`
 > Le résultat doit être identique à l'empreinte affichée plus haut dans la section sécurité.
 
