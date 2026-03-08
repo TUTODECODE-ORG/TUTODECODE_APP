@@ -122,6 +122,16 @@ Pour débloquer l'assistant IA local :
 
 ---
 
+## 🤝 Contributions
+
+TUTODECODE est un projet porté par une association et nous accueillons avec plaisir l'aide de la communauté. Que vous soyez développeur, designer, ou passionné de pédagogie :
+
+*   **Audit et Retours** : Signalez des bugs ou suggérez des améliorations via les [Issues](https://github.com/TUTODECODE-ORG/TUTODECODE_APP/issues).
+*   **Nouvelles fonctionnalités** : Pour garantir la cohérence pédagogique, nous vous recommandons d'ouvrir une discussion avant de soumettre une Pull Request majeure.
+*   **Forks** : Conformément à la licence AGPL-3.0, vous êtes libre de fourcher le projet pour vos besoins personnels ou expérimentaux.
+
+---
+
 ## 📄 Licence
 Ce projet est distribué sous licence **GNU Affero General Public License v3.0 (AGPL-3.0)**. 
 Un exemplaire détaillé est disponible dans le fichier `LICENSE` à la racine du projet.
