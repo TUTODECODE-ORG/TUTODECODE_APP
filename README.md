@@ -70,6 +70,12 @@ Avant d'installer l'application, vous pouvez vérifier l'authenticité du certif
 > **Transparence et Intégrité du Code**
 > Bien que le code source soit auditable librement sous licence AGPL-3.0, la signature officielle des packages est centralisée pour préserver la confiance absolue envers l'exécutable final.
 
+### 🛡️ Plan de Réaction et Sécurité (Worst-Case Scenario)
+Parce qu'une sécurité sérieuse consiste à tout prévoir, l'association **TUTODECODE** s'engage à une transparence totale en cas d'incident :
+*   **Réactivité face au piratage** : Si une faille majeure ou une compromission de nos clés de signature devait survenir, une alerte critique sera immédiatement publiée sur **[tutodecode.org](https://tutodecode.org)**.
+*   **Protection des utilisateurs** : Dans un tel scénario, nous fournirons des outils et des procédures pas-à-pas pour identifier, désinstaller et éliminer toute menace ou fichier compromis.
+*   **Continuité de confiance** : Nous révoquerons les certificats par les voies officielles et publierons de nouvelles versions saines dès que la menace sera neutralisée.
+
 ---
 
 ## 📥 Téléchargements
