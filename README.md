@@ -48,11 +48,15 @@ Bloqué sur un concept complexe ? **Ghost AI** est intégré directement à la p
 
 La sécurité de nos utilisateurs est la priorité absolue de l'association **TUTODECODE**. Pour garantir que l'application que vous installez n'a pas été altérée par un tiers, nous appliquons des standards de signature numérique rigoureux.
 
-### Pourquoi un certificat ?
-Sur Windows, le format d'installation moderne (`.msix`) exige une signature numérique pour autoriser l'ouverture de l'application. 
-*   **Sécurité technique** : Ce certificat n'est pas un logiciel ou un virus ; c'est une "pièce d'identité numérique" qui débloque la protection Windows en certifiant que les fichiers n'ont pas été modifiés.
-*   **Respect total de la vie privée** : Son rôle est purement authentificateur. Il ne nous donne **aucun accès** à votre système, ne permet aucun espionnage et ne collecte aucune donnée. 
-*   **Éthique Open Source** : En tant qu'association, nous utilisons ce certificat propre pour rester 100% gratuits et indépendants des solutions commerciales onéreuses.
+### Pourquoi un certificat auto-signé ?
+Nous sommes conscients que l'installation manuelle d'un certificat (`.cer`) représente une **friction inhabituelle** pour un utilisateur moderne. Voici notre démarche en toute transparence :
+
+*   **Une démarche associative** : En tant qu'association à but non lucratif, nous avons fait le choix de ne pas souscrire à des certificats commerciaux onéreux. Cela nous permet de garantir que TUTODECODE restera **100% gratuit** pour tous.
+*   **Sécurité vs Simplicité** : Windows exige une signature pour installer le format `.msix`. Ce certificat est notre signature numérique. Il ne s'agit pas d'un logiciel, mais d'une preuve d'identité technique assurant que l'application n'a pas été modifiée depuis sa création par nos soins.
+*   **Respect et Liberté** : Si cette étape vous semble trop complexe ou intrusive, nous le respectons totalement. C'est pourquoi l'application est également disponible sur **Android et Linux** (ainsi qu'en version Web), qui ne nécessitent pas cette manipulation de certificat.
+
+> [!TIP]
+> **Audit Libre :** Notre code est entièrement ouvert. Nous encourageons les utilisateurs avancés à auditer nos scripts de build et de signature pour vérifier par eux-mêmes la sécurité de notre chaîne de distribution.
 
 ### 🛡️ Source Officielle Unique
 Pour votre sécurité, téléchargez **uniquement** les versions publiées sur nos espaces officiels :
