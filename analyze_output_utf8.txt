@@ -1,0 +1,31 @@
+﻿Analyzing tutodecode_flutter...                                 
+
+warning - The URI 'package:flutter_lints/flutter.yaml' included in 'C:\tutodecode_flutter\analysis_options.yaml' can't be found when analyzing 'C:\tutodecode_flutter' - analysis_options.yaml:10:10 - include_file_not_found
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\theme\app_theme.dart:62:7 - deprecated_member_use
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\core\theme\app_theme.dart:66:7 - deprecated_member_use
+   info - 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre - lib\core\theme\app_theme.dart:149:19 - deprecated_member_use
+   info - 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre - lib\core\theme\app_theme.dart:151:18 - deprecated_member_use
+warning - Unused import: 'dart:convert' - lib\data\courses_data.dart:1:8 - unused_import
+warning - Unused import: 'package:flutter/services.dart' - lib\data\courses_data.dart:2:8 - unused_import
+warning - Unused import: '../utils/course_expansion.dart' - lib\data\courses_data.dart:3:8 - unused_import
+   info - 'imageBuilder' is deprecated and shouldn't be used. Use sizedImageBuilder instead - lib\features\courses\ui\chapter_page.dart:558:7 - deprecated_member_use
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\courses\ui\qcm_widget.dart:67:11 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\courses\ui\qcm_widget.dart:69:11 - deprecated_member_use
+warning - The value of the field '_connect' isn't used - lib\features\ghost_ai\service\ollama_service.dart:33:16 - unused_field
+warning - Unused import: 'package:glass_kit/glass_kit.dart' - lib\features\ghost_ai\ui\ai_chat_page.dart:9:8 - unused_import
+warning - The value of the local variable 'courseContent' isn't used - lib\features\ghost_ai\ui\ai_chat_page.dart:163:11 - unused_local_variable
+  error - The argument type 'Course' can't be assigned to the parameter type 'BuildContext'.  - lib\pages\chapter.dart:276:36 - argument_type_not_assignable
+  error - The argument type 'CoursesProvider' can't be assigned to the parameter type 'Course'.  - lib\pages\chapter.dart:276:44 - argument_type_not_assignable
+  error - 3 positional arguments expected by '_buildTOCProgressBar', but 2 found - lib\pages\chapter.dart:276:48 - not_enough_positional_arguments
+warning - The value of the local variable 'isSmall' isn't used - lib\pages\chapter.dart:515:11 - unused_local_variable
+   info - 'imageBuilder' is deprecated and shouldn't be used. Use sizedImageBuilder instead - lib\pages\chapter.dart:541:7 - deprecated_member_use
+warning - Unused import: 'package:glass_kit/glass_kit.dart' - lib\pages\dashboard.dart:12:8 - unused_import
+warning - A value for optional parameter 'status' isn't ever given - lib\pages\dashboard.dart:22:64 - unused_element_parameter
+warning - A value for optional parameter 'result' isn't ever given - lib\pages\dashboard.dart:22:92 - unused_element_parameter
+warning - The value of the field '_prov' isn't used - lib\pages\dashboard.dart:60:20 - unused_field
+   info - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\pages\lab.dart:4:8 - unnecessary_import
+warning - The value of the field '_pulseAnim' isn't used - lib\pages\lab.dart:196:26 - unused_field
+warning - The receiver can't be null, so the null-aware operator '?.' is unnecessary - lib\providers\app_provider.dart:80:26 - invalid_null_aware_operator
+  error - Target of URI doesn't exist: 'package:tutodecode_flutter/main.dart' - test\widget_test.dart:11:8 - uri_does_not_exist
+  error - The name 'TutoDeCodeApp' isn't a class - test\widget_test.dart:16:35 - creation_with_non_type
+
