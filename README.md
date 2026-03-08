@@ -45,7 +45,10 @@ Bloqué sur un concept complexe ? **Ghost AI** est intégré directement à la p
 La sécurité de nos utilisateurs est la priorité absolue de l'association **TUTODECODE**. Pour garantir que l'application que vous installez n'a pas été altérée par un tiers, nous appliquons des standards de signature numérique rigoureux.
 
 ### Pourquoi un certificat ?
-Sur Windows, le format d'installation moderne (`.msix`) nécessite une signature numérique pour prouver l'identité de l'éditeur. En tant qu'organisation à but non lucratif et projet 100% Open Source, nous avons choisi d'utiliser un **certificat auto-signé propre à l'association** plutôt que de financer des certificats commerciaux onéreux, conformément à notre éthique de gestion bénévole.
+Sur Windows, le format d'installation moderne (`.msix`) exige une signature numérique pour autoriser l'ouverture de l'application. 
+*   **Sécurité technique** : Ce certificat n'est pas un logiciel ou un virus ; c'est une "pièce d'identité numérique" qui débloque la protection Windows en certifiant que les fichiers n'ont pas été modifiés.
+*   **Respect total de la vie privée** : Son rôle est purement authentificateur. Il ne nous donne **aucun accès** à votre système, ne permet aucun espionnage et ne collecte aucune donnée. 
+*   **Éthique Open Source** : En tant qu'association, nous utilisons ce certificat propre pour rester 100% gratuits et indépendants des solutions commerciales onéreuses.
 
 ### 🛡️ Source Officielle Unique
 Pour votre sécurité, téléchargez **uniquement** les versions publiées sur nos espaces officiels :
