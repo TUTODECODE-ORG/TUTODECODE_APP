@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 import '../features/ghost_ai/service/ollama_service.dart';
 import '../features/courses/providers/courses_provider.dart';
 import '../core/theme/app_theme.dart';
+import '../core/theme/premium_ui.dart';
 import '../core/responsive/responsive.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:glass_kit/glass_kit.dart';
 
 // ─── Résultat d'un test ────────────────────────────────────────────────────────
 enum _Status { idle, running, ok, warn, error }
@@ -206,13 +209,13 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
               shrinkWrap: isMobile,
               physics: isMobile ? const NeverScrollableScrollPhysics() : null,
               children: [
-                _sectionTitle(context, 'Environnement système', Icons.computer),
+                TdcPremium.sectionTitle(context, 'ENVIRONNEMENT SYSTÈME', Icons.computer),
                 ..._checks.take(3).map((c) => _buildCheckTile(context, c)),
-                SizedBox(height: TdcAdaptive.space(context, 16)),
-                _sectionTitle(context, 'IA locale (Ollama)', Icons.smart_toy),
+                SizedBox(height: TdcAdaptive.space(context, 24)),
+                TdcPremium.sectionTitle(context, 'IA LOCALE (OLLAMA)', Icons.smart_toy),
                 ..._checks.skip(3).take(2).map((c) => _buildCheckTile(context, c)),
-                SizedBox(height: TdcAdaptive.space(context, 16)),
-                _sectionTitle(context, 'Connectivité réseau', Icons.wifi),
+                SizedBox(height: TdcAdaptive.space(context, 24)),
+                TdcPremium.sectionTitle(context, 'CONNECTIVITÉ RÉSEAU', Icons.wifi),
                 ..._checks.skip(5).map((c) => _buildCheckTile(context, c)),
                 SizedBox(height: TdcAdaptive.space(context, 20)),
                 if (!_running && _lastRun != null) _buildTips(context),
@@ -227,14 +230,16 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
     return Scaffold(
       backgroundColor: TdcColors.bg,
-      body: Column(children: [
-        _buildHeader(context),
-        Expanded(
-          child: isMobile 
-            ? SingleChildScrollView(child: Column(children: [sidePanel, SizedBox(height: TdcAdaptive.space(context, 500), child: contentPanel)]))
-            : Row(children: [sidePanel, Expanded(child: contentPanel)]),
-        ),
-      ]),
+      body: TdcPremium.animatedBackground(
+        child: Column(children: [
+          _buildHeader(context),
+          Expanded(
+            child: isMobile 
+              ? SingleChildScrollView(child: Column(children: [sidePanel, SizedBox(height: TdcAdaptive.space(context, 700), child: contentPanel)]))
+              : Row(children: [sidePanel, Expanded(child: contentPanel)]),
+          ),
+        ]),
+      ),
     );
   }
 
@@ -243,49 +248,46 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: TdcAdaptive.padding(context, 20), 
-        vertical: TdcAdaptive.padding(context, 16)),
-      decoration: BoxDecoration(color: TdcColors.surface, border: Border(bottom: BorderSide(color: TdcColors.border))),
+        vertical: TdcAdaptive.padding(context, 20)),
+      decoration: BoxDecoration(
+        color: TdcColors.surface.withOpacity(0.5), 
+        border: Border(bottom: BorderSide(color: TdcColors.border.withOpacity(0.5)))),
       child: Row(children: [
         IconButton(
           icon: Icon(Icons.arrow_back_ios_new, size: TdcAdaptive.icon(context, 18)), color: TdcColors.textSecondary,
           onPressed: () => Navigator.pop(context), padding: EdgeInsets.zero, constraints: const BoxConstraints(),
         ),
         SizedBox(width: TdcAdaptive.space(context, 12)),
-        Container(
-          padding: EdgeInsets.all(TdcAdaptive.padding(context, 8)),
-          decoration: BoxDecoration(color: TdcColors.success.withOpacity(0.1), borderRadius: BorderRadius.circular(TdcAdaptive.radius(context, 10))),
-          child: Icon(Icons.health_and_safety, color: TdcColors.success, size: TdcAdaptive.icon(context, 22)),
-        ),
-        SizedBox(width: TdcAdaptive.space(context, 12)),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Diagnostic Système', 
+          Text('DIAGNOSTIC SYSTÈME', 
             style: TextStyle(
               color: TdcColors.textPrimary, 
               fontSize: TdcText.h2(context), 
-              fontWeight: FontWeight.bold)),
+              letterSpacing: 2,
+              fontWeight: FontWeight.black)),
           Text(
-            _lastRun != null ? 'Dernier test : ${_fmtTime(_lastRun!)}' : 'Analyse de votre environnement TutoDeCode',
-            style: TextStyle(color: TdcColors.textSecondary, fontSize: TdcText.label(context)),
-          ),
+            _lastRun != null ? 'SYNC OK — ${_fmtTime(_lastRun!)}' : 'ANALYSE DE VOTRE ENVIRONNEMENT SOUVERAIN',
+            style: TextStyle(color: TdcColors.accent, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+          ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 4.seconds, color: Colors.white.withOpacity(0.3)),
         ]),
         const Spacer(),
         if (_running)
           Padding(
             padding: EdgeInsets.symmetric(horizontal: TdcAdaptive.padding(context, 12)), 
             child: SizedBox(
-              width: TdcAdaptive.space(context, 20), 
-              height: TdcAdaptive.space(context, 20), 
+              width: 20, 
+              height: 20, 
               child: const CircularProgressIndicator(strokeWidth: 2, color: TdcColors.accent)))
         else
           ElevatedButton.icon(
             onPressed: _runAll,
-            icon: Icon(Icons.refresh, size: TdcAdaptive.icon(context, 16)),
-            label: Text('Relancer', style: TextStyle(fontSize: TdcText.button(context))),
+            icon: Icon(Icons.refresh, size: 14),
+            label: Text('ANALYSER', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1)),
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                horizontal: TdcAdaptive.padding(context, 16), 
-                vertical: TdcAdaptive.padding(context, 10))),
-          ),
+              backgroundColor: TdcColors.accent.withOpacity(0.2),
+              side: BorderSide(color: TdcColors.accent.withOpacity(0.5)),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
+          ).animate().fadeIn().scale(),
       ]),
     );
   }
@@ -294,49 +296,45 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   Widget _buildScoreCard(BuildContext context) {
     Color scoreColor;
     String scoreLabel;
-    if (_score >= 85) { scoreColor = TdcColors.success; scoreLabel = 'Excellent'; }
-    else if (_score >= 60) { scoreColor = TdcColors.warning; scoreLabel = 'Correct'; }
-    else { scoreColor = TdcColors.danger; scoreLabel = 'À améliorer'; }
+    if (_score >= 85) { scoreColor = TdcColors.success; scoreLabel = 'OPÉRATIONNEL'; }
+    else if (_score >= 60) { scoreColor = TdcColors.warning; scoreLabel = 'VIGILANCE'; }
+    else { scoreColor = TdcColors.danger; scoreLabel = 'EN DANGER'; }
 
-    return Container(
-      padding: EdgeInsets.all(TdcAdaptive.padding(context, 18)),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [scoreColor.withOpacity(0.08), TdcColors.surfaceAlt], begin: Alignment.topLeft, end: Alignment.bottomRight),
-        borderRadius: BorderRadius.circular(TdcAdaptive.radius(context, 14)),
-        border: Border.all(color: scoreColor.withOpacity(0.2)),
-      ),
+    return TdcPremium.glassCard(
+      context: context,
+      padding: EdgeInsets.all(20),
       child: Column(children: [
         Stack(alignment: Alignment.center, children: [
           SizedBox(
-            width: TdcAdaptive.space(context, 90), 
-            height: TdcAdaptive.space(context, 90),
+            width: 100, 
+            height: 100,
             child: CircularProgressIndicator(
               value: _running ? null : _score / 100,
-              strokeWidth: 6,
-              backgroundColor: TdcColors.border,
+              strokeWidth: 8,
+              strokeCap: StrokeCap.round,
+              backgroundColor: TdcColors.border.withOpacity(0.3),
               valueColor: AlwaysStoppedAnimation(scoreColor),
             ),
-          ),
-          Text(_running ? '…' : '$_score', 
+          ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 3.seconds, color: Colors.white.withOpacity(0.2)),
+          Text(_running ? '…' : '$_score%', 
             style: TextStyle(
-              color: scoreColor, 
-              fontSize: TdcText.scale(context, 28), 
-              fontWeight: FontWeight.bold)),
+              color: TdcColors.textPrimary, 
+              fontSize: 22, 
+              fontWeight: FontWeight.black,
+              letterSpacing: -1)),
         ]),
-        SizedBox(height: TdcAdaptive.space(context, 12)),
-        Text(_running ? 'Analyse…' : scoreLabel, 
+        SizedBox(height: 16),
+        Text(_running ? 'ANALYSE EN COURS' : scoreLabel, 
           style: TextStyle(
             color: scoreColor, 
-            fontWeight: FontWeight.bold, 
-            fontSize: TdcText.body(context))),
-        SizedBox(height: TdcAdaptive.space(context, 4)),
-        Text('Score de santé', style: TextStyle(color: TdcColors.textMuted, fontSize: TdcText.label(context))),
-        SizedBox(height: TdcAdaptive.space(context, 12)),
-        // Légende rapide
+            fontWeight: FontWeight.w900, 
+            letterSpacing: 2,
+            fontSize: 10)),
+        SizedBox(height: 16),
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           _legendDot(context, TdcColors.success, '${_checks.where((c) => c.status == _Status.ok).length} OK'),
-          _legendDot(context, TdcColors.warning, '${_checks.where((c) => c.status == _Status.warn).length} Avert.'),
-          _legendDot(context, TdcColors.danger,  '${_checks.where((c) => c.status == _Status.error).length} Fail'),
+          _legendDot(context, TdcColors.warning, '${_checks.where((c) => c.status == _Status.warn).length} WRN'),
+          _legendDot(context, TdcColors.danger,  '${_checks.where((c) => c.status == _Status.error).length} ERR'),
         ]),
       ]),
     );

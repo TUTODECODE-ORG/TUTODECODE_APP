@@ -62,9 +62,15 @@ class OllamaService {
     String model,
     List<Map<String, String>> messages, {
     String system = '',
+    String? context,
   }) async* {
     final msgs = <Map<String, String>>[];
-    if (system.isNotEmpty) msgs.add({'role': 'system', 'content': system});
+    String fullSystem = system;
+    if (context != null && context.isNotEmpty) {
+      fullSystem += "\n\nCONTEXTE ACTUEL DU COURS :\n$context\n\nL'utilisateur étudie ce contenu. Utilise ces informations pour répondre de manière précise et personnalisée.";
+    }
+
+    if (fullSystem.isNotEmpty) msgs.add({'role': 'system', 'content': fullSystem});
     msgs.addAll(messages);
 
     final body = jsonEncode({

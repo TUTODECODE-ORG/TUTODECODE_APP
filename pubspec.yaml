@@ -1,7 +1,7 @@
 name: tutodecode
 description: "TUTODECODE - Platforme d'apprentissage locale"
 publish_to: 'none'
-version: 0.1.0+1
+version: 1.0.2+1
 environment:
   sdk: ">=2.18.0 <4.0.0"
 
@@ -14,10 +14,14 @@ dependencies:
   flutter_markdown: ^0.7.5
   flutter_highlight: ^0.7.0
   http: ^1.2.0
+  flutter_animate: ^4.5.2
+  glass_kit: ^4.0.2
+  flutter_blurhash: ^0.9.1
+  animations: ^2.1.1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
-  flutter_native_splash: ^2.4.7
+  flutter_native_splash: ^2.4.0
   msix: ^3.6.4
   flutter_test:
     sdk: flutter
@@ -28,6 +32,9 @@ flutter:
     - assets/courses.json
     - assets/manifest.json
     - assets/logo.png
+    - assets/fonts/
+    - assets/icons/
+    - assets/splash/
 
 flutter_launcher_icons:
   android: true
@@ -61,5 +68,5 @@ msix_config:
   logo_path: assets/logo.png
   capabilities: internetClient
   certificate_path: windows\tutodecode-codesign.pfx
-  certificate_password: 
+  certificate_password: ${MSIX_CERTIFICATE_PASSWORD}
   install_certificate: true

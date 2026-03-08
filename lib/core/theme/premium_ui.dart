@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -16,24 +15,22 @@ class TdcPremium {
     EdgeInsets? padding,
     BorderRadius? borderRadius,
   }) {
-    // Si la hauteur n'est pas définie, on utilise IntrinsicHeight pour forcer 
-    // le GlassContainer à prendre la taille de son contenu au lieu de tenter de s'étendre à l'infini.
-    Widget card = GlassContainer(
+    return GlassContainer(
       height: height,
       width: width,
       gradient: LinearGradient(
         colors: [
-          TdcColors.surface.withValues(alpha: 0.7),
-          TdcColors.surfaceAlt.withValues(alpha: 0.4),
+          TdcColors.surface.withOpacity(0.7),
+          TdcColors.surfaceAlt.withOpacity(0.4),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
       borderGradient: LinearGradient(
         colors: [
-          TdcColors.accent.withValues(alpha: 0.5),
-          TdcColors.border.withValues(alpha: 0.1),
-          TdcColors.info.withValues(alpha: 0.3),
+          TdcColors.accent.withOpacity(0.5),
+          TdcColors.border.withOpacity(0.1),
+          TdcColors.info.withOpacity(0.3),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -43,9 +40,7 @@ class TdcPremium {
       borderWidth: 1.5,
       padding: padding ?? const EdgeInsets.all(16),
       child: child,
-    );
-
-    return card.animate().fadeIn(duration: 400.ms).scale(begin: const Offset(0.98, 0.98), curve: Curves.easeOutCubic);
+    ).animate().fadeIn(duration: 400.ms).scale(begin: const Offset(0.98, 0.98), curve: Curves.easeOutCubic);
   }
 
   /// Fond de page avec particules ou dégradés animés.
@@ -57,38 +52,31 @@ class TdcPremium {
         ),
         // Orbe lumineux animé 1
         Positioned(
-          top: -50,
-          right: -50,
+          top: -100,
+          right: -100,
+          child: Container(
+            width: 300,
+            height: 300,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: TdcColors.accent.withOpacity(0.05),
+            ),
+          ).animate(onPlay: (controller) => controller.repeat(reverse: true))
+            .move(begin: const Offset(-20, -20), end: const Offset(20, 20), duration: 5.seconds, curve: Curves.easeInOut),
+        ),
+        // Orbe lumineux animé 2
+        Positioned(
+          bottom: -150,
+          left: -150,
           child: Container(
             width: 400,
             height: 400,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: TdcColors.accent.withValues(alpha: 0.15),
+              color: TdcColors.info.withOpacity(0.03),
             ),
           ).animate(onPlay: (controller) => controller.repeat(reverse: true))
-            .move(begin: const Offset(-40, -40), end: const Offset(40, 40), duration: 8.seconds, curve: Curves.easeInOut),
-        ),
-        // Orbe lumineux animé 2
-        Positioned(
-          bottom: -100,
-          left: -100,
-          child: Container(
-            width: 500,
-            height: 500,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: TdcColors.info.withValues(alpha: 0.10),
-            ),
-          ).animate(onPlay: (controller) => controller.repeat(reverse: true))
-            .move(begin: const Offset(40, 20), end: const Offset(-40, -20), duration: 12.seconds, curve: Curves.easeInOutSine),
-        ),
-        // Glass blur overlay complet pour fusionner les orbes en mesh gradient
-        Positioned.fill(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 120, sigmaY: 120),
-            child: Container(color: Colors.transparent),
-          ),
+            .move(begin: const Offset(30, 30), end: const Offset(-30, -30), duration: 7.seconds, curve: Curves.easeInOut),
         ),
         Positioned.fill(child: child),
       ],
@@ -101,15 +89,15 @@ class TdcPremium {
       children: [
         Icon(icon, size: 20, color: TdcColors.accent)
             .animate(onPlay: (controller) => controller.repeat(reverse: true))
-            .shimmer(duration: 2.seconds, color: Colors.white.withValues(alpha: 0.3)),
+            .shimmer(duration: 2.seconds, color: Colors.white.withOpacity(0.3)),
         const SizedBox(width: 12),
-          Text(
-            text.toUpperCase(),
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 1.5,
-              foreground: Paint()
+        Text(
+          text.toUpperCase(),
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.black,
+            letterSpacing: 1.5,
+            foreground: Paint()
               ..shader = LinearGradient(
                 colors: [TdcColors.textPrimary, TdcColors.accent],
               ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),

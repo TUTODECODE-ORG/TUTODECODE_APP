@@ -63,17 +63,22 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            isMinifyEnabled   = false
-            isShrinkResources = false
+            // ACTIVÉ: Réduction massive de la taille du code et des ressources (R8)
+            isMinifyEnabled   = true
+            isShrinkResources = true
         }
     }
 
-    // Fix "failed to strip debug symbols" sur Windows
+    // [DÉSACTIVÉ POUR RÉDUIRE LE POIDS]
+    // Conserver les symboles de debug fait exploser la taille de l'APK à +400Mo.
+    // Laissez désactivé, surtout pour la compilation sur GitHub Actions.
+    /*
     packaging {
         jniLibs {
             keepDebugSymbols += listOf("**/*.so")
         }
     }
+    */
 }
 
 flutter {
