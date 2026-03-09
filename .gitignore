@@ -31,3 +31,10 @@ windows/*.p12
 *.mobileprovision
 *.provisionprofile
 ExportOptions.plist
+
+# ── Fichiers temporaires et Logs ─────────────────────────────
+*.log
+*analysis*.txt
+*output*.txt
+tooling/
+analysis.txt

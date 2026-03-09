@@ -22,7 +22,6 @@ dependencies:
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.4.0
-  msix: ^3.6.4
   flutter_test:
     sdk: flutter
 
@@ -58,15 +57,3 @@ flutter_native_splash:
   android: true
   ios: true
   fullscreen: true
-
-msix_config:
-  display_name: TUTODECODE
-  publisher_display_name: TutoDeCode
-  publisher: "CN=TutoDeCode, O=TutoDeCode, C=FR"
-  identity_name: com.tutodecode.app
-  msix_version: 1.0.1.0
-  logo_path: assets/logo.png
-  capabilities: internetClient
-  certificate_path: windows\tutodecode-codesign.pfx
-  certificate_password: ${MSIX_CERTIFICATE_PASSWORD}
-  install_certificate: true

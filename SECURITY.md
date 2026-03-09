@@ -2,6 +2,13 @@
 
 L'association TUTODECODE s'engage à fournir un environnement d'apprentissage sécurisé, respectueux de la vie privée et sans compromis sur l'intégrité de ses utilisateurs. Ce projet est géré avec bienveillance vis-à-vis de sa communauté naissante.
 
+## Intégrité de la Distribution
+
+Pour garantir que chaque version officielle de TUTODECODE est exempte de code malveillant, l'association gère la branche principale (`main`) comme une **chaîne de confiance fermée**. 
+
+*   **Pas de PR directes** : Nous n'acceptons pas d'intégration automatique de code via Pull Requests.
+*   **Vérification Manuelle** : Toute suggestion de code (envoyée par mail) est auditée, testée et intégrée manuellement par nos bénévoles de confiance avant d'être signée avec nos clés privées.
+
 ## Versions supportées
 
 Nous maintenons activement la dernière version stable de l'application :

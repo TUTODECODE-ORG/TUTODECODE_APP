@@ -46,17 +46,16 @@ Bloqué sur un concept complexe ? **Ghost AI** est intégré directement à la p
 
 ## 🔒 Sécurité et Chaîne de Confiance
 
-La sécurité de nos utilisateurs est la priorité absolue de l'association **TUTODECODE**. Pour garantir que l'application que vous installez n'a pas été altérée par un tiers, nous appliquons des standards de signature numérique rigoureux.
+La sécurité de nos utilisateurs est la priorité absolue de l'association **TUTODECODE**. Pour garantir l'intégrité de l'application, nous avons fait évoluer nos méthodes de distribution suite aux retours de notre communauté.
 
-### Pourquoi un certificat auto-signé ?
-Nous sommes conscients que l'installation manuelle d'un certificat (`.cer`) représente une **friction inhabituelle** pour un utilisateur moderne. Voici notre démarche en toute transparence :
+### L'évolution de notre distribution Windows
+Afin de préserver la sécurité de votre système, nous avons **abandonné l'utilisation de certificats auto-signés** et l'installateur `.msix` qui nécessitaient de modifier les autorités de confiance de Windows. 
+Voici notre nouvelle approche, plus standardisée et respectueuse de votre sécurité globale :
 
-*   **Une démarche associative** : En tant qu'association à but non lucratif, nous avons fait le choix de ne pas souscrire à des certificats commerciaux onéreux. Cela nous permet de garantir que TUTODECODE restera **100% gratuit** pour tous.
-*   **Sécurité vs Simplicité** : Windows exige une signature pour installer le format `.msix`. Ce certificat est notre signature numérique. Il ne s'agit pas d'un logiciel, mais d'une preuve d'identité technique assurant que l'application n'a pas été modifiée depuis sa création par nos soins.
-*   **Respect et Liberté** : Si cette étape vous semble trop complexe ou intrusive, nous le respectons totalement. C'est pourquoi l'application est également disponible sur **Android et Linux** (ainsi qu'en version Web), qui ne nécessitent pas cette manipulation de certificat.
-
-> [!TIP]
-> **Audit Libre :** Notre code est entièrement ouvert. Nous encourageons les utilisateurs avancés à auditer nos scripts de build et de signature pour vérifier par eux-mêmes la sécurité de notre chaîne de distribution.
+1. **La version "Portable" (Simplicité & Sécurité)** : L'application Windows est distribuée dans une simple archive `.zip`. Elle s'exécute de manière isolée sans rien installer ni modifier vos certificats. Si Windows affiche un avertissement "SmartScreen" (Éditeur inconnu), il suffit de cliquer sur "Informations complémentaires" puis "Exécuter quand même". L'application est sécurisée car elle ne demande aucune élévation de privilège systémique.
+2. **Le dépôt "Winget" (En préparation)** : Nous ciblons une publication sur Winget, le gestionnaire de paquets officiel de Microsoft. La validation y est gérée de base par leurs soins et permet une installation propre et communautaire (`winget install tutodecode`).
+3. **Reproducible Builds ("Attestations GitHub")** : Nous configurons nos GitHub Actions pour lier mathématiquement chaque fichier exécutable (`.exe`, `.apk`) directement au code source public, assurant une transparence et une vérifiabilité totales.
+4. **Financement participatif** : Pour supprimer l'avertissement SmartScreen et les frictions d'installation sans recourir à des hacks, nous envisageons une cagnotte (HelloAsso, Tipeee) pour financer l'achat d'un certificat de signature (OV) professionnel officiel.
 
 ### 🛡️ Source Officielle Unique
 Pour votre sécurité, téléchargez **uniquement** les versions publiées sur nos espaces officiels :
@@ -64,15 +63,11 @@ Pour votre sécurité, téléchargez **uniquement** les versions publiées sur n
 *   **Dépôt Officiel :** [github.com/TUTODECODE-ORG/TUTODECODE_APP](https://github.com/TUTODECODE-ORG/TUTODECODE_APP)
 
 > [!CAUTION]
-> **N'installez jamais de version provenant d'un autre site ou d'un dépôt tiers.** Seuls les fichiers présents ici sont signés par nos clés privées sécurisées.
-
-### Vérification de l'empreinte numérique
-Avant d'installer l'application, vous pouvez vérifier l'authenticité du certificat racine (`TUTODECODE-Public.cer`) :
-*   **Empreinte SHA-256 (Thumbprint) :** `AECDCE889EBA76FD10672FCFE79B32FE8BB29D75`
+> **N'installez jamais de version provenant d'un autre site ou d'un dépôt tiers.** Seuls les fichiers présents ici sont authentiques.
 
 > [!NOTE]  
 > **Transparence et Intégrité du Code**
-> Bien que le code source soit auditable librement sous licence AGPL-3.0, la signature officielle des packages est centralisée pour préserver la confiance absolue envers l'exécutable final.
+> Le code source est auditable librement sous licence AGPL-3.0. Grâce aux futures Attestations GitHub (Reproducible builds), la correspondance exacte entre le code et l'exécutable sera garantie par un tiers de confiance.
 
 ### 🛡️ Plan de Réaction et Sécurité (Worst-Case Scenario)
 Parce qu'une sécurité sérieuse consiste à tout prévoir, l'association **TUTODECODE** s'engage à une transparence totale en cas d'incident :
@@ -88,8 +83,7 @@ Parce qu'une sécurité sérieuse consiste à tout prévoir, l'association **TUT
 | Plateforme | Fichier | Type |
 | :--- | :--- | :--- |
 | **Android** | `TUTODECODE.apk` | Application mobile & tablette |
-| **Windows** | `TUTODECODE.msix` | Application Desktop (Installation native) |
-| **Windows** | `TUTODECODE-Public.cer` | Certificat racine (Requis pour l'installation MSIX) |
+| **Windows** | `TUTODECODE-Portable.zip` | Application Desktop (Archive portable, aucun installateur) |
 | **Linux** | `TUTODECODE.tar.gz` | Archive binaire compilée |
 
 ---
@@ -97,17 +91,14 @@ Parce qu'une sécurité sérieuse consiste à tout prévoir, l'association **TUT
 ## 🚀 Guide d'Installation Rapide
 
 ### Windows (Recommandé)
-Pour utiliser le format d'application Windows `.msix` moderne, l'OS exige que l'application soit signée. Notre projet étant 100% gratuit et open source, nous utilisons un **certificat auto-signé** (plutôt qu'un certificat commercial très onéreux). C'est pourquoi vous devez l'installer manuellement :
+Nous privilégions désormais une version portable garantissant qu'aucune modification profonde de votre système (telle que l'ajout manuel de certificats) n'est nécessaire.
 
-1. Téléchargez `TUTODECODE-Public.cer` et `TUTODECODE.msix` depuis la section [Releases officielle](https://github.com/TUTODECODE-ORG/TUTODECODE_APP/releases).
-2. **Installez le certificat** : Double-cliquez sur le fichier `.cer` -> *Installer le certificat* -> *Machine locale* -> *Placer dans* -> **Autorités de certification racines de confiance**.
-3. Lancez l'installation via le fichier `.msix`. Windows reconnaîtra alors l'éditeur "Association TUTODECODE".
+1. Téléchargez l'archive `TUTODECODE-Portable.zip` depuis la section [Releases officielle](https://github.com/TUTODECODE-ORG/TUTODECODE_APP/releases).
+2. Extrayez le contenu de l'archive dans le dossier de votre choix (par exemple, dans `C:\Program Files\TUTODECODE` ou sur votre Bureau).
+3. Double-cliquez sur `tutodecode.exe` pour lancer la plateforme.
 
-> [!TIP]
-> **Vérifier vous-même :** 
-> Ouvrez PowerShell et tapez : 
-> `certutil -hashfile \chemin\vers\TUTODECODE-Public.cer SHA256`
-> Le résultat doit être identique à l'empreinte affichée plus haut dans la section sécurité.
+> [!NOTE]
+> **Avertissement SmartScreen** : Comme notre application n'a pas encore de certificat commercial officiel (financement à venir), Windows SmartScreen peut afficher le message "Windows a protégé votre ordinateur". Cliquez alors sur **Informations complémentaires**, puis sur **Exécuter quand même**. L'application restera isolée.
 
 ### Android
 1. Téléchargez le fichier `TUTODECODE.apk`.
@@ -122,13 +113,24 @@ Pour débloquer l'assistant IA local :
 
 ---
 
-## 🤝 Contributions
+## 🤝 Collaborations et Contributions
 
-TUTODECODE est un projet porté par une association et nous accueillons avec plaisir l'aide de la communauté. Que vous soyez développeur, designer, ou passionné de pédagogie :
+Pour garantir une sécurité maximale et l'intégrité totale de la chaîne de confiance, l'association **TUTODECODE** a fait le choix de ne pas accepter directement de collaborations externes via "Pull Requests" sur le dépôt noyau.
 
-*   **Audit et Retours** : Signalez des bugs ou suggérez des améliorations via les [Issues](https://github.com/TUTODECODE-ORG/TUTODECODE_APP/issues).
-*   **Nouvelles fonctionnalités** : Pour garantir la cohérence pédagogique, nous vous recommandons d'ouvrir une discussion avant de soumettre une Pull Request majeure.
-*   **Forks** : Conformément à la licence AGPL-3.0, vous êtes libre de fourcher le projet pour vos besoins personnels ou expérimentaux.
+*   **Pourquoi ce choix ?** Nous ne pouvons pas donner à des personnes extérieures à l'association la possibilité de modifier le code qui sera ensuite signé officiellement par nos clés privées. C'est une mesure de sécurité vitale pour éviter toute injection de code malveillant dans nos versions distribuées.
+*   **Comment proposer une amélioration ?** Si vous souhaitez suggérer des corrections ou des améliorations de code, nous vous invitons à nous les envoyer par mail à **contact@tutodecode.org**. Notre équipe technique analysera, testera et intégrera manuellement les propositions validées.
+*   **Audit et Retours** : Signalez des bugs ou suggérez des idées via les [Issues](https://github.com/TUTODECODE-ORG/TUTODECODE_APP/issues).
+*   **Forks** : Conformément à la licence **AGPL-3.0**, vous restez totalement libre de fourcher le projet pour vos besoins personnels, expérimentaux ou pour créer votre propre distribution (sous votre propre responsabilité et signature).
+
+---
+
+## 🛡️ Réponses aux Inquiétudes de Sécurité (FAQ technique)
+
+Nous comprenons et encourageons le scepticisme sain des utilisateurs avertis. Voici notre position sur les points de friction identifiés :
+
+1. **L'abandon du certificat auto-signé** : Nous avons écouté les suggestions de nos contributeurs. Installer un certificat racine ouvrait une vulnérabilité théorique de confiance que nous avions sous-estimée pour les OS de nos utilisateurs. La nouvelle version portable isole notre application et élimine ce risque systémique pour votre machine de travail, tout en enlevant cette pénible friction.
+2. **Le "Silo" de sécurité** : Fermer le noyau aux PR directes peut sembler paradoxal pour de l'Open Source, mais c'est le seul moyen de garantir que l'exécutable final correspond exactement au code audité par nos soins. C'est une "chaîne de confiance fermée" pour la distribution officielle, tout en gardant un code 100% ouvert (auditable) pour la communauté.
+3. **Preuve du "100% Local"** : La documentation est notre engagement. Nous encourageons activement les experts à analyser le trafic réseau de l'application avec des outils comme **Wireshark ou Fiddler**. La transparence du code Flutter (visible dans le dossier `lib/`) permet également de vérifier l'absence totale de modules de télémétrie ou d'appels "cachés".
 
 ---
 
